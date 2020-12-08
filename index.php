@@ -1,23 +1,146 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FlowerPower</title>
+
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
-<script src="script.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
 <body>
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <img src="vectorpaint.svg" alt="FlowerPower Logo" width="80" height="80">
+            </div>
 
-<div id="mySidenav" class="sidenav">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <a href="#">About</a>
-  <a href="#">Services</a>
-  <a href="#">Clients</a>
-  <a href="#">Contact</a>
-</div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <p class="nav navbar-text">FlowerPower</p>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span
+                                class="caret"></span></a>
+                        <ul id="login-dp" class="dropdown-menu">
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        Login
+                                        <form class="form" role="form" method="post" action="login"
+                                            accept-charset="UTF-8" id="login-nav">
+                                            <div class="form-group">
+                                                <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                                                <input type="email" class="form-control" id="exampleInputEmail2"
+                                                    placeholder="Email address" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="sr-only" for="exampleInputPassword2">Password</label>
+                                                <input type="password" class="form-control" id="exampleInputPassword2"
+                                                    placeholder="Password" required>
+                                                <div class="help-block text-right"><a href="">Forget the password ?</a>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                                            </div>
+                                            <!-- todo add this -->
+                                            <!-- <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox"> keep me logged-in
+                                                </label>
+                                            </div> -->
+                                        </form>
+                                    </div>
+                                    <div class="bottom text-center">
+                                        Nieuw hier? <a href="#"><b>meld je hier aan</b></a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div class="container-fluid h-100">
+        <div class="row h-100" >
+            <div class="col-2" id="homemenu">
+                <br>
+                <h4 class="menu">Menu</h4>
+                <br />
+                <!-- Navigation links in sidebar-->
+                <a href="producten.php">producten</a><br />
+                <br />
+                <a href="diensten.php">diensten</a><br />
+                <br />
+                <a href="overons.php">over ons</a><br />
+                <br />
+                <a href="contact.php">contact</a><br />
+                <br />
+            </div>
+        </div>
+    </div>
 
-<h2>Animated Sidenav Example</h2>
-<p>Click on the element below to open the side navigation menu.</p>
-<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+    <div class="container">
+        <div class="card-group">
+
+            <!-- bootstrap card with 3 horizontal images-->
+            <div class="row">
+                <div class="card col-md-4">
+                    <img class="card-img-top" src="boetiek.jpg">
+
+                    <div class="card-body">
+                        <h3 class="card-title">Onze kweekboetiek</h3>
+                        <p class="card-text align-center">Hier groeit ons goud!</p>
+                    </div>
+                </div>
+
+                <div class="card col-md-4">
+                    <img class="card-img-top" src="bloem.jpg">
+
+                    <div class="card-body">
+                        <h3 class="card-title">De Bloemenboetiek</h3>
+                        <p class="card-text">Zelf samenstellen? Kom kijken bij onze bloemenboetiek</p>
+                    </div>
+                </div>
+
+                <div class="card col-md-4">
+                    <img class="card-img-top" src="8012.jpg">
+                    
+                    <div class="card-body">
+                        <h3 class="card-title">De FlowerMachine</h3>
+                        <p class="card-text">Grote partijen ziijn voor de flowerMachine geen probleem</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+
+                <img src="backgroundlight.jpg" alt="Flower Bouquet" class="img-responsive">
+                <img src="8012.jpg" alt="Flowershop" class="img-responsive">
+
+            </div>
+        </div>
+    </div>
 
 </body>
-</html> 
+
+</html>
