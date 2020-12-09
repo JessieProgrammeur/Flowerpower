@@ -7,8 +7,6 @@ body{
   position: fixed; 
   top: 0; 
   left: 0; 
-
-  /* Preserve aspet ratio */
   min-width: 100%;
   min-height: 100%;
 }
@@ -37,6 +35,17 @@ body{
 #login-dp .form-group {
   margin-bottom: 10px;
 }
+
+.btn-primary {
+  background-color: #0E6655;
+  border-color: #0E6655;
+}
+
+.btn-primary:hover {
+  background-color: #0ac022;
+  border-color: #0ac022;
+}
+
 .btn-fb{
   color: #fff;
   background-color:#0ac022;
@@ -77,14 +86,15 @@ body{
 }
 
 #homemenu { 
-  height: 250px; 
+  height: 270px; 
   background:#2A2A2A;	 
   text-align: center; 
   color: black;
-  width: 100px;
+  width: 97px;
   margin: 0;
   position: absolute;
   padding: 0px;
+  border-radius: 3px;
 }
 
 a:hover { 
@@ -98,23 +108,28 @@ a {
 }
 
 .card-img-top{
-  margin: 1px !important;
-  width: 300px;
-  text-align: top;
-  padding-right: 0px;
-  padding-top: 0px;
-  padding-left: -20px;
+  width: 290px;
+  border-radius: 3px;
 }
 
-.col-md-4{
-  width: 120px;
-  height: 0px;
-  float:left;
-  padding-top: 20px;
-  padding-left: 200px;
-  padding-right: 120px;
-  position: relative;
+.column{
+  float: right;
+  padding-right: 25px;
+  
 }
-.card.col-md-4{
-  margin: 0px;
+
+.card-text{
+  color: white;
+}
+
+.card-title{
+  color: white;
+}
+
+.footer-copyright{
+  color: #2A2A2A;
+  overflow: hidden;
+  position: fixed;
+  bottom: 15px;
+  width: 100%;
 }

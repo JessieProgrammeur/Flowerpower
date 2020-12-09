@@ -16,8 +16,8 @@
 <body>
     <nav class="navbar navbar-default navbar-inverse" role="navigation">
         <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
+
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
@@ -25,10 +25,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <img src="vectorpaint.svg" alt="FlowerPower Logo" width="80" height="80">
-            </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
+
+                <a href="index.php">
+                    <img src="vectorpaint.svg" alt="FlowerPower Logo" width="80" height="80">
+            </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <p class="nav navbar-text">FlowerPower</p>
                 <ul class="nav navbar-nav navbar-right">
@@ -39,50 +40,44 @@
                             <li>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        Login
-                                        <form class="form" role="form" method="post" action="login"
-                                            accept-charset="UTF-8" id="login-nav">
-                                            <div class="form-group">
-                                                <label class="sr-only" for="exampleInputEmail2">Email address</label>
-                                                <input type="email" class="form-control" id="exampleInputEmail2"
-                                                    placeholder="Email address" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="sr-only" for="exampleInputPassword2">Password</label>
-                                                <input type="password" class="form-control" id="exampleInputPassword2"
-                                                    placeholder="Password" required>
-                                                <div class="help-block text-right"><a href="">Forget the password ?</a>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-                                            </div>
-                                            <!-- todo add this -->
-                                            <!-- <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox"> keep me logged-in
-                                                </label>
-                                            </div> -->
-                                        </form>
+                                        <div class="form-group">
+                                            <label for="Username">Username :</label>
+                                            <input class="form-control" type="text" id="username" name="username"
+                                                required>
+                                        </div>
+                                        <br>
+                                        <div class="form-group">
+                                            <label for="Password">Password :</label>
+                                            <input class="form-control" type="password" id="password" name="password"
+                                                required>
+                                        </div>
+                                        <div class="help-block text-right"><a href="passr.php">Forget the password ?</a>
+                                        </div>
                                     </div>
-                                    <div class="bottom text-center">
-                                        Nieuw hier? <a href="#"><b>meld je hier aan</b></a>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
                                     </div>
+                                    </form>
                                 </div>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
+                                <div class="bottom text-center">
+                                    Nieuw hier? <a href="newuser.php"><b>meld je hier aan</b></a>
+                                </div>
+            </div>
+            </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+        </div>
     </nav>
     <div class="container-fluid h-100">
-        <div class="row h-100" >
+        <div class="row h-100">
             <div class="col-2" id="homemenu">
                 <br>
                 <h4 class="menu">Menu</h4>
                 <br />
-                <!-- Navigation links in sidebar-->
+                <a href="index.php">home</a><br />
+                <br />
                 <a href="producten.php">producten</a><br />
                 <br />
                 <a href="diensten.php">diensten</a><br />
@@ -98,19 +93,18 @@
     <div class="container">
         <div class="card-group">
 
-            <!-- bootstrap card with 3 horizontal images-->
             <div class="row">
-                <div class="card col-md-4">
-                    <img class="card-img-top" src="boetiek.jpg">
+                <div class="column">
+                    <img class="card-img-top" src="boetiek2.jpg">
 
                     <div class="card-body">
                         <h3 class="card-title">Onze kweekboetiek</h3>
-                        <p class="card-text align-center">Hier groeit ons goud!</p>
+                        <p class="card-text align-center">Hier groeien onze bloemen!</p>
                     </div>
                 </div>
 
-                <div class="card col-md-4">
-                    <img class="card-img-top" src="bloem.jpg">
+                <div class="column">
+                    <img class="card-img-top" src="boetiek3.jpg">
 
                     <div class="card-body">
                         <h3 class="card-title">De Bloemenboetiek</h3>
@@ -118,9 +112,9 @@
                     </div>
                 </div>
 
-                <div class="card col-md-4">
-                    <img class="card-img-top" src="8012.jpg">
-                    
+                <div class="column">
+                    <img class="card-img-top" src="botiek5.jpg">
+
                     <div class="card-body">
                         <h3 class="card-title">De FlowerMachine</h3>
                         <p class="card-text">Grote partijen ziijn voor de flowerMachine geen probleem</p>
@@ -130,17 +124,17 @@
         </div>
     </div>
 
-    <!-- <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-4">
+    <!-- Footer -->
+    <footer class="page-footer font-small blue">
 
-                <img src="backgroundlight.jpg" alt="Flower Bouquet" class="img-responsive">
-                <img src="8012.jpg" alt="Flowershop" class="img-responsive">
-
-            </div>
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2020 Copyright:
+            <a href="http://localhost/Flowerpower/"> FlowerPower</a>
         </div>
-    </div>
+        <!-- Copyright -->
 
+    </footer>
+    <!-- Footer -->
 </body>
 
 </html>
