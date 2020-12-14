@@ -14,10 +14,9 @@
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
 <body>
-    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+<nav class="navbar navbar-default navbar-inverse" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
-
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
@@ -25,8 +24,6 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-
-
                 <a href="index.php">
                     <img src="vectorpaint.svg" alt="FlowerPower Logo" width="80" height="80">
             </div>
@@ -40,35 +37,35 @@
                             <li>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        Login
-                                        <div class="form-group">
-                                            <label for="Username">Username :</label>
-                                            <input class="form-control" type="text" id="username" name="username"
-                                                required>
-                                        </div>
-                                        <br>
-                                        <div class="form-group">
-                                            <label for="Password">Password :</label>
-                                            <input class="form-control" type="password" id="password" name="password"
-                                                required>
-                                        </div>
-                                        <div class="help-block text-right"><a href="passr.php">Forget the password ?</a>
-                                        </div>
+                                        <form action="index.php" method="post" role="form">
+                                            <div class="form-group">
+                                                <label for="Username">Username :</label>
+                                                <input class="form-control" type="text" id="username" name="username"
+                                                    required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="Password">Password :</label>
+                                                <input class="form-control" type="password" id="password"
+                                                    name="password" required>
+                                            </div>
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary btn-block">Sign in</button>
                                     </div>
                                     </form>
                                 </div>
+
                                 <div class="bottom text-center">
                                     Nieuw hier? <a href="newuser.php"><b>meld je hier aan</b></a>
                                 </div>
+                                <div class="help-block text-right"><a href="passr.php">Wachtwoord vergeten?</a>
+                                </div>
+
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
-            </li>
-            </ul>
-            </li>
-            </ul>
-        </div>
         </div>
     </nav>
     <div class="container-fluid h-100">
@@ -91,13 +88,17 @@
         </div>
     </div>
 
-    <footer class="page-footer font-small blue">
 
+
+
+
+    
+
+    <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
             <a href="http://localhost/Flowerpower/"> FlowerPower</a>
         </div>
-
     </footer>
-</body>
 
+</body>
 </html>

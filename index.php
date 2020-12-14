@@ -17,7 +17,6 @@
     <nav class="navbar navbar-default navbar-inverse" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
-
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
@@ -25,8 +24,6 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-
-
                 <a href="index.php">
                     <img src="vectorpaint.svg" alt="FlowerPower Logo" width="80" height="80">
             </div>
@@ -40,36 +37,38 @@
                             <li>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="Username">Username :</label>
-                                            <input class="form-control" type="text" id="username" name="username"
-                                                required>
-                                        </div>
-                                        <br>
-                                        <div class="form-group">
-                                            <label for="Password">Password :</label>
-                                            <input class="form-control" type="password" id="password" name="password"
-                                                required>
-                                        </div>
-                                        <div class="help-block text-right"><a href="passr.php">Forget the password ?</a>
-                                        </div>
+                                        <form action="index.php" method="post" role="form">
+                                            <div class="form-group">
+                                                <label for="Username">Username :</label>
+                                                <input class="form-control" type="text" id="username" name="username"
+                                                    required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="Password">Password :</label>
+                                                <input class="form-control" type="password" id="password"
+                                                    name="password" required>
+                                            </div>
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary btn-block">Sign in</button>
                                     </div>
                                     </form>
                                 </div>
+
                                 <div class="bottom text-center">
                                     Nieuw hier? <a href="newuser.php"><b>meld je hier aan</b></a>
                                 </div>
+                                <div class="help-block text-right"><a href="passr.php">Wachtwoord vergeten?</a>
+                                </div>
+
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
-            </li>
-            </ul>
-            </li>
-            </ul>
-        </div>
         </div>
     </nav>
+
     <div class="container-fluid h-100">
         <div class="row h-100">
             <div class="col-2" id="homemenu">
@@ -96,16 +95,14 @@
             <div class="row">
                 <div class="column">
                     <img class="card-img-top" src="boetiek2.jpg">
-
                     <div class="card-body">
-                        <h3 class="card-title">Onze kweekboetiek</h3>
-                        <p class="card-text align-center">Hier groeien onze bloemen!</p>
+                        <h3 class="card-title">Onze nieuwste boetiek</h3>
+                        <p class="card-text align-center">Kom een kijkje nemen!</p>
                     </div>
                 </div>
 
                 <div class="column">
                     <img class="card-img-top" src="boetiek3.jpg">
-
                     <div class="card-body">
                         <h3 class="card-title">De Bloemenboetiek</h3>
                         <p class="card-text">Zelf samenstellen? Kom kijken bij onze bloemenboetiek</p>
@@ -114,7 +111,6 @@
 
                 <div class="column">
                     <img class="card-img-top" src="botiek5.jpg">
-
                     <div class="card-body">
                         <h3 class="card-title">De FlowerMachine</h3>
                         <p class="card-text">Grote partijen ziijn voor de flowerMachine geen probleem</p>
@@ -124,17 +120,12 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="page-footer font-small blue">
-
-        <!-- Copyright -->
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
             <a href="http://localhost/Flowerpower/"> FlowerPower</a>
         </div>
-        <!-- Copyright -->
-
     </footer>
-    <!-- Footer -->
+
 </body>
 
 </html>

@@ -14,10 +14,9 @@
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
 <body>
-    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+<nav class="navbar navbar-default navbar-inverse" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
-
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
@@ -25,8 +24,6 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-
-
                 <a href="index.php">
                     <img src="vectorpaint.svg" alt="FlowerPower Logo" width="80" height="80">
             </div>
@@ -40,30 +37,30 @@
                             <li>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        Login
-                                        <form class="form" role="form" method="post" action="login"
-                                            accept-charset="UTF-8" id="login-nav">
+                                        <form action="index.php" method="post" role="form">
                                             <div class="form-group">
-                                                <label class="sr-only" for="exampleInputEmail2">Email address</label>
-                                                <input type="email" class="form-control" id="exampleInputEmail2"
-                                                    placeholder="Email address" required>
+                                                <label for="Username">Username :</label>
+                                                <input class="form-control" type="text" id="username" name="username"
+                                                    required>
                                             </div>
                                             <div class="form-group">
-                                                <label class="sr-only" for="exampleInputPassword2">Password</label>
-                                                <input type="password" class="form-control" id="exampleInputPassword2"
-                                                    placeholder="Password" required>
-                                                <div class="help-block text-right"><a href="passr.php">Forget the password ?</a>
-                                                </div>
+                                                <label for="Password">Password :</label>
+                                                <input class="form-control" type="password" id="password"
+                                                    name="password" required>
                                             </div>
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-                                            </div>
-                                        </form>
                                     </div>
-                                    <div class="bottom text-center">
-                                        Nieuw hier? <a href="newuser.php"><b>meld je hier aan</b></a>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
                                     </div>
+                                    </form>
                                 </div>
+
+                                <div class="bottom text-center">
+                                    Nieuw hier? <a href="newuser.php"><b>meld je hier aan</b></a>
+                                </div>
+                                <div class="help-block text-right"><a href="passr.php">Wachtwoord vergeten?</a>
+                                </div>
+
                             </li>
                         </ul>
                     </li>
@@ -93,11 +90,9 @@
 
     <div class="container">
         <div class="card-group">
-
             <div class="row">
                 <div class="column">
                     <img class="card-img-top" src="boetiek2.jpg">
-
                     <div class="card-body">
                         <h3 class="card-title">Onze kweekboetiek</h3>
                         <p class="card-text align-center">Hier groeien onze bloemen!</p>
@@ -106,7 +101,6 @@
 
                 <div class="column">
                     <img class="card-img-top" src="boetiek3.jpg">
-
                     <div class="card-body">
                         <h3 class="card-title">De Bloemenboetiek</h3>
                         <p class="card-text">Zelf samenstellen? Kom kijken bij onze bloemenboetiek</p>
@@ -115,7 +109,6 @@
 
                 <div class="column">
                     <img class="card-img-top" src="botiek5.jpg">
-
                     <div class="card-body">
                         <h3 class="card-title">De FlowerMachine</h3>
                         <p class="card-text">Grote partijen ziijn voor de flowerMachine geen probleem</p>
@@ -126,11 +119,10 @@
     </div>
 
     <footer class="page-footer font-small blue">
-
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
             <a href="http://localhost/Flowerpower/"> FlowerPower</a>
         </div>
     </footer>
-</body>
 
+</body>
 </html>
