@@ -11,8 +11,8 @@ body{
   min-height: 100%;
 }
 
-/* #login-dp{
-  min-width: 250px;
+#login-dp{
+  min-width: 200px;
   padding: 14px 14px 0;
   overflow:hidden;
   background-color:rgba(255,255,255,.8);
@@ -21,8 +21,9 @@ body{
 #login-dp .help-block{
   font-size:12px;    
 }
+
 #login-dp .bottom{
-  background-color:rgba(255,255,255,.8);
+  background-color:rgba(255, 254, 254, 0.8);
   border-top:1px solid #ddd;
   clear:both;
   padding:14px;
@@ -30,8 +31,8 @@ body{
 
 #login-dp .form-group {
   margin-bottom: 10px;
-} */
-/* 
+} 
+
 .btn-primary {
   background-color: #0E6655;
   border-color: #0E6655;
@@ -40,9 +41,9 @@ body{
 .btn-primary:hover {
   background-color: #0ac022;
   border-color: #0ac022;
-} */
+}
 
-/* @media(max-width:768px){
+ @media(max-width:768px){
   #login-dp{
       background-color: inherit;
       color: #fff;
@@ -51,7 +52,7 @@ body{
       background-color: inherit;
       border-top:0 none;
   }
-} */
+}
 
 .navbar-text{
   width: 50%;
@@ -76,6 +77,21 @@ body{
   border-radius: 3px;
 }
 
+#styling { 
+  height: 355px; 
+  background:#2A2A2A;	 
+  text-align: center; 
+  color: black; 
+  width: 97px;
+  margin: 0;
+  padding: 0px;
+  border-radius: 3px;
+}
+
+.row.h-100{
+  height: 0px;
+}
+
 a:hover { 
   color: rgb(255, 255, 255); 
   text-decoration: none; 
@@ -93,7 +109,7 @@ a {
 
 .column{
   float: right;
-  padding-right: 25px;
+  padding-right: 50px;
   
 }
 

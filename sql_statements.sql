@@ -42,7 +42,7 @@ CREATE TABLE InvoiceLine(
 
 CREATE TABLE employee(
     id INT NOT NULL AUTO_INCREMENT,
-	type VARCHAR(255),
+	usertype_id INT NOT NULL,
     initials VARCHAR(255) NOT NULL,
     prefix VARCHAR(255),
     last_name VARCHAR(255) NOT NULL,
@@ -51,12 +51,12 @@ CREATE TABLE employee(
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY(id),
-	FOREIGN KEY(type) REFERENCES usertype(type)
+	FOREIGN KEY(usertype_id) REFERENCES usertype(id)
 );
 
 CREATE TABLE customer(
 	id INT NOT NULL AUTO_INCREMENT,
-	usertype_id VARCHAR(255),
+	usertype_id INT NOT NULL,
     initials VARCHAR(255) NOT NULL,
     prefix VARCHAR(255),
     last_name VARCHAR(255) NOT NULL,
@@ -64,6 +64,7 @@ CREATE TABLE customer(
     postal_code VARCHAR(255) NOT NULL,
     residence VARCHAR(255) NOT NULL,
     birth_date INT NOT NULL,
+	email VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

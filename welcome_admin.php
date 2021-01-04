@@ -1,3 +1,35 @@
+<?php
+
+    session_start();
+
+    if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true){
+    header('location: index.php');
+    exit;
+    }   
+
+    include 'db.php';
+    include 'validation.php';
+
+    $db = new db("localhost", "root", "flowerpower", "");
+     
+  if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
+    $fields = ['username', 'password'];
+
+    $obj = new Validation();
+
+     $fields_validated = $obj->field_validation($fields);
+
+    if($fields_validated){
+      $username = trim($_POST['username']);
+      $password = trim($_POST['password']);
+
+      $loginError = $db->login($username, $password);
+    }
+  }
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,13 +40,13 @@
 
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="style.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 </head>
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
 <body>
-<nav class="navbar navbar-default navbar-inverse" role="navigation">
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -29,6 +61,7 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <p class="nav navbar-text">FlowerPower</p>
+                <?php echo "Welcome " . htmlentities( $_SESSION['username']) ."!" ?>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span
@@ -36,8 +69,11 @@
                         <ul id="login-dp" class="dropdown-menu">
                             <li>
                                 <div class="row">
+
                                     <div class="col-md-12">
+
                                         <form action="index.php" method="post" role="form">
+
                                             <div class="form-group">
                                                 <label for="Username">Username :</label>
                                                 <input class="form-control" type="text" id="username" name="username"
@@ -49,14 +85,18 @@
                                                     name="password" required>
                                             </div>
                                     </div>
+
+                                    <span><?php echo ((isset($loginError) && $loginError != '') ? $loginError ."<br>" : '')?></span>
+
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary btn-block">Sign in</button>
                                     </div>
+
                                     </form>
                                 </div>
 
                                 <div class="bottom text-center">
-                                    Nieuw hier? <a href="newuser.php"><b>meld je hier aan</b></a>
+                                    Nieuw hier? <a href="signup.php"><b>meld je hier aan</b></a>
                                 </div>
                                 <div class="help-block text-right"><a href="passr.php">Wachtwoord vergeten?</a>
                                 </div>
@@ -68,6 +108,7 @@
             </div>
         </div>
     </nav>
+
     <div class="container-fluid h-100">
         <div class="row h-100">
             <div class="col-2" id="homemenu">
@@ -83,16 +124,45 @@
                 <a href="overons.php">over ons</a><br />
                 <br />
                 <a href="contact.php">contact</a><br />
+                <br>
+                <a href="account.php">Account</a><br />
+                <br />
+                <a href="mijn_bestellingen.php">Bestellingen</a><br />
                 <br />
             </div>
         </div>
     </div>
 
+    <div class="container">
+        <div class="card-group">
 
+            <div class="row">
+                <div class="column">
+                    <img class="card-img-top" src="boetiek2.jpg">
+                    <div class="card-body">
+                        <h3 class="card-title">Onze nieuwste flowershop</h3>
+                        <p class="card-text align-center">Kom een kijkje nemen!</p>
+                    </div>
+                </div>
 
+                <div class="column">
+                    <img class="card-img-top" src="boetiek3.jpg">
+                    <div class="card-body">
+                        <h3 class="card-title">De flowershop</h3>
+                        <p class="card-text">Zelf samenstellen? Kom kijken bij onze winkel</p>
+                    </div>
+                </div>
 
-
-    
+                <div class="column">
+                    <img class="card-img-top" src="botiek5.jpg">
+                    <div class="card-body">
+                        <h3 class="card-title">De Flowershop</h3>
+                        <p class="card-text">Grote partijen, geen probleem</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
@@ -101,4 +171,5 @@
     </footer>
 
 </body>
+
 </html>

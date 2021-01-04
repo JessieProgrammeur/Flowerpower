@@ -1,19 +1,25 @@
 <?php
 
+    session_start();
+
+    if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true){
+    header('location: index.php');
+    exit;
+    }   
+
     include 'db.php';
     include 'validation.php';
 
     $db = new db("localhost", "root", "flowerpower", "");
-    
+     
   if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
     $fields = ['username', 'password'];
 
-    $obj = new Helper();
+    $obj = new Validation();
 
     $fields_validated = $obj->field_validation($fields);
 
-    
-    if($fields_validated){
+   if($fields_validated){
       $username = trim($_POST['username']);
       $password = trim($_POST['password']);
 
@@ -50,48 +56,23 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="index.php">
+                <a href="welcome_user.php">
                     <img src="vectorpaint.svg" alt="FlowerPower Logo" width="80" height="80">
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <p class="nav navbar-text">FlowerPower</p>
+                
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><?php echo "Welcome " . htmlentities( $_SESSION['username']) ."!" ?></b> <span
                                 class="caret"></span></a>
                         <ul id="login-dp" class="dropdown-menu">
                             <li>
-                                <div class="row">
-
-                                    <div class="col-md-12">
-
-                                        <form action="index.php" method="post">
-
-                                            <div class="form-group">
-                                                <label for="Username">Username :</label>
-                                                <input class="form-control" type="text" name="username" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="Password">Password :</label>
-                                                <input class="form-control" type="password" name="password" required>
-                                            </div>
-                                    </div>
-
-                                    <span><?php echo ((isset($loginError) && $loginError != '') ? $loginError ."<br>" : '')?></span>
-
                                     <div class="form-group">
-                                        <button type="submit" name="submit" class="btn btn-primary btn-block" value="Login">Sign in</button>
+                                        <a href="logout.php" class="btn btn-primary btn-block">Logout</a>
                                     </div>
-
                                     </form>
                                 </div>
-
-                                <div class="bottom text-center">
-                                    Nieuw hier? <a href="signup.php"><b>meld je hier aan</b></a>
-                                </div>
-                                <div class="help-block text-right"><a href="passr.php">Wachtwoord vergeten?</a>
-                                </div>
-
                             </li>
                         </ul>
                     </li>
@@ -102,7 +83,7 @@
 
     <div class="container-fluid h-100">
         <div class="row h-100">
-            <div class="col-2" id="homemenu">
+            <div class="col-2" id="styling">
                 <br>
                 <h4 class="menu">Menu</h4>
                 <br />
@@ -115,6 +96,10 @@
                 <a href="overons.php">over ons</a><br />
                 <br />
                 <a href="contact.php">contact</a><br />
+                <br>
+                <a href="user.php">Account</a><br />
+                <br />
+                <a href="mijn_bestellingen.php">Bestellingen</a><br />
                 <br />
             </div>
         </div>
