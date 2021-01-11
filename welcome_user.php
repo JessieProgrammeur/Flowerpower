@@ -89,7 +89,7 @@
                 <br />
                 <a href="index.php">home</a><br />
                 <br />
-                <a href="producten.php">producten</a><br />
+                <a href="overzicht_artikelen.php">producten</a><br />
                 <br />
                 <a href="diensten.php">diensten</a><br />
                 <br />

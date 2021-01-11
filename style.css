@@ -88,6 +88,17 @@ body{
   border-radius: 3px;
 }
 
+#sidenavoa { 
+  height: 350px; 
+  background:#2A2A2A;	 
+  text-align: center; 
+  color: black; 
+  width: 97px;
+  margin: 0;
+  padding: 0px;
+  border-radius: 3px;
+}
+
 #styleuser { 
   height: 350px; 
   background:#2A2A2A;	 

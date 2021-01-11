@@ -27,6 +27,11 @@
     }
   }
 
+//   $select_stmt=$this->db()->prepare("SELECT * FROM product");
+//   $select_stmt->execute();
+//   var_dump($select_stmt);
+//   while($row=$select_stmt->fecth(PDO::FETCH_ASSOC))
+//   {
 
 ?>
 
@@ -83,13 +88,13 @@
 
     <div class="container-fluid h-100">
         <div class="row h-100">
-            <div class="col-2" id="styling">
+            <div class="col-2" id="sidenavoa">
                 <br>
                 <h4 class="menu">Menu</h4>
                 <br />
                 <a href="index.php">home</a><br />
                 <br />
-                <a href="producten.php">producten</a><br />
+                <a href="overzicht_artikelen.php">producten</a><br />
                 <br />
                 <a href="diensten.php">diensten</a><br />
                 <br />
@@ -104,32 +109,58 @@
             </div>
         </div>
     </div>
+<!-- <div class="row">
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100">
+            <a href="#"><img class="card-img-top" src="images/<?php echo $row['product_image']; ?>" width="400px" height="200px"></a>
+
+            <div class="card-body">
+                <h4 class="card-title text-primary"><?php echo $row['product_product']; ?> </h4>
+                <h5><?php echo number_format($row['product_price'], 2); ?>/-</h5>
+            </div>
+
+            <div class="card-footer">
+                <form class="form-submit">
+                    <input type="hidden" class="pid" value="<?php echo $row['product_id']; ?>">
+                    <input type="hidden" class="pproduct" value="<?php echo $row['product_product']; ?>">
+                    <input type="hidden" class="pprice" value="<?php echo $row['product_price']; ?>">
+                    <input type="hidden" class="pcreated_at" value="<?php echo $row['product_created_at']; ?>">
+                    <input type="hidden" class="pupdated_at" value="<?php echo $row['product_updated_at']; ?>">
+                    <button id="addItem" class="btn btn-succes btn-md">Toevoegen aan winkelwagen</button>
+                </form>
+            </div>
+        </div>
+    </div>
+<?php
+//   }
+?>
+</div> -->
 
     <div class="container">
         <div class="card-group">
 
             <div class="row">
                 <div class="column">
-                    <img class="card-img-top" src="boetiek2.jpg">
+                    <img class="card-img-top" src="boeket2.jpg">
                     <div class="card-body">
-                        <h3 class="card-title">Onze nieuwste flowershop</h3>
-                        <p class="card-text align-center">Kom een kijkje nemen!</p>
+                        <h3 class="card-title">All time favorite</h3>
+                        <p class="card-text align-center"></p>
                     </div>
                 </div>
 
                 <div class="column">
-                    <img class="card-img-top" src="boetiek3.jpg">
+                    <img class="card-img-top" src="rrozen.jpg">
                     <div class="card-body">
-                        <h3 class="card-title">De flowershop</h3>
-                        <p class="card-text">Zelf samenstellen? Kom kijken bij onze winkel</p>
+                        <h3 class="card-title">Boeket Rode Rozen</h3>
+                        <p class="card-text"></p>
                     </div>
                 </div>
 
                 <div class="column">
-                    <img class="card-img-top" src="botiek5.jpg">
+                    <img class="card-img-top" src="boeket3.jpg">
                     <div class="card-body">
-                        <h3 class="card-title">De Flowershop</h3>
-                        <p class="card-text">Grote partijen, geen probleem</p>
+                        <h3 class="card-title">Boeket van de maand</h3>
+                        <p class="card-text"></p>
                     </div>
                 </div>
             </div>
