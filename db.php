@@ -25,7 +25,9 @@ class db{
         catch(PDOException $e){
             echo $e->getMessage();
         }
-	}
+    }
+    
+    // Customer functions //
         
     private function is_new_customer($username){
         
@@ -76,7 +78,7 @@ class db{
         try{
             
              $this->db->beginTransaction();
- 
+            
              if(!$this->is_new_customer($username)){
                  return "Username already exists. Please pick another one, and try again.";
              }
@@ -96,6 +98,116 @@ class db{
         }
      }
 
+     // Employee functions //
+
+     private function is_new_employee($username){
+        
+        $stmt = $this->db->prepare('SELECT * FROM employee WHERE username=:username');
+        $stmt->execute(['username'=>$username]);
+        $result = $stmt->fetch();
+
+        if(is_array($result) && count($result) > 0){
+            return false;
+        }
+
+        return true;
+    }
+
+    private function create_or_update_employee($id, $usertype_id, $initials, $prefix, $last_name, $username, $password){
+        
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO employee VALUES (NULL, :usertype_id, :initials, :prefix, :last_name, :username, :password, :created, :updated)";
+
+        $statement = $this->db->prepare($sql);
+
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+
+        $statement->execute([
+            'usertype_id'=>$usertype_id,
+            'initials'=>$initials, 
+            'prefix'=>$prefix, 
+            'last_name'=>$last_name,
+            'username'=>$username, 
+            'password'=>$hashed_password, 
+            'created'=> $created_at, 
+            'updated'=> $updated_at
+        ]);
+        
+        $employee_id = $this->db->lastInsertId();
+        return $employee_id;
+                
+    }
+
+     public function sign_upemp($username, $usertype_id=self::USER, $initials, $prefix, $last_name, $password){
+
+        try{
+            
+             $this->db->beginTransaction();
+ 
+             if(!$this->is_new_employee($username)){
+                 return "Username already exists. Please pick another one, and try again.";
+             }
+ 
+             $employee_id = $this->create_or_update_employee(NULL, $usertype_id, $initials, $prefix, $last_name, $username, $password);
+             
+             $this->db->commit();
+ 
+             if(isset($_SESSION) && $_SESSION['usertype'] == self::ADMIN){
+                 return "New user has been succesfully added to the database";
+             }
+
+        }catch(Exception $e){
+         
+            $this->db->rollback();
+            echo "Signup failed: " . $e->getMessage();
+        }
+     }
+
+     public function loginemp($username, $password){
+        $sql = "SELECT id, password FROM employee WHERE username = :username";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['username'=>$username]);
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if(is_array($result)){
+            
+            if(count($result) > 0){
+                
+                    $hashed_password = $result['password'];
+                    var_dump($hashed_password);
+                    var_dump( password_verify($password, $hashed_password));
+
+                if($username && password_verify($password, $hashed_password)){
+                    session_start();
+
+                    $_SESSION['id'] = $result['id'];
+                    $_SESSION['username'] = $username;
+                    $_SESSION['usertype'] = $result['usertype_id'];
+                    $_SESSION['loggedin'] = true;
+                    
+                    if($this->is_admin($username)){
+                        header("location: welcome_admin.php");
+                        
+                        exit;
+                    }else{
+                        header("location: welcome_emp.php");
+                        exit;
+                    }
+
+                }else{
+                    return "Incorrect username and/or password. Please fix your input and try again.";
+                }
+            }
+        }else{
+            return "Failed to login. Please try again";
+        }
+    }
+
+     // Admin functions //
+
 	private function is_admin($username){
         $sql = "SELECT usertype_id FROM customer WHERE username = :username";
 
@@ -111,6 +223,7 @@ class db{
         return false;
     }
 
+    // Login //
 	public function login($username, $password){
         $sql = "SELECT id, password FROM customer WHERE username = :username";
 
@@ -153,25 +266,37 @@ class db{
         }
     }
 
+    // Show data user //
+
     public function show_profile_details_user($username){
 
         $sql = "
-        SELECT u.usertype_id, c.id, c.initials, c.prefix, c.last_name, c.address, c.postal_code, c.residence, c.birth_date, c.email, c.username 
-        FROM usertype as u
-        LEFT JOIN customer as c
-        ON u.usertype_id = c.id
+        SELECT u.type, 
+        c.id, 
+        c.initials, 
+        c.prefix, 
+        c.last_name, 
+        c.address, 
+        c.postal_code, 
+        c.residence, 
+        c.birth_date, 
+        c.email, 
+        c.username
+        FROM usertype AS u 
+        LEFT JOIN customer AS c 
+        ON u.type = c.id
         ";
         
         if($username !== NULL){
             $sql .= 'WHERE c.username = :username';
         }
-
+        
         $stmt = $this->db->prepare($sql);
 
         $username !== NULL ? $stmt->execute(['username'=>$username]) : $stmt->execute();
         
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        var_dump($results);
+        
         return $results;
     }
 }

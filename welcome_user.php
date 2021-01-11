@@ -83,7 +83,7 @@
 
     <div class="container-fluid h-100">
         <div class="row h-100">
-            <div class="col-2" id="styling">
+            <div class="col-2" id="styleuser">
                 <br>
                 <h4 class="menu">Menu</h4>
                 <br />
@@ -97,7 +97,7 @@
                 <br />
                 <a href="contact.php">contact</a><br />
                 <br>
-                <a href="user.php">Account</a><br />
+                <a href="overzicht_medewerker.php">Account</a><br />
                 <br />
                 <a href="mijn_bestellingen.php">Bestellingen</a><br />
                 <br />

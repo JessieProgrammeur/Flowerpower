@@ -76,14 +76,41 @@
                 <br />
                 <a href="index.php">home</a><br />
                 <br />
-                <a href="producten.php">producten</a><br />
-                <br />
-                <a href="diensten.php">diensten</a><br />
-                <br />
                 <a href="overons.php">over ons</a><br />
                 <br />
                 <a href="contact.php">contact</a><br />
                 <br />
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card-group">
+
+            <div class="row">
+                <div class="column">
+                    <img class="card-img-top" src="boetiek2.jpg">
+                    <div class="card-body">
+                        <h3 class="card-title">Onze nieuwste flowershop</h3>
+                        <p class="card-text align-center">Singel 10, 3000AM Utrecht, 0624681011</p>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <img class="card-img-top" src="boetiek3.jpg">
+                    <div class="card-body">
+                        <h3 class="card-title">De flowershop Rotterdam</h3>
+                        <p class="card-text">Het plein 2, 2000AM Rotterdam, 06987654321</p>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <img class="card-img-top" src="botiek5.jpg">
+                    <div class="card-body">
+                        <h3 class="card-title">De Flowershop Amsterdam</h3>
+                        <p class="card-text">De Dam 2, 1000AM Amsterdam, 06123456789</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

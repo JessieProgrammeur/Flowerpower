@@ -2,7 +2,8 @@
 
 include 'db.php';
 
-$db = new database('localhost', 'root', '', 'flowerpower', 'utf8');
-$db->sign_up('admin', $db::ADMIN, 'jessie', NULL, 'programmeur', 'j.p@admin.com', 'admin');
+$db = new db("localhost", "root", "flowerpower", "");
+
+$db->sign_upemp('admin', $db::ADMIN, 'J', NULL, 'Algra', 'admin');
 
 ?>

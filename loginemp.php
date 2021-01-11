@@ -1,3 +1,28 @@
+<?php
+
+include 'db.php';
+    include 'validation.php';
+
+    $db = new db("localhost", "root", "flowerpower", "");
+    
+  if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
+    $fields = ['username', 'password'];
+
+    $obj = new Helper();
+
+    $fields_validated = $obj->field_validation($fields);
+
+    
+    if($fields_validated){
+      $username = trim($_POST['username']);
+      $password = trim($_POST['password']);
+
+      $loginError = $db->loginemp($username, $password);
+    }
+  }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +39,7 @@
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
 <body>
-<nav class="navbar navbar-default navbar-inverse" role="navigation">
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -37,7 +62,7 @@
                             <li>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form action="index.php" method="post" role="form">
+                                        <form action="loginemp.php" method="post" role="form">
                                             <div class="form-group">
                                                 <label for="Username">Username :</label>
                                                 <input class="form-control" type="text" id="username" name="username"
@@ -50,15 +75,9 @@
                                             </div>
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                                        <button type="submit" href="" class="btn btn-primary btn-block">Sign in</button>
                                     </div>
                                     </form>
-                                </div>
-
-                                <div class="bottom text-center">
-                                    Nieuw hier? <a href="newuser.php"><b>meld je hier aan</b></a>
-                                </div>
-                                <div class="help-block text-right"><a href="passr.php">Wachtwoord vergeten?</a>
                                 </div>
 
                             </li>
@@ -88,12 +107,37 @@
         </div>
     </div>
 
-    <footer class="page-footer font-small blue">
+    <ul id="login-dp">
+        <li>
+            <div class="row">
+                <div class="col-md-12">
+                    <form action="loginemp.php" method="post">
+                        <div class="form-group">
+                            <label for="Username">Username :</label>
+                            <input class="form-control" type="text" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="Password">Password :</label>
+                            <input class="form-control" type="password" name="password" required>
+                        </div>
+                </div>
 
+                <span><?php echo ((isset($loginError) && $loginError != '') ? $loginError ."<br>" : '')?></span>
+
+                <div class="form-group">
+                    <button type="submit" name="submit" class="btn btn-primary btn-block" value="Login">Sign in</button>
+                </div>
+
+                </form>
+            </div>
+
+        </li>
+    </ul>
+
+    <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
             <a href="http://localhost/Flowerpower/"> FlowerPower</a>
         </div>
-
     </footer>
 
 </body>

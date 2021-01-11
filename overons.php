@@ -1,3 +1,29 @@
+<?php
+
+    include 'db.php';
+    include 'validation.php';
+
+    $db = new db("localhost", "root", "flowerpower", "");
+    
+  if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
+    $fields = ['username', 'password'];
+
+    $obj = new Helper();
+
+    $fields_validated = $obj->field_validation($fields);
+
+    
+    if($fields_validated){
+      $username = trim($_POST['username']);
+      $password = trim($_POST['password']);
+
+      $loginError = $db->login($username, $password);
+    }
+  }
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,13 +34,13 @@
 
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="style.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 </head>
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
 <body>
-<nav class="navbar navbar-default navbar-inverse" role="navigation">
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -36,27 +62,35 @@
                         <ul id="login-dp" class="dropdown-menu">
                             <li>
                                 <div class="row">
+
                                     <div class="col-md-12">
-                                        <form action="index.php" method="post" role="form">
+
+                                        <form action="index.php" method="post">
+
                                             <div class="form-group">
                                                 <label for="Username">Username :</label>
-                                                <input class="form-control" type="text" id="username" name="username"
-                                                    required>
+                                                <input class="form-control" type="text" name="username" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="Password">Password :</label>
-                                                <input class="form-control" type="password" id="password"
-                                                    name="password" required>
+                                                <input class="form-control" type="password" name="password" required>
                                             </div>
                                     </div>
+
+                                    <span><?php echo ((isset($loginError) && $loginError != '') ? $loginError ."<br>" : '')?></span>
+
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                                        <button type="submit" name="submit" class="btn btn-primary btn-block" value="Login">Sign in</button>
                                     </div>
+
                                     </form>
                                 </div>
 
                                 <div class="bottom text-center">
-                                    Nieuw hier? <a href="newuser.php"><b>meld je hier aan</b></a>
+                                    Nieuw hier? <a href="signup.php"><b>meld je hier aan</b></a>
+                                </div>
+                                <div class="bottom text-center">
+                                    <a href="loginemp.php"><b>Inloggen Medewerker</b></a>
                                 </div>
                                 <div class="help-block text-right"><a href="passr.php">Wachtwoord vergeten?</a>
                                 </div>
@@ -68,6 +102,7 @@
             </div>
         </div>
     </nav>
+
     <div class="container-fluid h-100">
         <div class="row h-100">
             <div class="col-2" id="homemenu">
@@ -75,10 +110,6 @@
                 <h4 class="menu">Menu</h4>
                 <br />
                 <a href="index.php">home</a><br />
-                <br />
-                <a href="producten.php">producten</a><br />
-                <br />
-                <a href="diensten.php">diensten</a><br />
                 <br />
                 <a href="overons.php">over ons</a><br />
                 <br />
@@ -90,28 +121,29 @@
 
     <div class="container">
         <div class="card-group">
+
             <div class="row">
                 <div class="column">
                     <img class="card-img-top" src="boetiek2.jpg">
                     <div class="card-body">
-                        <h3 class="card-title">Onze kweekboetiek</h3>
-                        <p class="card-text align-center">Hier groeien onze bloemen!</p>
+                        <h3 class="card-title">Onze nieuwste flowershop</h3>
+                        <p class="card-text align-center">Kom een kijkje nemen!</p>
                     </div>
                 </div>
 
                 <div class="column">
                     <img class="card-img-top" src="boetiek3.jpg">
                     <div class="card-body">
-                        <h3 class="card-title">De Bloemenboetiek</h3>
-                        <p class="card-text">Zelf samenstellen? Kom kijken bij onze bloemenboetiek</p>
+                        <h3 class="card-title">De flowershop</h3>
+                        <p class="card-text">Zelf samenstellen? Kom kijken bij onze winkel</p>
                     </div>
                 </div>
 
                 <div class="column">
                     <img class="card-img-top" src="botiek5.jpg">
                     <div class="card-body">
-                        <h3 class="card-title">De FlowerMachine</h3>
-                        <p class="card-text">Grote partijen ziijn voor de flowerMachine geen probleem</p>
+                        <h3 class="card-title">De Flowershop</h3>
+                        <p class="card-text">Grote partijen, geen probleem</p>
                     </div>
                 </div>
             </div>
@@ -125,4 +157,5 @@
     </footer>
 
 </body>
+
 </html>

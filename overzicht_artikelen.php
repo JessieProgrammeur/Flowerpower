@@ -97,7 +97,7 @@
                 <br />
                 <a href="contact.php">contact</a><br />
                 <br>
-                <a href="user.php">Account</a><br />
+                <a href="overzicht_medewerker.php">Account</a><br />
                 <br />
                 <a href="mijn_bestellingen.php">Bestellingen</a><br />
                 <br />
@@ -105,34 +105,36 @@
         </div>
     </div>
 
-    <?php
+    <div class="container">
+        <div class="card-group">
 
-        $db = new db("localhost", "root", "flowerpower", "");
+            <div class="row">
+                <div class="column">
+                    <img class="card-img-top" src="boetiek2.jpg">
+                    <div class="card-body">
+                        <h3 class="card-title">Onze nieuwste flowershop</h3>
+                        <p class="card-text align-center">Kom een kijkje nemen!</p>
+                    </div>
+                </div>
 
-        $result_set = $db->show_profile_details_user($_SESSION['username']);
+                <div class="column">
+                    <img class="card-img-top" src="boetiek3.jpg">
+                    <div class="card-body">
+                        <h3 class="card-title">De flowershop</h3>
+                        <p class="card-text">Zelf samenstellen? Kom kijken bij onze winkel</p>
+                    </div>
+                </div>
 
-        $columns = array_keys($result_set);
-        
-        $row_data = array_values($result_set);
-        
-        echo "<table>";
-            echo "<tr>";
-                foreach($columns as $column){
-                    
-                    echo "<th><strong> $column </strong></th>";
-                    
-                }
-            echo "</tr>";
-            echo "<tr>";
-                foreach($row_data as $value){
-                    echo "<td>";
-                    echo implode($value); 
-                    echo "</td>";
-                }
-            echo "</tr>";
-        echo "</table>"
-        ?>
-
+                <div class="column">
+                    <img class="card-img-top" src="botiek5.jpg">
+                    <div class="card-body">
+                        <h3 class="card-title">De Flowershop</h3>
+                        <p class="card-text">Grote partijen, geen probleem</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:

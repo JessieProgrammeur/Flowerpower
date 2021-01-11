@@ -89,6 +89,9 @@
                                 <div class="bottom text-center">
                                     Nieuw hier? <a href="signup.php"><b>meld je hier aan</b></a>
                                 </div>
+                                <div class="bottom text-center">
+                                    <a href="loginemp.php"><b>Inloggen Medewerker</b></a>
+                                </div>
                                 <div class="help-block text-right"><a href="passr.php">Wachtwoord vergeten?</a>
                                 </div>
 
@@ -107,10 +110,6 @@
                 <h4 class="menu">Menu</h4>
                 <br />
                 <a href="index.php">home</a><br />
-                <br />
-                <a href="producten.php">producten</a><br />
-                <br />
-                <a href="diensten.php">diensten</a><br />
                 <br />
                 <a href="overons.php">over ons</a><br />
                 <br />

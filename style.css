@@ -67,7 +67,7 @@ body{
 }
 
 #homemenu { 
-  height: 270px; 
+  height: 200px; 
   background:#2A2A2A;	 
   text-align: center; 
   color: black;
@@ -78,7 +78,18 @@ body{
 }
 
 #styling { 
-  height: 355px; 
+  height: 240px; 
+  background:#2A2A2A;	 
+  text-align: center; 
+  color: black; 
+  width: 97px;
+  margin: 0;
+  padding: 0px;
+  border-radius: 3px;
+}
+
+#styleuser { 
+  height: 350px; 
   background:#2A2A2A;	 
   text-align: center; 
   color: black; 
