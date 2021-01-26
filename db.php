@@ -299,6 +299,42 @@ class db{
         
         return $results;
     }
+
+    
+
+    private function create_or_update_product($id, $product, $price){
+
+        $sql = "INSERT INTO employee VALUES (NULL, :product, :price, :created, :updated)";
+
+        $statement = $this->db->prepare($sql);
+
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+
+        $statement->execute([
+            'product'=>$product,
+            'price'=>$price,
+            'created'=> $created_at, 
+            'updated'=> $updated_at
+        ]);
+        
+        $product_id = $this->db->lastInsertId();
+        return $product_id;
+                
+    }
+    
+    public function show_product($name){
+
+        $sql .= 'SELECT * FROM product ORDER BY id ASC';
+        
+        $stmt = $this->db->prepare($sql);
+
+        $name !== NULL ? $stmt->execute(['name'=>$name]) : $stmt->execute();
+        
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $results;
+    }
     
 }
+
 ?>

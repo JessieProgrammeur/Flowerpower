@@ -26,6 +26,22 @@
       $loginError = $db->login($username, $password);
     }
   }
+// todo: zorgen dat na klik button data gesaved wordt in db
+//   if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
+//     $fields = ['product', 'price'];
+
+//     $obj = new Helper();
+
+//     $fields_validated = $obj->field_validation($fields);
+
+    
+//     if($fields_validated){
+//       $product = trim($_POST['product']);
+//       $price = trim($_POST['price']);
+
+//       $loginError = $db->create_or_update_product($product, $price);
+//     }
+//   }
 
 //   $select_stmt=$this->db()->prepare("SELECT * FROM product");
 //   $select_stmt->execute();
@@ -66,23 +82,24 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <p class="nav navbar-text">FlowerPower</p>
-                
+
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><?php echo "Welcome " . htmlentities( $_SESSION['username']) ."!" ?></b> <span
-                                class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle"
+                            data-toggle="dropdown"><b><?php echo "Welcome " . htmlentities( $_SESSION['username']) ."!" ?></b>
+                            <span class="caret"></span></a>
                         <ul id="login-dp" class="dropdown-menu">
                             <li>
-                                    <div class="form-group">
-                                        <a href="logout.php" class="btn btn-primary btn-block">Logout</a>
-                                    </div>
-                                    </form>
+                                <div class="form-group">
+                                    <a href="logout.php" class="btn btn-primary btn-block">Logout</a>
                                 </div>
+                                </form>
                             </li>
                         </ul>
                     </li>
                 </ul>
             </div>
+        </div>
         </div>
     </nav>
 
@@ -106,65 +123,58 @@
                 <br />
                 <a href="mijn_bestellingen.php">Bestellingen</a><br />
                 <br />
+                <a href="artikelen_bestellen.php">Winkelwagen</a><br />
+                <br />
             </div>
         </div>
     </div>
-<!-- <div class="row">
-    <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="images/<?php echo $row['product_image']; ?>" width="400px" height="200px"></a>
 
-            <div class="card-body">
-                <h4 class="card-title text-primary"><?php echo $row['product_product']; ?> </h4>
-                <h5><?php echo number_format($row['product_price'], 2); ?>/-</h5>
-            </div>
+    <div class="col-md-3">
 
-            <div class="card-footer">
-                <form class="form-submit">
-                    <input type="hidden" class="pid" value="<?php echo $row['product_id']; ?>">
-                    <input type="hidden" class="pproduct" value="<?php echo $row['product_product']; ?>">
-                    <input type="hidden" class="pprice" value="<?php echo $row['product_price']; ?>">
-                    <input type="hidden" class="pcreated_at" value="<?php echo $row['product_created_at']; ?>">
-                    <input type="hidden" class="pupdated_at" value="<?php echo $row['product_updated_at']; ?>">
-                    <button id="addItem" class="btn btn-succes btn-md">Toevoegen aan winkelwagen</button>
-                </form>
+        <form method="post" action="overzicht_artikelen.php?">
+
+            <div class="product">
+                <img src="rrozen.jpg" class="img-responsive">
+                <h5 class="text-prd">boeket</h5>
+                <h5 class="text-prd">Rode Rozen</h5>
+                <input type="text" name="quantity" class="form-control" value="1">
+                <input type="hidden" name="hidden_name" value="<?php echo ["product"]; ?>">
+                <input type="hidden" name="hidden_price" value="<?php echo ["price"]; ?>">
+                <input type="submit" name="add" style="margin-top: 5px;" class="btn btn-success" value="Add to Cart">
             </div>
-        </div>
+        </form>
     </div>
-<?php
-//   }
-?>
-</div> -->
 
-    <div class="container">
-        <div class="card-group">
+    <div class="col-md-3">
 
-            <div class="row">
-                <div class="column">
-                    <img class="card-img-top" src="boeket2.jpg">
-                    <div class="card-body">
-                        <h3 class="card-title">All time favorite</h3>
-                        <p class="card-text align-center"></p>
-                    </div>
-                </div>
+        <form method="post" action="overzicht_artikelen.php?">
 
-                <div class="column">
-                    <img class="card-img-top" src="rrozen.jpg">
-                    <div class="card-body">
-                        <h3 class="card-title">Boeket Rode Rozen</h3>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
-
-                <div class="column">
-                    <img class="card-img-top" src="boeket3.jpg">
-                    <div class="card-body">
-                        <h3 class="card-title">Boeket van de maand</h3>
-                        <p class="card-text"></p>
-                    </div>
-                </div>
+            <div class="product">
+                <img src="boeket2.jpg" class="img-responsive">
+                <h5 class="text-prd">boeket</h5>
+                <h5 class="text-prd">Favoriet</h5>
+                <input type="text" name="quantity" class="form-control" value="1">
+                <input type="hidden" name="hidden_name" value="<?php echo $row["product"]; ?>">
+                <input type="hidden" name="hidden_price" value="<?php echo $row["price"]; ?>">
+                <input type="submit" name="add" style="margin-top: 5px;" class="btn btn-success" value="Add to Cart">
             </div>
-        </div>
+        </form>
+    </div>
+
+    <div class="col-md-3">
+
+        <form method="post" action="overzicht_artikelen.php?">
+
+            <div class="product">
+                <img src="boeket3.jpg" class="img-responsive">
+                <h5 class="text-prd">boeket</h5>
+                <h5 class="text-prd">Aanbieding</h5>
+                <input type="text" name="quantity" class="form-control" value="1">
+                <input type="hidden" name="hidden_name" value="<?php echo $row["product"]; ?>">
+                <input type="hidden" name="hidden_price" value="<?php echo $row["price"]; ?>">
+                <input type="submit" name="add" style="margin-top: 5px;" class="btn btn-success" value="Add to Cart">
+            </div>
+        </form>
     </div>
 
     <footer class="page-footer font-small blue">

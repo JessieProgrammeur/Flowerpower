@@ -105,3 +105,7 @@ INSERT INTO usertype VALUES (NULL, 'admin', now(), now());
 INSERT INTO usertype VALUES (NULL, 'user', now(), now());
 
 INSERT INTO usertype VALUES (NULL, 'employee', now(), now());
+
+INSERT INTO product VALUES (NULL), 'Boeket groen', now(), now());
+INSERT INTO product VALUES (NULL), 'Boeket rood', now(), now());
+INSERT INTO product VALUES (NULL), 'Boeket zomer', now(), now());

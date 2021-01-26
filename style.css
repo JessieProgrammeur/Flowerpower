@@ -89,7 +89,7 @@ body{
 }
 
 #sidenavoa { 
-  height: 350px; 
+  height: 395px; 
   background:#2A2A2A;	 
   text-align: center; 
   color: black; 
@@ -100,7 +100,7 @@ body{
 }
 
 #styleuser { 
-  height: 350px; 
+  height: 380px; 
   background:#2A2A2A;	 
   text-align: center; 
   color: black; 
@@ -124,6 +124,16 @@ a {
   color: grey;
 }
 
+.product{
+  margin: 10px;
+  margin-left: 100px;
+  margin-right: 10px;
+}
+
+.text-prd{
+  color: white;
+}
+
 .card-img-top{
   width: 290px;
   border-radius: 3px;
@@ -132,7 +142,6 @@ a {
 .column{
   float: right;
   padding-right: 50px;
-  
 }
 
 .card-text{
