@@ -13,8 +13,11 @@
     $db = new db("localhost", "root", "flowerpower", "");
      
   if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
-    $fields = ['username', 'password'];
-
+    
+    $fields = ['username', 
+    'password'
+    ];
+    
     $obj = new Validation();
 
     $fields_validated = $obj->field_validation($fields);
@@ -26,7 +29,50 @@
       $loginError = $db->login($username, $password);
     }
   }
-// todo: zorgen dat na klik button data gesaved wordt in db
+
+  if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
+
+    // $fields = [
+    //     'amount'
+    // ];
+
+    // $obj = new validation();
+
+    // $fields_validated = $obj->field_validation($fields);
+
+    // if($fields_validated){
+        
+        $amount = $_POST['amount'];
+        $coc = $db->create_order_customer($amount);
+
+        }
+    // }
+
+//   if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
+
+//     $fields = [
+//         'amount, picked_up'
+//     ];
+
+//     $obj = new Helper();
+
+//     $fields_validated = $obj->field_validation($fields);
+    
+//     if($fields_validated){
+        
+//         $amount = isset($_POST['amount']);
+//         $picked_up = isset($_POST['picked_up']) ? trim(strtolower($_POST['picked_up'])) : NULL;
+
+//             $db = new db('localhost', 'root', 'flowerpower', '');
+
+//             $msg = $db->create_order_customer($amount, $picked_up);
+        
+//     }else{
+//         $missingFieldError = "Input for one of more fields missing. Please provide all required values and try again.";
+//     }
+//    };
+
+// todo: zorgen dat na klik button data gesaved wordt in db - omzetten naar nieuwe functie uit db.
 //   if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
 //     $fields = ['product', 'price'];
 
@@ -129,53 +175,55 @@
         </div>
     </div>
 
-    <div class="col-md-3">
+    <div class="container1" style="padding-left: 100px">
 
         <form method="post" action="overzicht_artikelen.php?">
 
             <div class="product">
-                <img src="rrozen.jpg" class="img-responsive">
+                <img src="rrozen.jpg" class="afb">
                 <h5 class="text-prd">boeket</h5>
                 <h5 class="text-prd">Rode Rozen</h5>
                 <input type="text" name="quantity" class="form-control" value="1">
-                <input type="hidden" name="hidden_name" value="<?php echo ["product"]; ?>">
-                <input type="hidden" name="hidden_price" value="<?php echo ["price"]; ?>">
+                <input type="hidden" name="hidden_price"
+                    value="<?php echo isset($_POST["amount"]) ? htmlentities($_POST["amount"]) : ''; ?>" required />
                 <input type="submit" name="add" style="margin-top: 5px;" class="btn btn-success" value="Add to Cart">
-            </div>
         </form>
     </div>
 
-    <div class="col-md-3">
+    <div class="container1">
 
         <form method="post" action="overzicht_artikelen.php?">
 
             <div class="product">
-                <img src="boeket2.jpg" class="img-responsive">
+                <img src="boeket2.jpg" class="afb">
                 <h5 class="text-prd">boeket</h5>
                 <h5 class="text-prd">Favoriet</h5>
                 <input type="text" name="quantity" class="form-control" value="1">
-                <input type="hidden" name="hidden_name" value="<?php echo $row["product"]; ?>">
-                <input type="hidden" name="hidden_price" value="<?php echo $row["price"]; ?>">
+                <input type="hidden" name="hidden_price"
+                    value="<?php echo isset($_POST["amount"]) ? htmlentities($_POST["amount"]) : ''; ?>" required />
                 <input type="submit" name="add" style="margin-top: 5px;" class="btn btn-success" value="Add to Cart">
             </div>
         </form>
     </div>
 
-    <div class="col-md-3">
+    <div class="container1">
 
         <form method="post" action="overzicht_artikelen.php?">
 
             <div class="product">
-                <img src="boeket3.jpg" class="img-responsive">
+                <img src="boeket3.jpg" class="afb">
                 <h5 class="text-prd">boeket</h5>
                 <h5 class="text-prd">Aanbieding</h5>
                 <input type="text" name="quantity" class="form-control" value="1">
-                <input type="hidden" name="hidden_name" value="<?php echo $row["product"]; ?>">
-                <input type="hidden" name="hidden_price" value="<?php echo $row["price"]; ?>">
+                <input type="hidden" name="hidden_price"
+                    value="<?php echo isset($_POST["amount"]) ? htmlentities($_POST["amount"]) : ''; ?>" required />
                 <input type="submit" name="add" style="margin-top: 5px;" class="btn btn-success" value="Add to Cart">
             </div>
         </form>
     </div>
+    <?php
+//   }
+  ?>
 
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:

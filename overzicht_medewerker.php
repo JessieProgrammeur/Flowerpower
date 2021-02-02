@@ -112,7 +112,7 @@ echo "<table>";
 $db = new db("localhost", "root", "flowerpower", "");
 $result_set = $db->show_profile_details_user($_SESSION['username']);
 
-$columns = array_keys($result_set);
+$columns = array_keys($result_set); 
 
 $row_data = array_values($result_set);
 

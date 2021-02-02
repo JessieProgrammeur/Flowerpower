@@ -124,10 +124,18 @@ a {
   color: grey;
 }
 
-.product{
+.afb{
+  width: 280px;
   margin: 10px;
-  margin-left: 100px;
   margin-right: 10px;
+}
+
+.product{
+  padding-right: 50px;
+}
+
+.container1{
+  display: flex;
 }
 
 .text-prd{

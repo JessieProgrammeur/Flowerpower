@@ -301,10 +301,10 @@ class db{
     }
 
     
-
+    // todo: deze functie is voor de admin om producten bij te maken //
     private function create_or_update_product($id, $product, $price){
 
-        $sql = "INSERT INTO employee VALUES (NULL, :product, :price, :created, :updated)";
+        $sql = "INSERT INTO product VALUES (NULL, :product, :price, :created, :updated)";
 
         $statement = $this->db->prepare($sql);
 
@@ -318,10 +318,58 @@ class db{
         ]);
         
         $product_id = $this->db->lastInsertId();
-        return $product_id;
-                
+        return $product_id;       
     }
+
+//     try{
+            
+//         $this->db->beginTransaction();
+
+//         if(!$this->is_new_employee($username)){
+//             return "Username already exists. Please pick another one, and try again.";
+//         }
+
+//         $employee_id = $this->create_or_update_employee(NULL, $usertype_id, $initials, $prefix, $last_name, $username, $password);
+        
+//         $this->db->commit();
+
+//         if(isset($_SESSION) && $_SESSION['usertype'] == self::ADMIN){
+//             return "New user has been succesfully added to the database";
+//         }
+
+//    }catch(Exception $e){
     
+//        $this->db->rollback();
+//        echo "Signup failed: " . $e->getMessage();
+//    }
+// }
+
+    private function create_order_customer($id, $amount){
+
+        try{
+        
+        $sql = "INSERT INTO orders VALUES (NULL, :amount)";
+
+        $statement = $this->db->prepare($sql);
+
+        $created_at = $updated_at = $picked_up = date('Y-m-d H:i:s');
+        
+        $statement->execute([
+            'amount'=>$amount,
+            'picked_up'=>$picked_up,
+            'created_at'=> $created_at, 
+            'updated_at'=> $updated_at
+        ]);
+        
+        $orders_id = $this->db->lastInsertId();
+        return $orders_id;
+
+        }catch(PDOException $e){
+        $this->db->rollback();
+        echo " failed: " . $e->getMessage();
+    }
+}
+
     public function show_product($name){
 
         $sql .= 'SELECT * FROM product ORDER BY id ASC';
