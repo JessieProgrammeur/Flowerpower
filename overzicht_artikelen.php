@@ -30,23 +30,26 @@
     }
   }
 
-  if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
 
-    // $fields = [
+  if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add']) && !empty($_POST['add'])){
+
+    // $field = [
     //     'amount'
     // ];
+    
+    // $obj = new helper();
 
-    // $obj = new validation();
+    // $field_validated = $obj->field_validation($field);
+    
 
-    // $fields_validated = $obj->field_validation($fields);
-
-    // if($fields_validated){
+    if (isset($_POST['amount'])){
         
         $amount = $_POST['amount'];
+        echo $amount;
         $coc = $db->create_order_customer($amount);
 
         }
-    // }
+    }
 
 //   if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
 
@@ -183,9 +186,8 @@
                 <img src="rrozen.jpg" class="afb">
                 <h5 class="text-prd">boeket</h5>
                 <h5 class="text-prd">Rode Rozen</h5>
-                <input type="text" name="quantity" class="form-control" value="1">
-                <input type="hidden" name="hidden_price"
-                    value="<?php echo isset($_POST["amount"]) ? htmlentities($_POST["amount"]) : ''; ?>" required />
+                <input type="text" name="quantity" class="form-control" value="1<?php echo isset($_POST["amount"]) ? htmlentities($_POST["amount"]) : ''; ?>" required />
+                <input type="hidden" name="hidden_price">
                 <input type="submit" name="add" style="margin-top: 5px;" class="btn btn-success" value="Add to Cart">
         </form>
     </div>
