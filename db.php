@@ -344,25 +344,29 @@ class db{
 //    }
 // }
 
-    private function create_order_customer($id, $amount){
+    public function create_order_customer($id, $product_id, $store_id, $amount, $customer_id, $employee_id){
 
         try{
         
-        $sql = "INSERT INTO orders VALUES (NULL, :amount)";
+        $sql = "INSERT INTO orders VALUES (NULL, :product_id, :store_id, :amount, :customer_id, :employee_id, :picked_up, :created_at, :updated_at)";
 
         $statement = $this->db->prepare($sql);
 
-        $created_at = $updated_at = $picked_up = date('Y-m-d H:i:s');
+        $picked_up = $created_at = $updated_at = date('Y-m-d H:i:s');
         
         $statement->execute([
+            'product_id'=>$product_id,
+            'store_id'=>$store_id,
             'amount'=>$amount,
-            'picked_up'=>$picked_up,
+            'customer_id'=>$customer_id,
+            'employee_id'=>$employee_id,
+            'picked_up'=> $picked_up, 
             'created_at'=> $created_at, 
             'updated_at'=> $updated_at
         ]);
         
         $orders_id = $this->db->lastInsertId();
-        return $orders_id;
+        return $orders_id;  
 
         }catch(PDOException $e){
         $this->db->rollback();

@@ -186,8 +186,8 @@
                 <img src="rrozen.jpg" class="afb">
                 <h5 class="text-prd">boeket</h5>
                 <h5 class="text-prd">Rode Rozen</h5>
-                <input type="text" name="quantity" class="form-control" value="1<?php echo isset($_POST["amount"]) ? htmlentities($_POST["amount"]) : ''; ?>" required />
-                <input type="hidden" name="hidden_price">
+                <input type="text" name="amount" class="form-control" value="<?php echo isset($_POST["amount"]) ? htmlentities($_POST["amount"]) : ''; ?>" required />
+                <!-- <input type="hidden" name="hidden_price"> -->
                 <input type="submit" name="add" style="margin-top: 5px;" class="btn btn-success" value="Add to Cart">
         </form>
     </div>
