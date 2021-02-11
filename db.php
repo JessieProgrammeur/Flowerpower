@@ -268,32 +268,42 @@ class db{
 
     // Show data user //
 
-    public function show_profile_details_user($username){
+    public function show_profile_details_user(){
 
         $sql = "
-        SELECT u.type, 
-        c.id, 
-        c.initials, 
-        c.prefix, 
-        c.last_name, 
-        c.address, 
-        c.postal_code, 
-        c.residence, 
-        c.birth_date, 
-        c.email, 
-        c.username
-        FROM usertype AS u 
-        LEFT JOIN customer AS c 
-        ON u.type = c.id
-        ";
-        
-        if($username !== NULL){
-            $sql .= 'WHERE c.username = :username';
-        }
-        
+        SELECT * FROM customer";
+       
         $stmt = $this->db->prepare($sql);
 
-        $username !== NULL ? $stmt->execute(['username'=>$username]) : $stmt->execute();
+        $stmt->execute();
+        
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $results;
+    }
+
+    public function show_profile_details_order(){
+
+        $sql = "
+        SELECT * FROM orders";
+       
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute();
+        
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $results;
+    }
+
+    public function show_profile_details_product(){
+
+        $sql = "
+        SELECT * FROM product";
+       
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute();
         
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
@@ -376,11 +386,11 @@ class db{
 
     public function show_product($name){
 
-        $sql .= 'SELECT * FROM product ORDER BY id ASC';
+        $sql = 'SELECT * FROM product ORDER BY id ASC';
         
         $stmt = $this->db->prepare($sql);
 
-        $name !== NULL ? $stmt->execute(['name'=>$name]) : $stmt->execute();
+        $stmt->execute($sql);
         
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         

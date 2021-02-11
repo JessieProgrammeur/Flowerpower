@@ -160,6 +160,23 @@ a {
   color: white;
 }
 
+table {
+  border-collapse: collapse;
+  width: 100%;
+  padding-left: 50px;
+  margin-left: 130px;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  color: white;
+}
+
+.tr:nth-child(even) {
+  background-color: #dddddd;
+}
 
 .footer-copyright{
   color: #2A2A2A;

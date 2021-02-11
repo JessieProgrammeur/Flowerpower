@@ -87,19 +87,18 @@
                 <br>
                 <h4 class="menu">Menu</h4>
                 <br />
-                <a href="index.php">home</a><br />
+                <a href="welcome_emp.php">home</a><br />
                 <br />
                 <a href="overzicht_artikelen.php">Artikelen</a><br />
                 <br />
-                <a href="overzicht_medewerker.php">Account</a><br />
+                <a href="overzicht_medewerker.php">Medewerkers</a><br />
                 <br />
-                <a href="mijn_bestellingen.php">Bestellingen</a><br />
-                <br />
+                <a href="overzicht_bestellingen.php">Bestellingen</a><br />
             </div>
         </div>
     </div>
 
-    <div class="container">
+    <!-- <div class="container">
         <div class="card-group">
 
             <div class="row">
@@ -128,7 +127,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:

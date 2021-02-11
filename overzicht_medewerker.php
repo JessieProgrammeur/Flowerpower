@@ -89,34 +89,25 @@
                 <br />
                 <a href="index.php">home</a><br />
                 <br />
-                <a href="producten.php">producten</a><br />
+                <a href="overzicht_artikelen.php">Artikelen</a><br />
                 <br />
-                <a href="diensten.php">diensten</a><br />
+                <a href="overzicht_medewerker.php">Medewerkers</a><br />
                 <br />
-                <a href="overons.php">over ons</a><br />
-                <br />
-                <a href="contact.php">contact</a><br />
-                <br>
-                <a href="user.php">Account</a><br />
-                <br />
-                <a href="mijn_bestellingen.php">Bestellingen</a><br />
-                <br />
+                <a href="overzicht_bestellingen.php">Bestellingen</a><br />
             </div>
         </div>
     </div>
 
-    <?php 
+    <?php
+    // $db = new db("localhost", "root", "flowerpower", "");
+    $result_set = $db->show_profile_details_user("SELECT * FROM customer ORDER BY id ASC", []);
 
-echo "<table>";
+    $columns = array_keys($result_set[0]); 
 
-$db = new db("localhost", "root", "flowerpower", "");
-$result_set = $db->show_profile_details_user($_SESSION['username']);
+    $row_data = array_values($result_set);
+    
 
-$columns = array_keys($result_set); 
-
-$row_data = array_values($result_set);
-
-echo "<table>";
+    echo "<table>";
             // table row
             echo "<tr>";
                 // loop all available columns, and store them in the top of the table (bold)
@@ -131,19 +122,15 @@ echo "<table>";
             // table rows. this part contains the data which will be shown in the table
             echo "<tr>";
                 foreach($row_data as $value){
-                    // table data
-                    echo "<td>";
-                    echo implode($value); 
-                    echo "</td>";
+
+                    foreach($value as $data){
+                        echo "<td>$data</td>";
+                    }
                 }
             echo "</tr>";
         echo "</table>"
-
-
-
-//echo "<table>";
-?>
-
+    ?>
+    
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
             <a href="http://localhost/Flowerpower/"> FlowerPower</a>

@@ -1,5 +1,7 @@
 <?php
 
+    include 'db.php';
+
     session_start();
 
     if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true){
@@ -7,96 +9,58 @@
     exit;
     }   
 
-    include 'db.php';
-    include 'validation.php';
-
     $db = new db("localhost", "root", "flowerpower", "");
      
-  if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
     
-    $fields = ['username', 
-    'password'
-    ];
-    
-    $obj = new Validation();
+    if($_SERVER['REQUEST_METHOD'] == 'POST' &&  isset($_POST["add_to_cart"]) && !empty($_POST['add_to_cart']))
+  {
+	if(isset($_SESSION["shopping_cart"]))
+    {
+		$item_array_id = array_column($_SESSION["shopping_cart"], "item_id");
+		if(!in_array($_GET["id"], $item_array_id))
+		{
+			$count = count($_SESSION["shopping_cart"]);
+			$item_array = array(
+				'item_id'			=>	$_GET["id"],
+				'item_product'			=>	$_POST["hidden_product"],
+				'item_price'		=>	$_POST["hidden_price"],
+				'item_quantity'		=>	$_POST["quantity"]
+			);
+			$_SESSION["shopping_cart"][$count] = $item_array;
+		}
+		else
+		{
+			echo '<script>alert("Item Already Added")</script>';
+		}
+	}
+	else
+	{
+		$item_array = array(
+			'item_id'			=>	$_GET["id"],
+			'item_product'			=>	$_POST["hidden_product"],
+			'item_price'		=>	$_POST["hidden_price"],
+			'item_quantity'		=>	$_POST["quantity"]
+		);
+		$_SESSION["shopping_cart"][0] = $item_array;
+	}
+}
 
-    $fields_validated = $obj->field_validation($fields);
+if(isset($_GET["action"]))
+{
+	if($_GET["action"] == "delete")
+	{
+		foreach($_SESSION["shopping_cart"] as $keys => $values)
+		{
+			if($values["item_id"] == $_GET["id"])
+			{
+				unset($_SESSION["shopping_cart"][$keys]);
+				echo '<script>alert("Item Removed")</script>';
+				echo '<script>window.location="artikelen_bestellen.php"</script>';
+			}
+		}
+	}
+}
 
-   if($fields_validated){
-      $username = trim($_POST['username']);
-      $password = trim($_POST['password']);
-
-      $loginError = $db->login($username, $password);
-    }
-  }
-
-
-  if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add']) && !empty($_POST['add'])){
-
-    // $field = [
-    //     'amount'
-    // ];
-    
-    // $obj = new helper();
-
-    // $field_validated = $obj->field_validation($field);
-    
-
-    if (isset($_POST['amount'])){
-        
-        $amount = $_POST['amount'];
-        echo $amount;
-        // $coc = $db->create_order_customer($amount); ToDO: deze data naar winkelwagen. niet naar db direct
-
-        }
-    }
-
-//   if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
-
-//     $fields = [
-//         'amount, picked_up'
-//     ];
-
-//     $obj = new Helper();
-
-//     $fields_validated = $obj->field_validation($fields);
-    
-//     if($fields_validated){
-        
-//         $amount = isset($_POST['amount']);
-//         $picked_up = isset($_POST['picked_up']) ? trim(strtolower($_POST['picked_up'])) : NULL;
-
-//             $db = new db('localhost', 'root', 'flowerpower', '');
-
-//             $msg = $db->create_order_customer($amount, $picked_up);
-        
-//     }else{
-//         $missingFieldError = "Input for one of more fields missing. Please provide all required values and try again.";
-//     }
-//    };
-
-// todo: zorgen dat na klik button data gesaved wordt in db - omzetten naar nieuwe functie uit db.
-//   if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
-//     $fields = ['product', 'price'];
-
-//     $obj = new Helper();
-
-//     $fields_validated = $obj->field_validation($fields);
-
-    
-//     if($fields_validated){
-//       $product = trim($_POST['product']);
-//       $price = trim($_POST['price']);
-
-//       $loginError = $db->create_or_update_product($product, $price);
-//     }
-//   }
-
-//   $select_stmt=$this->db()->prepare("SELECT * FROM product");
-//   $select_stmt->execute();
-//   var_dump($select_stmt);
-//   while($row=$select_stmt->fecth(PDO::FETCH_ASSOC))
-//   {
 
 ?>
 
@@ -143,11 +107,11 @@
                                     <a href="logout.php" class="btn btn-primary btn-block">Logout</a>
                                 </div>
                                 </form>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
             </div>
+            </li>
+            </ul>
+            </li>
+            </ul>
         </div>
         </div>
     </nav>
@@ -168,10 +132,10 @@
             </div>
         </div>
     </div>
-
+    
     <?php
     // $db = new db("localhost", "root", "flowerpower", "");
-    $result_set = $db->show_profile_details_product("SELECT * FROM product ORDER BY id ASC", []);
+    $result_set = $db->show_profile_details_order("SELECT * FROM orders ORDER BY id ASC", []);
 
     $columns = array_keys($result_set[0]); 
 
@@ -201,6 +165,12 @@
             echo "</tr>";
         echo "</table>"
     ?>
+            </table>
+        </div>
+    </div>
+    <br />
+
+
 
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
