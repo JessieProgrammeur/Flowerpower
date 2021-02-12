@@ -310,6 +310,20 @@ class db{
         return $results;
     }
 
+    public function show_details_product(){
+
+        $sql = "
+        SELECT product, price FROM product ORDER BY id ASC";
+       
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute();
+        
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $results;
+    }
+
     
     // todo: deze functie is voor de admin om producten bij te maken //
     private function create_or_update_product($id, $product, $price){

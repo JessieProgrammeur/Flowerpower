@@ -122,7 +122,7 @@ if(isset($_GET["action"]))
                 <br>
                 <h4 class="menu">Menu</h4>
                 <br />
-                <a href="index.php">home</a><br />
+                <a href="Welcome_emp.php">home</a><br />
                 <br />
                 <a href="overzicht_artikelen.php">Artikelen</a><br />
                 <br />

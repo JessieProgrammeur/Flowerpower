@@ -1,6 +1,6 @@
 <?php
-
-include 'db.php';
+    
+    include 'db.php';
     include 'validation.php';
 
     $db = new db("localhost", "root", "flowerpower", "");
@@ -20,7 +20,7 @@ include 'db.php';
       $loginError = $db->loginemp($username, $password);
     }
   }
-
+  
 ?>
 
 <!DOCTYPE html>
@@ -54,62 +54,21 @@ include 'db.php';
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <p class="nav navbar-text">FlowerPower</p>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span
-                                class="caret"></span></a>
-                        <ul id="login-dp" class="dropdown-menu">
-                            <li>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <form action="loginemp.php" method="post" role="form">
-                                            <div class="form-group">
-                                                <label for="Username">Username :</label>
-                                                <input class="form-control" type="text" id="username" name="username"
-                                                    required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="Password">Password :</label>
-                                                <input class="form-control" type="password" id="password"
-                                                    name="password" required>
-                                            </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="submit" href="" class="btn btn-primary btn-block">Sign in</button>
-                                    </div>
-                                    </form>
-                                </div>
-
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
             </div>
         </div>
     </nav>
     <div class="container-fluid h-100">
         <div class="row h-100">
-            <div class="col-2" id="homemenu">
+            <div class="col-2" id="homemenu2">
                 <br>
                 <h4 class="menu">Menu</h4>
-                <br />
-                <a href="index.php">home</a><br />
-                <br />
-                <a href="producten.php">producten</a><br />
-                <br />
-                <a href="diensten.php">diensten</a><br />
-                <br />
-                <a href="overons.php">over ons</a><br />
-                <br />
-                <a href="contact.php">contact</a><br />
                 <br />
             </div>
         </div>
     </div>
-
-    <ul id="login-dp">
-        <li>
-            <div class="row">
+  
+    <ul id="login-dp2">
+        <div class="row">
                 <div class="col-md-12">
                     <form action="loginemp.php" method="post">
                         <div class="form-group">
@@ -130,9 +89,8 @@ include 'db.php';
 
                 </form>
             </div>
-
-        </li>
     </ul>
+
 
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:

@@ -83,15 +83,13 @@
 
     <div class="container-fluid h-100">
         <div class="row h-100">
-            <div class="col-2" id="styleuser">
+            <div class="col-2" id="styleuseruser">
                 <br>
                 <h4 class="menu">Menu</h4>
                 <br />
-                <a href="index.php">home</a><br />
+                <a href="welcome_user.php">home</a><br />
                 <br />
-                <a href="overzicht_artikelen.php">producten</a><br />
-                <br />
-                <a href="diensten.php">diensten</a><br />
+                <a href="artikelen_bestellen.php">producten</a><br />
                 <br />
                 <a href="overons.php">over ons</a><br />
                 <br />
@@ -99,7 +97,7 @@
                 <br>
                 <a href="overzicht_medewerker.php">Account</a><br />
                 <br />
-                <a href="mijn_bestellingen.php">Bestellingen</a><br />
+                <a href="overzicht_bestellingen.php">Bestellingen</a><br />
                 <br />
             </div>
         </div>

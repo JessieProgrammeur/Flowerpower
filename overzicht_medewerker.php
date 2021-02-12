@@ -87,7 +87,7 @@
                 <br>
                 <h4 class="menu">Menu</h4>
                 <br />
-                <a href="index.php">home</a><br />
+                <a href="welcome_emp.php">home</a><br />
                 <br />
                 <a href="overzicht_artikelen.php">Artikelen</a><br />
                 <br />
@@ -128,7 +128,7 @@
                     }
                 }
             echo "</tr>";
-        echo "</table>"
+        echo "</table>";
     ?>
     
     <footer class="page-footer font-small blue">
