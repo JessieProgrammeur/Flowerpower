@@ -193,12 +193,11 @@ a {
 
 table {
   border-collapse: collapse;
-  width: 100%;
   padding-left: 50px;
   margin-left: 130px;
 }
 
-td, th {
+th, td {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;

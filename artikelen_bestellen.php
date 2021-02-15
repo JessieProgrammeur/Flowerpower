@@ -97,6 +97,7 @@
                 foreach($columns as $column){
                     // table header
                     
+                    // echo "<td><strong>{{ $column->product }}</strong></td>";
                     echo "<th><strong> $column </strong></th>";
                     
                 }
