@@ -15,7 +15,7 @@
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
 
         $fields = [
-            'product', 'price'
+            'initials', 'prefix', 'last_name', 'username', 'password'
         ];
 
         $obj = new Helper();
@@ -24,14 +24,19 @@
     
         if($fields_validated){
             
-            $product = trim(strtolower($_POST['product']));
-            $price = trim(strtolower($_POST['price']));
+            $initials = trim(strtolower($_POST['initials']));
+            $prefix = trim(strtolower($_POST['prefix']));
+            $last_name = trim(strtolower($_POST['last_name']));
+            $username = trim(strtolower($_POST['username']));
+            $password = trim(strtolower($_POST['password']));
+            $cpwd = trim(strtolower($_POST['cpwd']));
+
+            if($password !== $cpwd){
+                $pwdError = "Passwords do not match. Please fix your input errors and try again.";
+            }else{$db = new db('localhost', 'root', 'flowerpower', '');
     
-            
-                $db = new db('localhost', 'root', 'flowerpower', '');
-    
-                $msg = $db->sign_up_product($product, $price);
-            
+                $msg = $db->sign_upemp($initials, $db::EMPLOYEE, $prefix, $last_name, $username, $password);
+            }
         }else{
             $missingFieldError = "Input for one of more fields missing. Please provide all required values and try again.";
         }
@@ -109,14 +114,31 @@
 
     <div class="container">
   <div class="cheader">
-    <div class="cheader">
-      <h2>Create Order</h2>
+    <div class="card-header">
+      <h2>Add Employee</h2>
     </div>
     <div class="card-body">
       <form method="post">
         <div class="form-group">
-          <label for="text">Amount</label>
-          <input type="text" name="price" class="form-control"value="<?php echo isset($_POST["price"]) ? htmlentities($_POST["price"]) : ''; ?>" required /><br>
+          <label for="name">Initials</label>
+          <input type="text" name="initials"class="form-control" value="<?php echo isset($_POST["initials"]) ? htmlentities($_POST["initials"]) : ''; ?>" required />
+        </div>
+        <div class="form-group">
+          <label for="name">Prefix</label>
+          <input type="text" name="prefix"class="form-control" value="<?php echo isset($_POST["prefix"]) ? htmlentities($_POST["prefix"]) : ''; ?>" required />
+        </div>
+        <div class="form-group">
+          <label for="name">Lastname</label>
+          <input type="text" name="last_name"class="form-control" value="<?php echo isset($_POST["last_name"]) ? htmlentities($_POST["last_name"]) : ''; ?>" required />
+        </div>
+        <div class="form-group">
+          <label for="name">Username</label>
+          <input type="text" name="username"class="form-control" value="<?php echo isset($_POST["username"]) ? htmlentities($_POST["username"]) : ''; ?>" required />
+        </div>
+        <div class="form-group">
+          <label for="name">Password</label>
+          <input type="password" name="password"class="form-control" value="<?php echo isset($_POST["password"]) ? htmlentities($_POST["password"]) : ''; ?>" required /><br>
+          <input type="password" class="form-control" name="cpwd" placeholder="Herhaal wachtwoord" required /><br>
           <span>
             <?php 
                     echo ((isset($msg) && $msg != '') ? htmlentities($msg) ." <br>" : '');
@@ -124,14 +146,13 @@
                 ?>
         </span>
 
-        <input type="submit" class="form-control" name="submit" value="Add Order" />
+        <input type="submit" class="form-control" name="submit" value="Add Employee" />
         <span><?php echo ((isset($missingFieldError) && $missingFieldError != '') ? htmlentities($missingFieldError) : '')?></span>
     </form>
     </div>
   </div>
 </div>
 
-    
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
             <a href="http://localhost/Flowerpower/"> FlowerPower</a>

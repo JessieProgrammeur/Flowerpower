@@ -102,7 +102,7 @@ if($fields_validated){
     </div>
 
     <div>
-        <a class="btproduct" href='create_product.php' type="button">Click here to add a order</a>
+        <a class="btproduct" href='create_order.php' type="button">Click here to add a order</a>
     </div>
     
     <?php
