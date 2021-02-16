@@ -52,12 +52,20 @@ body{
   border-color: #0ac022;
 }
 
+.btproduct {
+  margin-left: 980px;
+  border-color: white;
+  background-color: #0E6655;
+  color: white;
+
+}
  
 #login-dp{
   background-color: rgba(255, 254, 254, 0.8);
   color: #fff;
   margin-left: 500px;
 }
+
 #login-dp .bottom{
   background-color: inherit;
   border-top:0 none;
@@ -191,17 +199,25 @@ a {
   color: white;
 }
 
-table {
-  border-collapse: collapse;
-  padding-left: 50px;
-  margin-left: 130px;
+.card-header {
+margin-left: 0px;
+color: white;
+}
+
+.table {
+  margin-left: 0px;
+  width: 750px;
 }
 
 th, td {
   border: 1px solid #dddddd;
-  text-align: left;
+  text-align: center;
   padding: 8px;
   color: white;
+}
+
+.btn-info {
+  margin-bottom: 2px;
 }
 
 .tr:nth-child(even) {
@@ -212,6 +228,18 @@ th, td {
   margin-left: 250px;
   color: #dddddd;
   size: 250px;
+}
+
+.card.mt-5 {
+  width: 300px;
+  margin-left: 150px;
+  color: white;
+}
+
+.cheader {
+  width: 300px;
+  margin-left: 150px;
+  color: white;
 }
 
 .footer-copyright{

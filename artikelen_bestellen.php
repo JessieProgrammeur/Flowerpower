@@ -1,25 +1,31 @@
 <?php
 
-    include 'db.php';
-    include 'validation.php';
+    session_start();
 
-    $db = new db("localhost", "root", "flowerpower", "");
+    if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true){
+        header('location: index.php');
+        exit;
+        }   
     
-  if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
-    $fields = ['username', 'password'];
-
-    $obj = new Helper();
-
-    $fields_validated = $obj->field_validation($fields);
-
+        include 'db.php';
+        include 'validation.php';
     
-    if($fields_validated){
-      $username = trim($_POST['username']);
-      $password = trim($_POST['password']);
-
-      $loginError = $db->login($username, $password);
-    }
-  }
+        $db = new db("localhost", "root", "flowerpower", "");
+         
+      if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
+        $fields = ['username', 'password'];
+    
+        $obj = new Validation();
+    
+        $fields_validated = $obj->field_validation($fields);
+    
+       if($fields_validated){
+          $username = trim($_POST['username']);
+          $password = trim($_POST['password']);
+    
+          $loginError = $db->login($username, $password);
+        }
+      }
 
 
 ?>
@@ -55,9 +61,24 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <p class="nav navbar-text">FlowerPower</p>
+
                 <ul class="nav navbar-nav navbar-right">
-                </ul>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle"
+                            data-toggle="dropdown"><b><?php echo "Welcome " . htmlentities( $_SESSION['username']) ."!" ?></b>
+                            <span class="caret"></span></a>
+                        <ul id="login-dp" class="dropdown-menu">
+                            <li>
+                                <div class="form-group">
+                                    <a href="logout.php" class="btn btn-primary btn-block">Logout</a>
+                                </div>
+                                </form>
             </div>
+            </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
         </div>
     </nav>
 
@@ -89,7 +110,7 @@
     $columns = array_keys($result_set[0]);
     
     $row_data = array_values($result_set);
-        
+
     echo "<table>";
             // table row
             echo "<tr>";

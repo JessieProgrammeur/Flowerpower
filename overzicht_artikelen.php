@@ -30,74 +30,6 @@
     }
   }
 
-
-  if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add']) && !empty($_POST['add'])){
-
-    // $field = [
-    //     'amount'
-    // ];
-    
-    // $obj = new helper();
-
-    // $field_validated = $obj->field_validation($field);
-    
-
-    if (isset($_POST['amount'])){
-        
-        $amount = $_POST['amount'];
-        echo $amount;
-        // $coc = $db->create_order_customer($amount); ToDO: deze data naar winkelwagen. niet naar db direct
-
-        }
-    }
-
-//   if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
-
-//     $fields = [
-//         'amount, picked_up'
-//     ];
-
-//     $obj = new Helper();
-
-//     $fields_validated = $obj->field_validation($fields);
-    
-//     if($fields_validated){
-        
-//         $amount = isset($_POST['amount']);
-//         $picked_up = isset($_POST['picked_up']) ? trim(strtolower($_POST['picked_up'])) : NULL;
-
-//             $db = new db('localhost', 'root', 'flowerpower', '');
-
-//             $msg = $db->create_order_customer($amount, $picked_up);
-        
-//     }else{
-//         $missingFieldError = "Input for one of more fields missing. Please provide all required values and try again.";
-//     }
-//    };
-
-// todo: zorgen dat na klik button data gesaved wordt in db - omzetten naar nieuwe functie uit db.
-//   if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
-//     $fields = ['product', 'price'];
-
-//     $obj = new Helper();
-
-//     $fields_validated = $obj->field_validation($fields);
-
-    
-//     if($fields_validated){
-//       $product = trim($_POST['product']);
-//       $price = trim($_POST['price']);
-
-//       $loginError = $db->create_or_update_product($product, $price);
-//     }
-//   }
-
-//   $select_stmt=$this->db()->prepare("SELECT * FROM product");
-//   $select_stmt->execute();
-//   var_dump($select_stmt);
-//   while($row=$select_stmt->fecth(PDO::FETCH_ASSOC))
-//   {
-
 ?>
 
 <!DOCTYPE html>
@@ -169,38 +101,43 @@
         </div>
     </div>
 
+    <div>
+        <a class="btproduct" href='create_product.php' type="button">Click here to add a Product</a>
+    </div>
+
     <?php
     // $db = new db("localhost", "root", "flowerpower", "");
-    $result_set = $db->show_profile_details_product("SELECT * FROM product ORDER BY id ASC", []);
-
-    $columns = array_keys($result_set[0]); 
-
-    $row_data = array_values($result_set);
-    
-
-    echo "<table>";
-            // table row
-            echo "<tr>";
-                // loop all available columns, and store them in the top of the table (bold)
-                foreach($columns as $column){
-                    // table header
-                    
-                    echo "<th><strong> $column </strong></th>";
-                    
-                }
-            echo "</tr>";
-
-            // table rows. this part contains the data which will be shown in the table
-            echo "<tr>";
-                foreach($row_data as $value){
-
-                    foreach($value as $data){
-                        echo "<td>$data</td>";
-                    }
-                }
-            echo "</tr>";
-        echo "</table>"
-    ?>
+    $result_set = $db->show_profile_details_product("SELECT * FROM product");
+  ?>
+    <div class="container">
+        <div class="card mt-5">
+            <div class="card-header">
+                <h2>All Products</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>ID</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                    <?php foreach($result_set as $result): ?>
+                    <tr>
+                        <td><?= $result->id; ?></td>
+                        <td><?= $result->product; ?></td>
+                        <td><?= $result->price; ?></td>
+                        <td>
+                            <a href="edit.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
+                            <a onclick="return confirm('Are you sure you want to delete this entry?')"
+                                href="delete.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </table>
+            </div>
+        </div>
+    </div>
 
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:

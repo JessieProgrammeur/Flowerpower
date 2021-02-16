@@ -1,67 +1,35 @@
 <?php
 
-    include 'db.php';
+session_start();
 
-    session_start();
+if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true){
+header('location: index.php');
+exit;
+}   
 
-    if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true){
-    header('location: index.php');
-    exit;
-    }   
+include 'db.php';
+include 'validation.php';
 
-    $db = new db("localhost", "root", "flowerpower", "");
+$db = new db("localhost", "root", "flowerpower", "");
+ 
+if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
+
+$fields = ['username', 
+'password'
+];
+
+$obj = new Validation();
+
+$fields_validated = $obj->field_validation($fields);
+
+if($fields_validated){
+  $username = trim($_POST['username']);
+  $password = trim($_POST['password']);
+
+  $loginError = $db->login($username, $password);
+}
+}
      
-    
-    if($_SERVER['REQUEST_METHOD'] == 'POST' &&  isset($_POST["add_to_cart"]) && !empty($_POST['add_to_cart']))
-  {
-	if(isset($_SESSION["shopping_cart"]))
-    {
-		$item_array_id = array_column($_SESSION["shopping_cart"], "item_id");
-		if(!in_array($_GET["id"], $item_array_id))
-		{
-			$count = count($_SESSION["shopping_cart"]);
-			$item_array = array(
-				'item_id'			=>	$_GET["id"],
-				'item_product'			=>	$_POST["hidden_product"],
-				'item_price'		=>	$_POST["hidden_price"],
-				'item_quantity'		=>	$_POST["quantity"]
-			);
-			$_SESSION["shopping_cart"][$count] = $item_array;
-		}
-		else
-		{
-			echo '<script>alert("Item Already Added")</script>';
-		}
-	}
-	else
-	{
-		$item_array = array(
-			'item_id'			=>	$_GET["id"],
-			'item_product'			=>	$_POST["hidden_product"],
-			'item_price'		=>	$_POST["hidden_price"],
-			'item_quantity'		=>	$_POST["quantity"]
-		);
-		$_SESSION["shopping_cart"][0] = $item_array;
-	}
-}
-
-if(isset($_GET["action"]))
-{
-	if($_GET["action"] == "delete")
-	{
-		foreach($_SESSION["shopping_cart"] as $keys => $values)
-		{
-			if($values["item_id"] == $_GET["id"])
-			{
-				unset($_SESSION["shopping_cart"][$keys]);
-				echo '<script>alert("Item Removed")</script>';
-				echo '<script>window.location="artikelen_bestellen.php"</script>';
-			}
-		}
-	}
-}
-
-
 ?>
 
 <!DOCTYPE html>
@@ -132,46 +100,56 @@ if(isset($_GET["action"]))
             </div>
         </div>
     </div>
+
+    <div>
+        <a class="btproduct" href='create_product.php' type="button">Click here to add a order</a>
+    </div>
     
     <?php
     // $db = new db("localhost", "root", "flowerpower", "");
-    $result_set = $db->show_profile_details_order("SELECT * FROM orders ORDER BY id ASC", []);
-
-    $columns = array_keys($result_set[0]); 
-
-    $row_data = array_values($result_set);
-    
-
-    echo "<table>";
-            // table row
-            echo "<tr>";
-                // loop all available columns, and store them in the top of the table (bold)
-                foreach($columns as $column){
-                    // table header
-                    
-                    echo "<th><strong> $column </strong></th>";
-                    
-                }
-            echo "</tr>";
-
-            // table rows. this part contains the data which will be shown in the table
-            echo "<tr>";
-                foreach($row_data as $value){
-
-                    foreach($value as $data){
-                        echo "<td>$data</td>";
-                    }
-                }
-            echo "</tr>";
-        echo "</table>"
-    ?>
-            </table>
-        </div>
+    $result_set = $db->show_profile_details_order("SELECT * FROM product");
+  ?>
+    <div class="container">
+  <div class="card mt-5">
+    <div class="card-header">
+      <h2>All Orders</h2>
     </div>
-    <br />
-
-
-
+    <div class="card-body">
+      <table class="table table-bordered">
+        <tr>
+          <th>ID</th>
+          <th>Product id</th>
+          <th>Store id</th>
+          <th>Amount</th>
+          <th>customer id</th>
+          <th>employee id</th>
+          <th>picked-up</th>
+          <th>created at</th>
+          <th>updated at</th>
+          <th>Actions</th>
+        </tr>
+        <?php foreach($result_set as $result): ?>
+          <tr>
+            <td><?= $result->id; ?></td>
+            <td><?= $result->product_id; ?></td>
+            <td><?= $result->store_id; ?></td>
+            <td><?= $result->amount; ?></td>
+            <td><?= $result->customer_id; ?></td>
+            <td><?= $result->employee_id; ?></td>
+            <td><?= $result->picked_up; ?></td>
+            <td><?= $result->created_at; ?></td>
+            <td><?= $result->updated_at; ?></td>
+            <td>
+              <a href="edit.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
+              <a onclick="return confirm('Are you sure you want to delete this entry?')" href="delete.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </table>
+    </div>
+    </div>
+  </div>
+   
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
             <a href="http://localhost/Flowerpower/"> FlowerPower</a>

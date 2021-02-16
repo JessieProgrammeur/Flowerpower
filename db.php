@@ -139,7 +139,7 @@ class db{
                 
     }
 
-     public function sign_upemp($username, $usertype_id=self::USER, $initials, $prefix, $last_name, $password){
+     public function sign_upemp($username, $usertype_id=self::EMPLOYEE, $initials, $prefix, $last_name, $password){
 
         try{
             
@@ -153,7 +153,7 @@ class db{
              
              $this->db->commit();
  
-             if(isset($_SESSION) && $_SESSION['usertype'] == self::ADMIN){
+             if(isset($_SESSION) && $_SESSION['usertype'] == self::EMPLOYEE){
                  return "New user has been succesfully added to the database";
              }
 
@@ -282,6 +282,20 @@ class db{
         return $results;
     }
 
+    public function show_profile_details_employee(){
+
+        $sql = "
+        SELECT * FROM employee";
+       
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute();
+        
+        $results = $stmt->fetchAll(PDO::FETCH_OBJ);
+        
+        return $results;
+    }
+
     public function show_profile_details_order(){
 
         $sql = "
@@ -291,7 +305,7 @@ class db{
 
         $stmt->execute();
         
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $stmt->fetchAll(PDO::FETCH_OBJ);
         
         return $results;
     }
@@ -305,7 +319,7 @@ class db{
 
         $stmt->execute();
         
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $stmt->fetchAll(PDO::FETCH_OBJ);
         
         return $results;
     }
@@ -324,20 +338,21 @@ class db{
         return $results;
     }
 
-    public function product_page(){
 
-        $sql = "
-        SELECT product, price FROM product WHERE id = 1";
-       
-        $stmt = $this->db->prepare($sql);
+    // PRODUCT TOEVOEGEN MET VALIDATION
 
-        $stmt->execute();
+    private function is_new_product($product){
         
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        return $results;
+        $stmt = $this->db->prepare('SELECT * FROM product WHERE product=:product');
+        $stmt->execute(['product'=>$product]);
+        $result = $stmt->fetch();
+
+        if(is_array($result) && count($result) > 0){
+            return false;
+        }
+
+        return true;
     }
-
     
     // todo: deze functie is voor de admin om producten bij te maken //
     private function create_or_update_product($id, $product, $price){
@@ -359,28 +374,27 @@ class db{
         return $product_id;       
     }
 
-//     try{
+    public function sign_up_product($product, $price){
+
+        try{
             
-//         $this->db->beginTransaction();
-
-//         if(!$this->is_new_employee($username)){
-//             return "Username already exists. Please pick another one, and try again.";
-//         }
-
-//         $employee_id = $this->create_or_update_employee(NULL, $usertype_id, $initials, $prefix, $last_name, $username, $password);
-        
-//         $this->db->commit();
-
-//         if(isset($_SESSION) && $_SESSION['usertype'] == self::ADMIN){
-//             return "New user has been succesfully added to the database";
-//         }
-
-//    }catch(Exception $e){
-    
-//        $this->db->rollback();
-//        echo "Signup failed: " . $e->getMessage();
-//    }
-// }
+             $this->db->beginTransaction();
+            
+             if(!$this->is_new_product($product)){
+                 return "Product already exists. Please pick another one, and try again.";
+             }
+ 
+             $product_id = $this->create_or_update_product(NULL, $product, $price);
+             
+             $this->db->commit();
+ 
+        }catch(Exception $e){
+         
+            $this->db->rollback();
+            echo "Signup failed: " . $e->getMessage();
+        }
+     }
+     // PRODUCT TOEVOEGEN MET VALIDATION END
 
     public function create_order_customer($id, $product_id, $store_id, $amount, $customer_id, $employee_id){
 
@@ -411,6 +425,7 @@ class db{
         echo " failed: " . $e->getMessage();
     }
 }
+
 
     public function show_product($name){
 

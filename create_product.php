@@ -12,21 +12,30 @@
 
     $db = new db("localhost", "root", "flowerpower", "");
      
-  if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
-    $fields = ['username', 'password'];
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
 
-    $obj = new Validation();
+        $fields = [
+            'product', 'price'
+        ];
 
-    $fields_validated = $obj->field_validation($fields);
-
-   if($fields_validated){
-      $username = trim($_POST['username']);
-      $password = trim($_POST['password']);
-
-      $loginError = $db->login($username, $password);
+        $obj = new Helper();
+    
+        $fields_validated = $obj->field_validation($fields);
+    
+        if($fields_validated){
+            
+            $product = trim(strtolower($_POST['product']));
+            $price = trim(strtolower($_POST['price']));
+    
+            
+                $db = new db('localhost', 'root', 'flowerpower', '');
+    
+                $msg = $db->sign_up_product($product, $price);
+            
+        }else{
+            $missingFieldError = "Input for one of more fields missing. Please provide all required values and try again.";
+        }
     }
-  }
-
 
 ?>
 
@@ -98,54 +107,34 @@
         </div>
     </div>
 
-    <div>
-        <a class="btproduct" href='create_employee.php' type="button">Add a employee</a>
-    </div>
-
-    <?php
-    // $db = new db("localhost", "root", "flowerpower", "");
-    $result_set = $db->show_profile_details_employee("SELECT * FROM employee");
-  ?>
     <div class="container">
-  <div class="card mt-5">
-    <div class="card-header">
-      <h2>All Employees</h2>
+  <div class="cheader">
+    <div class="cheader">
+      <h2>Create a Product</h2>
     </div>
     <div class="card-body">
-      <table class="table table-bordered">
-        <tr>
-          <th>ID</th>
-          <th>Usertype id</th>
-          <th>Initials</th>
-          <th>Prefix</th>
-          <th>Lastname</th>
-          <th>Username</th>
-          <th>Password</th>
-          <th>created at</th>
-          <th>updated at</th>
-          <th>Actions</th>
-        </tr>
-        <?php foreach($result_set as $result): ?>
-          <tr>
-            <td><?= $result->id; ?></td>
-            <td><?= $result->usertype_id; ?></td>
-            <td><?= $result->initials; ?></td>
-            <td><?= $result->prefix; ?></td>
-            <td><?= $result->last_name; ?></td>
-            <td><?= $result->username; ?></td>
-            <td><?= $result->password; ?></td>
-            <td><?= $result->created_at; ?></td>
-            <td><?= $result->updated_at; ?></td>
-            <td>
-              <a href="edit.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
-              <a onclick="return confirm('Are you sure you want to delete this entry?')" href="delete.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
-            </td>
-          </tr>
-        <?php endforeach; ?>
-      </table>
-    </div>
+      <form method="post">
+        <div class="form-group">
+          <label for="name">Productname</label>
+          <input type="text" name="product"class="form-control" value="<?php echo isset($_POST["product"]) ? htmlentities($_POST["product"]) : ''; ?>" required />
+        </div>
+        <div class="form-group">
+          <label for="text">Price</label>
+          <input type="text" name="price" class="form-control"value="<?php echo isset($_POST["price"]) ? htmlentities($_POST["price"]) : ''; ?>" required /><br>
+          <span>
+            <?php 
+                    echo ((isset($msg) && $msg != '') ? htmlentities($msg) ." <br>" : '');
+                    echo ((isset($pwdError) && $pwdError != '') ? htmlentities($pwdError) ." <br>" : '')
+                ?>
+        </span>
+
+        <input type="submit" class="form-control" name="submit" value="Add Product" />
+        <span><?php echo ((isset($missingFieldError) && $missingFieldError != '') ? htmlentities($missingFieldError) : '')?></span>
+    </form>
     </div>
   </div>
+</div>
+
     
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
