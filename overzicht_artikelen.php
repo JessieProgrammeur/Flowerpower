@@ -128,9 +128,9 @@
                         <td><?= $result->product; ?></td>
                         <td><?= $result->price; ?></td>
                         <td>
-                            <a href="edit.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
+                            <a href="edit_product.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
                             <a onclick="return confirm('Are you sure you want to delete this entry?')"
-                                href="delete.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
+                                href="delete_product.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>

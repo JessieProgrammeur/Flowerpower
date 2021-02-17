@@ -394,6 +394,81 @@ class db{
             echo "Signup failed: " . $e->getMessage();
         }
      }
+
+
+     
+
+     public function select($statement, $named_placeholder){
+
+        $stmt = $this->db->prepare($statement);
+
+        $stmt->execute($named_placeholder);
+        $result = $stmt->fetchall(PDO::FETCH_ASSOC);
+
+        return $result;
+     }
+
+     public function update_or_delete($statement, $named_placeholder){
+
+        $stmt = $this->db->prepare($statement);
+        $stmt->execute($named_placeholder);
+        header('location:overzicht_artikelen.php');
+        exit();
+     }
+
+
+     // edit_product.php
+    //  private function updated_product($id, $product, $price){
+
+    //     $sql = "UPDATE product SET (NULL, :product, :price, :created, :updated WHERE id=id)";
+
+    //     $statement = $this->db->prepare($sql);
+
+    //     $created_at = $updated_at = date('Y-m-d H:i:s');
+
+    //     $statement->execute([
+    //         'product'=>$product,
+    //         'price'=>$price,
+    //         'created'=> $created_at, 
+    //         'updated'=> $updated_at,
+    //     ]); 
+        
+    //     // $product_id = $this->db->lastInsertId();
+    //     // return $product_id;       
+    // }
+     
+    // private function get_id_product($id){
+        
+    //     $stmt = $this->db->prepare('SELECT id FROM product WHERE id=' . $id);
+    //     $stmt->execute(['id'=>$id]);
+    //     $result = $stmt->fetch();
+
+
+    //     return $result;
+    // }
+    
+    // public function update_product($id, $product, $price){
+
+    //     try{
+            
+    //          $this->db->beginTransaction();
+            
+    //          if(!$this->get_id_product($id)){
+    //              return "Product id error.try something else";
+    //          }
+ 
+    //          $product_id = $this->updated_product($id, $product, $price);
+             
+    //          $this->db->commit();
+ 
+    //     }catch(Exception $e){
+         
+    //         $this->db->rollback();
+    //         echo "Signup failed: " . $e->getMessage();
+    //     }
+    //  }
+     
+     
      // PRODUCT TOEVOEGEN MET VALIDATION END
 
     public function create_order_customer($id, $product_id, $store_id, $amount, $customer_id, $employee_id){
