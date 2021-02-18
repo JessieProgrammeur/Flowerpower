@@ -1,33 +1,23 @@
 <?php
 
-    session_start();
+session_start();
 
-    if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true){
-    header('location: index.php');
-    exit;
-    }   
+if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true){
+header('location: index.php');
+exit;
+}   
 
-    include 'db.php';
-    include 'validation.php';
+include 'db.php';
+include 'validation.php';
 
-    $db = new db("localhost", "root", "flowerpower", "");
-     
-  if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
-    $fields = ['username', 'password'];
+$db = new db("localhost", "root", "flowerpower", "");
 
-    $obj = new Validation();
-
-    $fields_validated = $obj->field_validation($fields);
-
-   if($fields_validated){
-      $username = trim($_POST['username']);
-      $password = trim($_POST['password']);
-
-      $loginError = $db->login($username, $password);
-    }
-  }
-
-
+if(isset($_GET['id'])) {
+  $db->update_or_delete_order("DELETE FROM orders  WHERE id=:id", ['id'=>$_GET['id']]);
+        $loginError = $db->update_or_delete_order($sql, $placeholder);
+        var_dump($loginError);
+      }
+ 
 ?>
 
 <!DOCTYPE html>
@@ -61,23 +51,24 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <p class="nav navbar-text">FlowerPower</p>
-                
+
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><?php echo "Welcome " . htmlentities( $_SESSION['username']) ."!" ?></b> <span
-                                class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle"
+                            data-toggle="dropdown"><b><?php echo "Welcome " . htmlentities( $_SESSION['username']) ."!" ?></b>
+                            <span class="caret"></span></a>
                         <ul id="login-dp" class="dropdown-menu">
                             <li>
-                                    <div class="form-group">
-                                        <a href="logout.php" class="btn btn-primary btn-block">Logout</a>
-                                    </div>
-                                    </form>
+                                <div class="form-group">
+                                    <a href="logout.php" class="btn btn-primary btn-block">Logout</a>
                                 </div>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                                </form>
             </div>
+            </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
         </div>
     </nav>
 
@@ -97,43 +88,53 @@
                 <br>
                 <a href="overzicht_account.php">Account</a><br />
                 <br />
-                <a href="mijn_bestellingen.php">Bestellingen</a><br />
+                <a href="overzicht_factuur.php">Facturen</a><br />
                 <br />
             </div>
         </div>
     </div>
 
-    <div class="container">
-        <div class="card-group">
-
-            <div class="row">
-                <div class="column">
-                    <img class="card-img-top" src="boetiek2.jpg">
-                    <div class="card-body">
-                        <h3 class="card-title">Onze nieuwste flowershop</h3>
-                        <p class="card-text align-center">Kom een kijkje nemen!</p>
-                    </div>
-                </div>
-
-                <div class="column">
-                    <img class="card-img-top" src="boetiek3.jpg">
-                    <div class="card-body">
-                        <h3 class="card-title">De flowershop</h3>
-                        <p class="card-text">Zelf samenstellen? Kom kijken bij onze winkel</p>
-                    </div>
-                </div>
-
-                <div class="column">
-                    <img class="card-img-top" src="botiek5.jpg">
-                    <div class="card-body">
-                        <h3 class="card-title">De Flowershop</h3>
-                        <p class="card-text">Grote partijen, geen probleem</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div>
+        <a class="btproduct" href='create_order.php' type="button">Click here to add a order</a>
     </div>
-
+    
+    <?php
+    // $db = new db("localhost", "root", "flowerpower", "");
+    $result_set = $db->show_profile_details_invoice("SELECT * FROM invoice");
+  ?>
+    <div class="container">
+  <div class="card mt-5">
+    <div class="card-header">
+      <h2>My Invoices</h2>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered">
+        <tr>
+          <th>ID</th>
+          <th>Date</th>
+          <th>Customer id</th>
+          <th>created at</th>
+          <th>updated at</th>
+          <th>Actions</th>
+        </tr>
+        <?php foreach($result_set as $result): ?>
+          <tr>
+            <td><?= $result->id; ?></td>
+            <td><?= $result->date; ?></td>
+            <td><?= $result->customer_id; ?></td>
+            <td><?= $result->created_at; ?></td>
+            <td><?= $result->updated_at; ?></td>
+            <td>
+              <a onclick="return confirm('Are you sure you want to delete this entry?')"
+                  href="overzicht_factuur.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </table>
+    </div>
+    </div>
+  </div>
+   
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
             <a href="http://localhost/Flowerpower/"> FlowerPower</a>

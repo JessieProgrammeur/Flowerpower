@@ -324,6 +324,20 @@ class db{
         return $results;
     }
 
+    public function show_profile_details_invoice(){
+
+        $sql = "
+        SELECT * FROM invoice";
+       
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute();
+        
+        $results = $stmt->fetchAll(PDO::FETCH_OBJ);
+        
+        return $results;
+    }
+
     public function show_details_product(){
 
         $sql = "

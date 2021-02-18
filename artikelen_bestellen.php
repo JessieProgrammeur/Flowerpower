@@ -12,21 +12,6 @@
     
         $db = new db("localhost", "root", "flowerpower", "");
          
-      if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
-        $fields = ['username', 'password'];
-    
-        $obj = new Validation();
-    
-        $fields_validated = $obj->field_validation($fields);
-    
-       if($fields_validated){
-          $username = trim($_POST['username']);
-          $password = trim($_POST['password']);
-    
-          $loginError = $db->login($username, $password);
-        }
-      }
-
 
 ?>
 
@@ -96,7 +81,7 @@
                 <br />
                 <a href="contact.php">contact</a><br />
                 <br>
-                <a href="overzicht_medewerker.php">Account</a><br />
+                <a href="overzicht_account.php">Account</a><br />
                 <br />
                 <a href="overzicht_bestellingen.php">Bestellingen</a><br />
                 <br />

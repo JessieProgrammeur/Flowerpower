@@ -95,9 +95,9 @@
                 <br />
                 <a href="contact.php">contact</a><br />
                 <br>
-                <a href="overzicht_medewerker.php">Account</a><br />
+                <a href="overzicht_account.php">Account</a><br />
                 <br />
-                <a href="overzicht_bestellingen.php">Bestellingen</a><br />
+                <a href="overzicht_factuur.php">Facturen</a><br />
                 <br />
             </div>
         </div>

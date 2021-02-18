@@ -94,7 +94,7 @@
     </div>
 
     <?php
-    // $db = new db("localhost", "root", "flowerpower", "");
+    
     $result_set = $db->show_profile_details_product("SELECT * FROM product");
   ?>
     <div class="container">
