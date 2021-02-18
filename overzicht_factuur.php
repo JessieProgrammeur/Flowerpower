@@ -100,7 +100,20 @@ if(isset($_GET['id'])) {
     
     <?php
     // $db = new db("localhost", "root", "flowerpower", "");
-    $result_set = $db->show_profile_details_invoice("SELECT * FROM invoice");
+    $result_set = $db->show_profile_details_invoice(
+    "SELECT product_product,
+            product_price,
+            invoiceline_amount,
+            store_name,
+            store_address,
+            store_postal_code,
+            store_residence,
+            invoice_date
+    FROM product 
+    INNER JOIN invoiceline ON product.product_id = invoiceline.product_id
+    INNER JOIN store ON invoiceline.product_id = store.product_id
+    INNER JOIN invoice ON product.produt_id = invoice.invoice_id
+    ORDER BY product_product, product_price");
   ?>
     <div class="container">
   <div class="card mt-5">
@@ -111,19 +124,29 @@ if(isset($_GET['id'])) {
       <table class="table table-bordered">
         <tr>
           <th>ID</th>
+          <th>Productname</th>
+          <th>Price</th>
+          <th>Amount</th>
+          
+          <th>Store Name</th>
+          <th>Store address</th>
+          <th>Store Postal Code</th>
+          <th>Store Residence</th>
           <th>Date</th>
-          <th>Customer id</th>
-          <th>created at</th>
-          <th>updated at</th>
           <th>Actions</th>
         </tr>
         <?php foreach($result_set as $result): ?>
           <tr>
             <td><?= $result->id; ?></td>
-            <td><?= $result->date; ?></td>
-            <td><?= $result->customer_id; ?></td>
-            <td><?= $result->created_at; ?></td>
-            <td><?= $result->updated_at; ?></td>
+            <td><?= $result->product_name; ?></td>
+            <td><?= $result->product_price; ?></td>
+            <td><?= $result->invoiceline_amount; ?></td>
+            
+            <td><?= $result->store_name; ?></td>
+            <td><?= $result->store_address; ?></td>
+            <td><?= $result->store_postal_code; ?></td>
+            <td><?= $result->store_residence; ?></td>
+            <td><?= $result->invoice_date; ?></td>
             <td>
               <a onclick="return confirm('Are you sure you want to delete this entry?')"
                   href="overzicht_factuur.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
