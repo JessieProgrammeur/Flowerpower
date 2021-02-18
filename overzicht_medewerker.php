@@ -11,23 +11,13 @@
     include 'validation.php';
 
     $db = new db("localhost", "root", "flowerpower", "");
+
+    if(isset($_GET['id'])) {
+      $db->update_or_delete_employee("DELETE FROM employee  WHERE id=:id", ['id'=>$_GET['id']]);
+            $loginError = $db->update_or_delete_employee($sql, $placeholder);
+            var_dump($loginError);
+          }
      
-  if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
-    $fields = ['username', 'password'];
-
-    $obj = new Validation();
-
-    $fields_validated = $obj->field_validation($fields);
-
-   if($fields_validated){
-      $username = trim($_POST['username']);
-      $password = trim($_POST['password']);
-
-      $loginError = $db->login($username, $password);
-    }
-  }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -138,7 +128,7 @@
             <td><?= $result->updated_at; ?></td>
             <td>
               <a href="edit_employee.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
-              <a onclick="return confirm('Are you sure you want to delete this entry?')" href="delete_employee.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
+              <a onclick="return confirm('Are you sure you want to delete this entry?')" href="overzicht_medewerker.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
             </td>
           </tr>
         <?php endforeach; ?>

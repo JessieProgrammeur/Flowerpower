@@ -17,7 +17,7 @@
     }
 
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
-        $fields = ['amount'];
+        $fields = ['amount', 'picked_up'];
 
         $obj = new Helper();
         echo "test";
@@ -26,9 +26,10 @@
     
         if($fields_validated){
           $amount = trim($_POST['amount']);
+          $picked_up = trim($_POST['picked_up']);
     
-          $sql = "UPDATE orders SET amount=:amount WHERE id=:id";
-          $placeholder = ['amount' => $amount, 'id' => $_POST['product_id']];
+          $sql = "UPDATE orders SET amount=:amount, picked_up=:picked_up WHERE id=:id";
+          $placeholder = ['amount' => $amount,'picked_up' => $picked_up, 'id' => $_POST['orders_id']];
           
           $loginError = $db->update_or_delete_order($sql, $placeholder);
           var_dump($loginError);
@@ -115,9 +116,15 @@
                 <form method="post">
                     <div class="form-group">
                         <label for="name">Amount</label>
-                        <input type="hidden" name="order_id" value="<?php echo ($_GET["id"])?>">
+                        <input type="hidden" name="orders_id" value="<?php echo ($_GET["id"])?>">
                         <input type="text" name="amount" class="form-control"
                             value="<?php echo isset($_POST["amount"]) ? htmlentities($_POST["amount"]) : ''; ?>"
+                            required />
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Picked-up</label>
+                        <input type="date" name="picked_up" class="form-control"
+                            value="<?php echo isset($_POST["picked_up"]) ? htmlentities($_POST["picked_up"]) : ''; ?>"
                             required /><br>
                         <span>
                             <?php

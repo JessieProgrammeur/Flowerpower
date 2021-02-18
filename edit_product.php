@@ -19,8 +19,6 @@
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
         $fields = ['product', 'price'];
 
-        echo "test";
-
         $obj = new Helper();
     
         $fields_validated = $obj->field_validation($fields);

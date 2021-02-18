@@ -11,6 +11,12 @@
     include 'validation.php';
 
     $db = new db("localhost", "root", "flowerpower", "");
+
+    if(isset($_GET['id'])) {
+        $db->update_or_delete_product("DELETE FROM product  WHERE id=:id", ['id'=>$_GET['id']]);
+              $loginError = $db->update_or_delete_product($sql, $placeholder);
+              var_dump($loginError);
+            }
      
 ?>
 
@@ -112,7 +118,7 @@
                         <td>
                             <a href="edit_product.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
                             <a onclick="return confirm('Are you sure you want to delete this entry?')"
-                                href="delete_product.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
+                                href="overzicht_artikelen.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>

@@ -433,6 +433,7 @@ class db{
      }
 
 
+
      // edit_product.php
     //  private function updated_product($id, $product, $price){
 
