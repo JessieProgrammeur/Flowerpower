@@ -13,26 +13,29 @@
     $db = new db("localhost", "root", "flowerpower", "");
 
     if(isset($_GET['id'])) {
-    $product = $db->select("SELECT * FROM product WHERE id =:id", ['id'=>$_GET['id']]);
+    $product = $db->select("SELECT * FROM employee WHERE id =:id", ['id'=>$_GET['id']]);
     }
 
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
-        $fields = ['product', 'price'];
-
-        echo "test";
+        $fields = ['initials', 'prefix', 'last_name', 'username', 'password'];
 
         $obj = new Helper();
     
         $fields_validated = $obj->field_validation($fields);
     
         if($fields_validated){
-          $product = trim($_POST['product']);
-          $price = trim($_POST['price']);
+          $initials = trim($_POST['initials']);
+          $prefix = trim($_POST['prefix']);
+          $last_name = trim($_POST['last_name']);
+          $username = trim($_POST['username']);
+          $password = trim($_POST['password']);
+
+          $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     
-          $sql = "UPDATE product SET product=:product, price=:price WHERE id=:id";
-          $placeholder = ['product' => $product, 'price' => $price, 'id' => $_POST['product_id']];
+          $sql = "UPDATE employee SET initials=:initials, prefix=:prefix, last_name=:last_name, username=:username, password=:password WHERE id=:id";
+          $placeholder = ['initials' => $initials, 'prefix' => $prefix, 'last_name' => $last_name, 'username' => $username, 'password' => $hashed_password, 'id' => $_POST['employee_id']];
           
-          $loginError = $db->update_or_delete_product($sql, $placeholder);
+          $loginError = $db->update_or_delete_employee($sql, $placeholder);
           var_dump($loginError);
         }
       }
@@ -111,21 +114,39 @@
     <div class="container">
         <div class="cheader">
             <div class="card-header">
-                <h2>Update Product</h2>
+                <h2>Update Employee</h2>
             </div>
             <div class="card-body">
                 <form method="post">
                     <div class="form-group">
-                        <label for="name">Productname</label>
-                        <input type="hidden" name="product_id" value="<?php echo ($_GET["id"])?>">
-                        <input type="text" name="product" class="form-control"
-                            value="<?php echo isset($_POST["product"]) ? htmlentities($_POST["product"]) : ''; ?>"
+                        <label for="name">Initials</label>
+                        <input type="hidden" name="employee_id" value="<?php echo ($_GET["id"])?>">
+                        <input type="text" name="initials" class="form-control"
+                            value="<?php echo isset($_POST["initials"]) ? htmlentities($_POST["initials"]) : ''; ?>"
                             required />
                     </div>
                     <div class="form-group">
-                        <label for="text">Price</label>
-                        <input type="text" name="price" class="form-control"
-                            value="<?php echo isset($_POST["price"]) ? htmlentities($_POST["price"]) : ''; ?>"
+                        <label for="name">Prefix</label>
+                        <input type="text" name="prefix" class="form-control"
+                            value="<?php echo isset($_POST["prefix"]) ? htmlentities($_POST["prefix"]) : ''; ?>"
+                            required />
+                    </div>
+                    <div class="form-group">
+                        <label for="name">lastname</label>
+                        <input type="text" name="last_name" class="form-control"
+                            value="<?php echo isset($_POST["last_name"]) ? htmlentities($_POST["last_name"]) : ''; ?>"
+                            required />
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Username</label>
+                        <input type="text" name="username" class="form-control"
+                            value="<?php echo isset($_POST["username"]) ? htmlentities($_POST["username"]) : ''; ?>"
+                            required />
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Password</label>
+                        <input type="password" name="password" class="form-control"
+                            value="<?php echo isset($_POST["password"]) ? htmlentities($_POST["password"]) : ''; ?>"
                             required /><br>
                         <span>
                             <?php
@@ -134,7 +155,7 @@
                 ?>
                         </span>
 
-                        <input type="submit" class="form-control" name="submit" value="Update Product" />
+                        <input type="submit" class="form-control" name="submit" value="Update Employee" />
                         <span><?php echo ((isset($missingFieldError) && $missingFieldError != '') ? htmlentities($missingFieldError) : '')?></span>
                 </form>
             </div>

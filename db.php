@@ -408,11 +408,27 @@ class db{
         return $result;
      }
 
-     public function update_or_delete($statement, $named_placeholder){
+     public function update_or_delete_product($statement, $named_placeholder){
 
         $stmt = $this->db->prepare($statement);
         $stmt->execute($named_placeholder);
         header('location:overzicht_artikelen.php');
+        exit();
+     }
+
+     public function update_or_delete_employee($statement, $named_placeholder){
+
+        $stmt = $this->db->prepare($statement);
+        $stmt->execute($named_placeholder);
+        header('location:overzicht_medewerker.php');
+        exit();
+     }
+
+     public function update_or_delete_order($statement, $named_placeholder){
+
+        $stmt = $this->db->prepare($statement);
+        $stmt->execute($named_placeholder);
+        header('location:overzicht_bestellingen.php');
         exit();
      }
 

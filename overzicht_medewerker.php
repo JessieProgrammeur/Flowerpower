@@ -137,8 +137,8 @@
             <td><?= $result->created_at; ?></td>
             <td><?= $result->updated_at; ?></td>
             <td>
-              <a href="edit.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
-              <a onclick="return confirm('Are you sure you want to delete this entry?')" href="delete.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
+              <a href="edit_employee.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
+              <a onclick="return confirm('Are you sure you want to delete this entry?')" href="delete_employee.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
             </td>
           </tr>
         <?php endforeach; ?>

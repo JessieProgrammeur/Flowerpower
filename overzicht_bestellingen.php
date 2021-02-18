@@ -12,24 +12,6 @@ include 'validation.php';
 
 $db = new db("localhost", "root", "flowerpower", "");
  
-if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
-
-$fields = ['username', 
-'password'
-];
-
-$obj = new Validation();
-
-$fields_validated = $obj->field_validation($fields);
-
-if($fields_validated){
-  $username = trim($_POST['username']);
-  $password = trim($_POST['password']);
-
-  $loginError = $db->login($username, $password);
-}
-}
-     
 ?>
 
 <!DOCTYPE html>
@@ -140,8 +122,9 @@ if($fields_validated){
             <td><?= $result->created_at; ?></td>
             <td><?= $result->updated_at; ?></td>
             <td>
-              <a href="edit.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
-              <a onclick="return confirm('Are you sure you want to delete this entry?')" href="delete.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
+              <a href="edit_order.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
+              <a onclick="return confirm('Are you sure you want to delete this entry?')"
+                  href="delete_order.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
             </td>
           </tr>
         <?php endforeach; ?>

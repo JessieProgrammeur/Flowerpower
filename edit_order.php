@@ -5,35 +5,36 @@
     if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true){
     header('location: index.php');
     exit;
-    }   
+    }
 
     include 'db.php';
     include 'validation.php';
 
     $db = new db("localhost", "root", "flowerpower", "");
-     
-    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
 
-        $fields = [
-            'product', 'price'
-        ];
+    if(isset($_GET['id'])) {
+    $order = $db->select("SELECT * FROM orders WHERE id =:id", ['id'=>$_GET['id']]);
+    }
+
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
+        $fields = ['amount'];
 
         $obj = new Helper();
+        echo "test";
     
         $fields_validated = $obj->field_validation($fields);
     
         if($fields_validated){
-            
-            $product = trim(strtolower($_POST['product']));
-            $price = trim(strtolower($_POST['price']));
+          $amount = trim($_POST['amount']);
     
-                $msg = $db->sign_up_product($product, $price);
-            
-        }else{
-            $missingFieldError = "Input for one of more fields missing. Please provide all required values and try again.";
+          $sql = "UPDATE orders SET amount=:amount WHERE id=:id";
+          $placeholder = ['amount' => $amount, 'id' => $_POST['product_id']];
+          
+          $loginError = $db->update_or_delete_order($sql, $placeholder);
+          var_dump($loginError);
         }
-    }
-
+      }
+        
 ?>
 
 <!DOCTYPE html>
@@ -67,23 +68,24 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <p class="nav navbar-text">FlowerPower</p>
-                
+
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><?php echo "Welcome " . htmlentities( $_SESSION['username']) ."!" ?></b> <span
-                                class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle"
+                            data-toggle="dropdown"><b><?php echo "Welcome " . htmlentities( $_SESSION['username']) ."!" ?></b>
+                            <span class="caret"></span></a>
                         <ul id="login-dp" class="dropdown-menu">
                             <li>
-                                    <div class="form-group">
-                                        <a href="logout.php" class="btn btn-primary btn-block">Logout</a>
-                                    </div>
-                                    </form>
+                                <div class="form-group">
+                                    <a href="logout.php" class="btn btn-primary btn-block">Logout</a>
                                 </div>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                                </form>
             </div>
+            </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
         </div>
     </nav>
 
@@ -105,33 +107,33 @@
     </div>
 
     <div class="container">
-  <div class="cheader">
-    <div class="cheader">
-      <h2>Create a Product</h2>
-    </div>
-    <div class="card-body">
-      <form method="post">
-        <div class="form-group">
-          <label for="name">Productname</label>
-          <input type="text" name="product"class="form-control" value="<?php echo isset($_POST["product"]) ? htmlentities($_POST["product"]) : ''; ?>" required />
-        </div>
-        <div class="form-group">
-          <label for="text">Price</label>
-          <input type="text" name="price" class="form-control"value="<?php echo isset($_POST["price"]) ? htmlentities($_POST["price"]) : ''; ?>" required /><br>
-          <span>
-            <?php 
-                echo ((isset($msg) && $msg != '') ? htmlentities($msg) ." <br>" : '');
-                echo ((isset($pwdError) && $pwdError != '') ? htmlentities($pwdError) ." <br>" : '')
-            ?>
-        </span>
-        <input type="submit" class="form-control" name="submit" value="Add Product"/>
-        <span><?php echo ((isset($missingFieldError) && $missingFieldError != '') ? htmlentities($missingFieldError) : '')?></span>
-    </form>
-    </div>
-  </div>
-</div>
+        <div class="cheader">
+            <div class="card-header">
+                <h2>Update Product</h2>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="form-group">
+                        <label for="name">Amount</label>
+                        <input type="hidden" name="order_id" value="<?php echo ($_GET["id"])?>">
+                        <input type="text" name="amount" class="form-control"
+                            value="<?php echo isset($_POST["amount"]) ? htmlentities($_POST["amount"]) : ''; ?>"
+                            required /><br>
+                        <span>
+                            <?php
+                    echo ((isset($msg) && $msg != '') ? htmlentities($msg) ." <br>" : '');
+                    echo ((isset($pwdError) && $pwdError != '') ? htmlentities($pwdError) ." <br>" : '')
+                ?>
+                        </span>
 
-    
+                        <input type="submit" class="form-control" name="submit" value="Update Order" />
+                        <span><?php echo ((isset($missingFieldError) && $missingFieldError != '') ? htmlentities($missingFieldError) : '')?></span>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
             <a href="http://localhost/Flowerpower/"> FlowerPower</a>
