@@ -131,3 +131,17 @@ $result_set = $db->show_profile_details_product("SELECT * FROM product", []);
         </div>
     </div>
     <br />
+
+    SELECT product_product,
+        product_price,
+        invoiceline_amount,
+        store_name,
+        store_address,
+        store_postal_code,
+        store_residence,
+        invoice_date
+        FROM product 
+        INNER JOIN invoiceline ON product.product_id = invoiceline.product_id
+        INNER JOIN store ON invoiceline.product_id = store.product_id
+        INNER JOIN invoice ON product.produt_id = invoice.invoice_id
+        ORDER BY product_product, product_price"

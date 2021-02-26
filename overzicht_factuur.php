@@ -138,7 +138,7 @@ if(isset($_GET['id'])) {
         <?php foreach($result_set as $result): ?>
           <tr>
             <td><?= $result->id; ?></td>
-            <td><?= $result->product_name; ?></td>
+            <td><?= $result->product_product; ?></td>
             <td><?= $result->product_price; ?></td>
             <td><?= $result->invoiceline_amount; ?></td>
             

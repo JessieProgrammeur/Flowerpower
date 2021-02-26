@@ -326,8 +326,19 @@ class db{
 
     public function show_profile_details_invoice(){
 
-        $sql = "
-        SELECT * FROM invoice";
+        $sql = "SELECT product_product,
+        product_price,
+        invoiceline_amount,
+        store_name,
+        store_address,
+        store_postal_code,
+        store_residence,
+        invoice_date
+        FROM product 
+        INNER JOIN invoiceline ON product.product_id = invoiceline.product_id
+        INNER JOIN store ON invoiceline.product_id = store.product_id
+        INNER JOIN invoice ON product.produt_id = invoice.invoice_id
+        ORDER BY product_product, product_price";
        
         $stmt = $this->db->prepare($sql);
 
@@ -422,6 +433,16 @@ class db{
         return $result;
      }
 
+     public function select1($statement){
+
+        $stmt = $this->db->prepare($statement);
+
+        $stmt->execute($statement);
+        $result = $stmt->fetchall(PDO::FETCH_ASSOC);
+
+        return $result;
+     }
+
      public function update_or_delete_product($statement, $named_placeholder){
 
         $stmt = $this->db->prepare($statement);
@@ -501,8 +522,22 @@ class db{
      
      
      // PRODUCT TOEVOEGEN MET VALIDATION END
+     public function getAllProduct() {
+        try {
+            $sql = "SELECT * FROM product ORDER BY id DESC LIMIT ?,?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindValue(1, ($current_page - 1) * $num_products_on_each_page, PDO::PARAM_INT);
+            $stmt->bindValue(2, $num_products_on_each_page, PDO::PARAM_INT);
+            $stmt->execute();
 
-    public function create_order_customer($id, $product_id, $store_id, $amount, $customer_id, $employee_id){
+            $products = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            return $products;
+        } catch (Exception $e) {
+            die("Oh noes! There's an error in the query!");
+        }
+    }
+    
+     public function create_order_customer($id, $product_id, $store_id, $amount, $customer_id, $employee_id){
 
         try{
         

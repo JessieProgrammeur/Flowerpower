@@ -11,7 +11,8 @@
         include 'validation.php';
     
         $db = new db("localhost", "root", "flowerpower", "");
-         
+        $db->select1("SELECT * FROM product");
+        $getProducts = $db->select1($sql);
 
 ?>
 
@@ -89,37 +90,22 @@
         </div>
     </div>
 
-    <?php
-    $result_set = $db->show_details_product("SELECT product, price FROM product ORDER BY id ASC", []);
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100">
+        <a href="#"><img class="card-img-top" src="boeket2.jpg" width="400px" heigth="200px"></a>
 
-    $columns = array_keys($result_set[0]);
-    
-    $row_data = array_values($result_set);
+        <div class="card-body">
+            <h4 class="card-title text-primary"><?php echo $row['product_product']; ?> </ha>
+            <h5.<?php echo number_format($row['product_price'],2); ?>/-</h5>
+        </div>
 
-    echo "<table>";
-            // table row
-            echo "<tr>";
-                // loop all available columns, and store them in the top of the table (bold)
-                foreach($columns as $column){
-                    // table header
-                    
-                    // echo "<td><strong>{{ $column->product }}</strong></td>";
-                    echo "<th><strong> $column </strong></th>";
-                    
-                }
-            echo "</tr>";
+        <div class="card-footer">
+            <form class="submit">
+                <input type="hidden" class="pid" value="<?php echo $row['product_id']; ?>">
+                <input type="hidden" class="pid" value="<?php echo $row['product_product']; ?>">
+                <input type="hidden" class="pid" value="<?php echo $row['product_ppice']; ?>">
+                <button id="addItem" class="btn btn-succes btn-md">Add to cart</button>
 
-            // table rows. this part contains the data which will be shown in the table
-            echo "<tr>";
-                foreach($row_data as $value){
-
-                    foreach($value as $data){
-                        echo "<td>$data</td>";
-                    }
-                }
-            echo "</tr>";
-        echo "</table>";
-    ?>
 
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
