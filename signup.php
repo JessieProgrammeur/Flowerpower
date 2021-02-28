@@ -112,7 +112,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_P
     </nav>
     <div class="container-fluid h-100">
         <div class="row h-100">
-            <div class="col-2" id="homemenu">
+            <div class="col-2" id="homemenu3">
                 <br>
                 <h4 class="menu">Menu</h4>
                 <br />
@@ -131,7 +131,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_P
     </div>
 
     <p class="py-0 text-center">
-    <div class="container">
+    <div class="rcover">
         <div class="row">
             <div class="col-md-4 offset-md-4 form login-form">
     <form action="signup.php" method="post">

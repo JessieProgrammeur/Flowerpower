@@ -74,7 +74,7 @@
     </nav>
     <div class="container-fluid h-100">
         <div class="row h-100">
-            <div class="col-2" id="homemenu">
+            <div class="col-2" id="homemenu3">
                 <br>
                 <h4 class="menu">Menu</h4>
                 <br />
@@ -91,6 +91,22 @@
             </div>
         </div>
     </div>
+
+    <div class="rcover">
+        <div class="row">
+            <div class="col-md-4 offset-md-4 form login-form">
+    <form action="passr.php" method="post">
+        <input type="email" class="form-control" name="email" placeholder="Email"
+            value="<?php echo isset($_POST["email"]) ? htmlentities($_POST["email"]) : ''; ?>" required /><br>
+        <span>
+            <?php 
+                    echo ((isset($msg) && $msg != '') ? htmlentities($msg) ." <br>" : '');
+                    echo ((isset($pwdError) && $pwdError != '') ? htmlentities($pwdError) ." <br>" : '')
+                ?>
+        </span>
+        <input type="submit" class="form-control" name="submit" value="Recover account" />
+        <span><?php echo ((isset($missingFieldError) && $missingFieldError != '') ? htmlentities($missingFieldError) : '')?></span>
+    </form>
 
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:

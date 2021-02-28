@@ -296,6 +296,20 @@ class db{
         return $results;
     }
 
+    public function show_profile_details_customers(){
+
+        $sql = "
+        SELECT * FROM customer";
+       
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute();
+        
+        $results = $stmt->fetchAll(PDO::FETCH_OBJ);
+        
+        return $results;
+    }
+
     public function show_profile_details_order(){
 
         $sql = "
@@ -459,6 +473,14 @@ class db{
         exit();
      }
 
+     public function update_or_delete_customer($statement, $named_placeholder){
+
+        $stmt = $this->db->prepare($statement);
+        $stmt->execute($named_placeholder);
+        header('location:overzicht_users.php');
+        exit();
+     }
+
      public function update_or_delete_order($statement, $named_placeholder){
 
         $stmt = $this->db->prepare($statement);
@@ -467,60 +489,6 @@ class db{
         exit();
      }
 
-
-
-     // edit_product.php
-    //  private function updated_product($id, $product, $price){
-
-    //     $sql = "UPDATE product SET (NULL, :product, :price, :created, :updated WHERE id=id)";
-
-    //     $statement = $this->db->prepare($sql);
-
-    //     $created_at = $updated_at = date('Y-m-d H:i:s');
-
-    //     $statement->execute([
-    //         'product'=>$product,
-    //         'price'=>$price,
-    //         'created'=> $created_at, 
-    //         'updated'=> $updated_at,
-    //     ]); 
-        
-    //     // $product_id = $this->db->lastInsertId();
-    //     // return $product_id;       
-    // }
-     
-    // private function get_id_product($id){
-        
-    //     $stmt = $this->db->prepare('SELECT id FROM product WHERE id=' . $id);
-    //     $stmt->execute(['id'=>$id]);
-    //     $result = $stmt->fetch();
-
-
-    //     return $result;
-    // }
-    
-    // public function update_product($id, $product, $price){
-
-    //     try{
-            
-    //          $this->db->beginTransaction();
-            
-    //          if(!$this->get_id_product($id)){
-    //              return "Product id error.try something else";
-    //          }
- 
-    //          $product_id = $this->updated_product($id, $product, $price);
-             
-    //          $this->db->commit();
- 
-    //     }catch(Exception $e){
-         
-    //         $this->db->rollback();
-    //         echo "Signup failed: " . $e->getMessage();
-    //     }
-    //  }
-     
-     
      // PRODUCT TOEVOEGEN MET VALIDATION END
      public function getAllProduct() {
         try {
@@ -580,6 +548,21 @@ class db{
         
         return $results;
     }
+
+    public function show_details_customers(){
+
+        $sql = "
+        SELECT * FROM customer ORDER BY id ASC";
+       
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute();
+        
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $results;
+    }
+
     
 }
 

@@ -146,7 +146,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_P
             <?php 
                     echo ((isset($msg) && $msg != '') ? htmlentities($msg) ." <br>" : '');
                     echo ((isset($pwdError) && $pwdError != '') ? htmlentities($pwdError) ." <br>" : '')
-                ?>
+            ?>
         </span>
 
         <input type="submit" class="form-control" name="submit" value="Sign up!" />

@@ -11,6 +11,12 @@
     include 'validation.php';
 
     $db = new db("localhost", "root", "flowerpower", "");
+
+    if(isset($_GET['id'])) {
+      $db->update_or_delete_customer("SELECT * FROM customer ORDER BY id ASC WHERE id=:id", ['id'=>$_GET['id']]);
+            $loginError = $db->update_or_delete_customer($sql, $placeholder);
+            var_dump($loginError);
+          }
      
 ?>
 
@@ -67,57 +73,72 @@
 
     <div class="container-fluid h-100">
         <div class="row h-100">
-            <div class="col-2" id="styleuseruser">
+            <div class="col-2" id="homemenu3">
                 <br>
                 <h4 class="menu">Menu</h4>
                 <br />
-                <a href="welcome_user.php">home</a><br />
+                <a href="welcome_emp.php">home</a><br />
                 <br />
-                <a href="artikelen_bestellen.php">producten</a><br />
+                <a href="overzicht_artikelen.php">Artikelen</a><br />
                 <br />
-                <a href="overons.php">over ons</a><br />
+                <a href="overzicht_medewerker.php">Medewerkers</a><br />
                 <br />
-                <a href="contact.php">contact</a><br />
-                <br>
-                <a href="overzicht_account.php">Account</a><br />
+                <a href="overzicht_users.php">Gebruikers</a><br />
                 <br />
-                <a href="mijn_bestellingen.php">Bestellingen</a><br />
-                <br />
+                <a href="overzicht_bestellingen.php">Bestellingen</a><br />
             </div>
         </div>
     </div>
 
+    <div>
+        <a class="btproduct" href='create_employee.php' type="button">Add a employee</a>
+    </div>
+
+    <?php
+    // $db = new db("localhost", "root", "flowerpower", "");
+    $result_set = $db->show_profile_details_customers("SELECT * FROM customer ORDER BY id ASC");
+  ?>
     <div class="container">
-        <div class="card-group">
-
-            <div class="row">
-                <div class="column">
-                    <img class="card-img-top" src="boetiek2.jpg">
-                    <div class="card-body">
-                        <h3 class="card-title">Onze nieuwste flowershop</h3>
-                        <p class="card-text align-center">Kom een kijkje nemen!</p>
-                    </div>
-                </div>
-
-                <div class="column">
-                    <img class="card-img-top" src="boetiek3.jpg">
-                    <div class="card-body">
-                        <h3 class="card-title">De flowershop</h3>
-                        <p class="card-text">Zelf samenstellen? Kom kijken bij onze winkel</p>
-                    </div>
-                </div>
-
-                <div class="column">
-                    <img class="card-img-top" src="botiek5.jpg">
-                    <div class="card-body">
-                        <h3 class="card-title">De Flowershop</h3>
-                        <p class="card-text">Grote partijen, geen probleem</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="card mt-5">
+    <div class="card-header">
+      <h2>All Users</h2>
     </div>
-
+    <div class="card-body">
+      <table class="table table-bordered">
+        <tr>
+          <th>ID</th>
+          <th>Usertype id</th>
+          <th>Initials</th>
+          <th>Prefix</th>
+          <th>Lastname</th>
+          <th>Username</th>
+          <th>Password</th>
+          <th>created at</th>
+          <th>updated at</th>
+          <th>Actions</th>
+        </tr>
+        <?php foreach($result_set as $result): ?>
+          <tr>
+            <td><?= $result->id; ?></td>
+            <td><?= $result->usertype_id; ?></td>
+            <td><?= $result->initials; ?></td>
+            <td><?= $result->prefix; ?></td>
+            <td><?= $result->last_name; ?></td>
+            <td><?= $result->username; ?></td>
+            <td><?= $result->password; ?></td>
+            <td><?= $result->created_at; ?></td>
+            <td><?= $result->updated_at; ?></td>
+            <td>
+              <a href="edit_employee.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
+              <a onclick="return confirm('Are you sure you want to delete this entry?')" href="overzicht_medewerker.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </table>
+    </div>
+    </div>
+  </div>
+    
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
             <a href="http://localhost/Flowerpower/"> FlowerPower</a>

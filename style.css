@@ -62,7 +62,7 @@ body{
  
 #login-dp{
   background-color: rgba(255, 254, 254, 0.8);
-  color: #fff;
+  color:green;
   margin-left: 500px;
 }
 
@@ -96,6 +96,17 @@ body{
 
 #homemenu2{
   height: 80px; 
+  background:#2A2A2A;	 
+  text-align: center; 
+  color: black;
+  width: 97px;
+  margin: 0;
+  padding: 0px;
+  border-radius: 3px;
+}
+
+#homemenu3{
+  height: 280px; 
   background:#2A2A2A;	 
   text-align: center; 
   color: black;
@@ -240,6 +251,11 @@ th, td {
   width: 300px;
   margin-left: 150px;
   color: white;
+}
+
+.rcover {
+  margin-left: 445px;
+  margin-top: 80px;
 }
 
 .footer-copyright{

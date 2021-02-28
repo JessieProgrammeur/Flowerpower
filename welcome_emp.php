@@ -12,22 +12,6 @@
 
     $db = new db("localhost", "root", "flowerpower", "");
      
-  if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
-    $fields = ['username', 'password'];
-
-    $obj = new Validation();
-
-    $fields_validated = $obj->field_validation($fields);
-
-   if($fields_validated){
-      $username = trim($_POST['username']);
-      $password = trim($_POST['password']);
-
-      $loginError = $db->login($username, $password);
-    }
-  }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -83,7 +67,7 @@
 
     <div class="container-fluid h-100">
         <div class="row h-100">
-            <div class="col-2" id="styling">
+            <div class="col-2" id="homemenu3">
                 <br>
                 <h4 class="menu">Menu</h4>
                 <br />
@@ -92,6 +76,8 @@
                 <a href="overzicht_artikelen.php">Artikelen</a><br />
                 <br />
                 <a href="overzicht_medewerker.php">Medewerkers</a><br />
+                <br />
+                <a href="overzicht_users.php">Gebruikers</a><br />
                 <br />
                 <a href="overzicht_bestellingen.php">Bestellingen</a><br />
             </div>

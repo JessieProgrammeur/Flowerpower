@@ -74,15 +74,17 @@ if(isset($_GET['id'])) {
 
     <div class="container-fluid h-100">
         <div class="row h-100">
-            <div class="col-2" id="styling">
+            <div class="col-2" id="homemenu3">
                 <br>
                 <h4 class="menu">Menu</h4>
                 <br />
-                <a href="Welcome_emp.php">home</a><br />
+                <a href="welcome_emp.php">home</a><br />
                 <br />
                 <a href="overzicht_artikelen.php">Artikelen</a><br />
                 <br />
                 <a href="overzicht_medewerker.php">Medewerkers</a><br />
+                <br />
+                <a href="overzicht_users.php">Gebruikers</a><br />
                 <br />
                 <a href="overzicht_bestellingen.php">Bestellingen</a><br />
             </div>

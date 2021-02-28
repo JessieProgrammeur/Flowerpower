@@ -11,8 +11,7 @@
         include 'validation.php';
     
         $db = new db("localhost", "root", "flowerpower", "");
-         
-
+        
 ?>
 
 <!DOCTYPE html>
