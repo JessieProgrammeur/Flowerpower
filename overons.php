@@ -81,7 +81,7 @@
                 <br>
                 <a href="overzicht_account.php">Account</a><br />
                 <br />
-                <a href="mijn_bestellingen.php">Bestellingen</a><br />
+                <a href="overzicht_factuur.php">Facturen</a><br />
                 <br />
             </div>
         </div>

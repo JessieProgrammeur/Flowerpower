@@ -8,7 +8,8 @@ class db{
 	private $password;
 	private $db;
 
-	const ADMIN = 1;
+	// create class constants ( admin, user and employee)
+    const ADMIN = 1;
     const USER = 2;
     const EMPLOYEE = 3;
     
@@ -19,11 +20,11 @@ class db{
         $this->password = $password;
 
         try{
+            // connection method
 			$this->db = new PDO("mysql:host=$this->host;dbname=$this->database", $this->user, $this->password);
-			echo var_dump($this->db);
         } 
         catch(PDOException $e){
-            echo $e->getMessage();
+            die("Unable to connect: " . $e->getMessage());
         }
     }
     
@@ -33,6 +34,8 @@ class db{
         
         $stmt = $this->db->prepare('SELECT * FROM customer WHERE username=:username');
         $stmt->execute(['username'=>$username]);
+
+        // result is an associative array (key-value pair)
         $result = $stmt->fetch();
 
         if(is_array($result) && count($result) > 0){
@@ -44,8 +47,10 @@ class db{
 
     private function create_or_update_customer($id, $usertype_id, $initials, $prefix, $last_name, $address, $postal_code, $residence, $birth_date, $email, $username, $password){
         
+        // hash password to ensure password safety
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
+        // insert into customer query
         $sql = "INSERT INTO customer VALUES (NULL, :usertype_id, :initials, :prefix, :last_name, :address, :postal_code, :residence, :birth_date, :email, :username, :password, :created, :updated)";
 
         $statement = $this->db->prepare($sql);
@@ -77,22 +82,33 @@ class db{
 
         try{
             
+            // create a database transaction
              $this->db->beginTransaction();
             
+             // make sure to check if it's a non-existing customer
              if(!$this->is_new_customer($username)){
                  return "Username already exists. Please pick another one, and try again.";
              }
- 
+             
+             // insert into table customer
              $customer_id = $this->create_or_update_customer(NULL, $usertype_id, $initials, $prefix, $last_name, $address, $postal_code, $residence, $birth_date, $email, $username, $password);
              
+             // commit database changes
              $this->db->commit();
- 
+             
+             // check if there's a session (created in login, should only visit here in case of admin)
              if(isset($_SESSION) && $_SESSION['usertype'] == self::ADMIN){
                  return "New user has been succesfully added to the database";
              }
 
+             // user gets redirected to login if method is not called by admin. 
+            header('location: index.php');
+            // exit makes sure that further code isn't executed.
+            exit;
+
         }catch(Exception $e){
-         
+            
+            // rollback database changes in case of an error to maintain data integrity.
             $this->db->rollback();
             echo "Signup failed: " . $e->getMessage();
         }
@@ -102,21 +118,26 @@ class db{
 
      private function is_new_employee($username){
         
+        // get all from table employee where username equals username
         $stmt = $this->db->prepare('SELECT * FROM employee WHERE username=:username');
         $stmt->execute(['username'=>$username]);
+
+        // result is an associative array (key-value pair)
         $result = $stmt->fetch();
 
+        // check if $result is an array and is bigger than 0
         if(is_array($result) && count($result) > 0){
             return false;
         }
-
         return true;
     }
 
     private function create_or_update_employee($id, $usertype_id, $initials, $prefix, $last_name, $username, $password){
         
+        // hash password to ensure password safety
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
+        // insert into employee query
         $sql = "INSERT INTO employee VALUES (NULL, :usertype_id, :initials, :prefix, :last_name, :username, :password, :created, :updated)";
 
         $statement = $this->db->prepare($sql);
@@ -134,6 +155,7 @@ class db{
             'updated'=> $updated_at
         ]);
         
+        // LastInsertId to get last inserted id and add one new
         $employee_id = $this->db->lastInsertId();
         return $employee_id;
                 
@@ -142,29 +164,35 @@ class db{
      public function sign_upemp($username, $usertype_id=self::EMPLOYEE, $initials, $prefix, $last_name, $password){
 
         try{
-            
+            // create a database transaction
              $this->db->beginTransaction();
- 
+            
+             // check if username is not already in database
              if(!$this->is_new_employee($username)){
                  return "Username already exists. Please pick another one, and try again.";
              }
- 
+             
+             // insert into employee query
              $employee_id = $this->create_or_update_employee(NULL, $usertype_id, $initials, $prefix, $last_name, $username, $password);
              
              $this->db->commit();
- 
+             
+             // check if there's a session (created in login, should only visit here in case of employee)
              if(isset($_SESSION) && $_SESSION['usertype'] == self::EMPLOYEE){
                  return "New user has been succesfully added to the database";
              }
 
         }catch(Exception $e){
-         
+            
+            // rollback database changes in case of an error to maintain data integrity.
             $this->db->rollback();
             echo "Signup failed: " . $e->getMessage();
         }
      }
 
      public function loginemp($username, $password){
+        
+        // get is and password from table employee where username equals username
         $sql = "SELECT id, password FROM employee WHERE username = :username";
 
         $stmt = $this->db->prepare($sql);
@@ -172,14 +200,16 @@ class db{
         
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
+        // check if $result is an array
         if(is_array($result)){
             
+            // check if $result is more than 0
             if(count($result) > 0){
-                
+                    // get hashed password
                     $hashed_password = $result['password'];
                     var_dump($hashed_password);
                     var_dump( password_verify($password, $hashed_password));
-
+                
                 if($username && password_verify($password, $hashed_password)){
                     session_start();
 
@@ -225,21 +255,26 @@ class db{
 
     // Login //
 	public function login($username, $password){
+        // get id, usertype_id and password from account
         $sql = "SELECT id, password FROM customer WHERE username = :username";
 
+        // prepare returns an empty statement object. there is no data stored in $stmt.
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['username'=>$username]);
         
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
+        // check $result is an array
         if(is_array($result)){
             
             if(count($result) > 0){
-                
+
+                // get hashed_password from database result with key 'password'
                     $hashed_password = $result['password'];
                     var_dump($hashed_password);
                     var_dump( password_verify($password, $hashed_password));
 
+                // verify that user exists and that provided password is the same as the hashed password
                 if($username && password_verify($password, $hashed_password)){
                     session_start();
 
@@ -248,9 +283,11 @@ class db{
                     $_SESSION['usertype'] = $result['usertype_id'];
                     $_SESSION['loggedin'] = true;
                     
+                    // check if user is an administrator. If so, redirect to the admin page.
+                    // if not administrator, redirect to user page.
                     if($this->is_admin($username)){
                         header("location: welcome_admin.php");
-                        
+                        //make sure that code below redirect does not get executed when redirected.
                         exit;
                     }else{
                         header("location: welcome_user.php");
@@ -258,10 +295,12 @@ class db{
                     }
 
                 }else{
+                    // returned an error message to show in span element in login form (index.php).
                     return "Incorrect username and/or password. Please fix your input and try again.";
                 }
             }
         }else{
+            // no matching user found in db. Make sure not to tell the user directly.
             return "Failed to login. Please try again";
         }
     }
