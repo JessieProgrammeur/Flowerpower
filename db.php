@@ -321,6 +321,20 @@ class db{
         return $results;
     }
 
+    public function show_profile_details_store(){
+
+        $sql = "
+        SELECT residence FROM store";
+       
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute();
+        
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $results;
+    }
+
     public function show_profile_details_employee(){
 
         $sql = "

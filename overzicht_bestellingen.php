@@ -17,6 +17,16 @@ if(isset($_GET['id'])) {
         $loginError = $db->update_or_delete_order($sql, $placeholder);
         var_dump($loginError);
       }
+
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+  echo "test";
+  $store_id = $_POST['store_id'];
+      $db->select(" SELECT * FROM orders WHERE store_id =:id", []);
+      $order_info = $db->select($sql, ['store_id'=>$store_id]);
+      var_dump($order_info);
+
+      //overzicht maken -> order info loopen dynmaisch table genereeren op basis van order_info
+}
  
 ?>
 
@@ -140,7 +150,61 @@ if(isset($_GET['id'])) {
     </div>
     </div>
   </div>
+
+
+  <?php
+    // $db = new db("localhost", "root", "flowerpower", "");
+    $storeinfo = $db->select("SELECT id, residence FROM store", []);
+    $specs = array_values($storeinfo);
+  ?>
+
+    <form action="overzicht_bestellingen.php" method="post">
+    <h3>Select City</h3>
+        <select name="storeinfo" id="storeinfo">
+      
+      <?php foreach($specs as $data){ ?>
+            <option value="id=<?php echo $data->id?>">
+              <?php echo $data['id'] ?>
+              <?php echo $data['residence'] ?>
+            </option>
+      <?php } ?>
+      <input type="submit">
+        </select>
+    </form>
+    
+
+
+
+
+
+
+
+
+    <form>
+        <select name="storeinfo" id="storeinfo">
+            <option value="<?php $result_set[0]['store_id'] ?>">
+              <?php echo $result_set[0]['residence'] ?>
+            </option>
+            <option value="<?php $result_set[1]['store_id'] ?>">
+              <?php echo $result_set[1]['residence'] ?>
+            </option>
+            <option value="<?php $result_set[2]['store_id'] ?>">
+              <?php echo $result_set[2]['residence'] ?>
+            </option>
+            <input type="submit">
+        </select>
+    </form>
    
+
+
+
+
+
+
+
+
+
+
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
             <a href="http://localhost/Flowerpower/"> FlowerPower</a>
@@ -148,5 +212,4 @@ if(isset($_GET['id'])) {
     </footer>
 
 </body>
-
 </html>
