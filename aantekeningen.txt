@@ -144,4 +144,28 @@ $result_set = $db->show_profile_details_product("SELECT * FROM product", []);
         INNER JOIN invoiceline ON product.product_id = invoiceline.product_id
         INNER JOIN store ON invoiceline.product_id = store.product_id
         INNER JOIN invoice ON product.produt_id = invoice.invoice_id
-        ORDER BY product_product, product_price"
+        ORDER BY product_product, product_price"'
+
+
+        
+        
+
+        <!-- order info loopen en een overzicht maken (table) -->
+        
+
+
+
+    <form>
+        <select name="storeinfo" id="storeinfo">
+            <option value="<?php $result_set[0]['store_id'] ?>">
+              <?php echo $result_set[0]['residence'] ?>
+            </option>
+            <option value="<?php $result_set[1]['store_id'] ?>">
+              <?php echo $result_set[1]['residence'] ?>
+            </option>
+            <option value="<?php $result_set[2]['store_id'] ?>">
+              <?php echo $result_set[2]['residence'] ?>
+            </option>
+            <input type="submit">
+        </select>
+    </form>

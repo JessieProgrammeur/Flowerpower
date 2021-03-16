@@ -19,13 +19,12 @@ if(isset($_GET['id'])) {
       }
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-  echo "test";
-  $store_id = $_POST['store_id'];
-      $db->select(" SELECT * FROM orders WHERE store_id =:id", []);
-      $order_info = $db->select($sql, ['store_id'=>$store_id]);
-      var_dump($order_info);
-
-      //overzicht maken -> order info loopen dynmaisch table genereeren op basis van order_info
+  // echo "test";
+  // print_r($_POST);
+      $store_id = (int)$_POST['storeinfo'];
+      // echo gettype($store_id); 
+      $bestellingen = $db->select("SELECT * FROM orders WHERE store_id =:id", ['id'=>$store_id]);
+      // print_r($bestellingen);
 }
  
 ?>
@@ -163,48 +162,52 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         <select name="storeinfo" id="storeinfo">
       
       <?php foreach($specs as $data){ ?>
-            <option value="id=<?php echo $data->id?>">
+            <option value="<?php echo $data['id']?>">
               <?php echo $data['id'] ?>
               <?php echo $data['residence'] ?>
             </option>
       <?php } ?>
-      <input type="submit">
         </select>
+          <input type="submit">
     </form>
     
+    <?php
+    // $db = new db("localhost", "root", "flowerpower", "");
+    $results = $db->select("SELECT * FROM orders", []);
+    $columns = array_keys($results[0]);
+  ?>
+    <?php if(isset($bestellingen)){ ?>
+          
+      <table>
+            <thead>
+                <tr>
+                    <?php foreach($columns as $column){ ?>
+                        <th>
+                            <strong> <?php echo $column ?> </strong>
+                        </th>
+                    <?php } ?>
+                    <th colspan="2">action</th>
+                </tr>
+            </thead>
+            <?php foreach($bestellingen as $rows => $row){ ?>
 
-
-
-
-
-
-
-
-    <form>
-        <select name="storeinfo" id="storeinfo">
-            <option value="<?php $result_set[0]['store_id'] ?>">
-              <?php echo $result_set[0]['residence'] ?>
-            </option>
-            <option value="<?php $result_set[1]['store_id'] ?>">
-              <?php echo $result_set[1]['residence'] ?>
-            </option>
-            <option value="<?php $result_set[2]['store_id'] ?>">
-              <?php echo $result_set[2]['residence'] ?>
-            </option>
-            <input type="submit">
-        </select>
-    </form>
-   
-
-
-
-
-
-
-
-
-
-
+                <?php $row_id = $row['id']; ?>
+                <tr>
+                    <?php   foreach($row as $row_data){?>
+                        <td>
+                            <?php echo $row_data ?>
+                        </td>
+                    <?php } ?>
+                    <td>
+                      <a href="edit_order.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
+                      <a onclick="return confirm('Are you sure you want to delete this entry?')"
+                        href="overzicht_bestellingen.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
+                    </td>
+                </tr>
+            <?php } ?>
+      </table>
+    <?php } ?>
+    
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
             <a href="http://localhost/Flowerpower/"> FlowerPower</a>

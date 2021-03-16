@@ -16,7 +16,7 @@ if(isset($_GET['id'])) {
   $db->update_or_delete_order("DELETE FROM orders  WHERE id=:id", ['id'=>$_GET['id']]);
         $loginError = $db->update_or_delete_order($sql, $placeholder);
         var_dump($loginError);
-      }
+}
  
 ?>
 
