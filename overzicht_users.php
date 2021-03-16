@@ -16,7 +16,12 @@
       $db->update_or_delete_customer("SELECT * FROM customer ORDER BY id ASC WHERE id=:id", ['id'=>$_GET['id']]);
             $loginError = $db->update_or_delete_customer($sql, $placeholder);
             var_dump($loginError);
-          }
+    }
+
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+      $user_id = (int)$_POST['userinfo'];
+      $gebruiker = $db->select("SELECT * FROM customer WHERE id =:id", ['id'=>$user_id]);
+    }
      
 ?>
 
@@ -138,6 +143,65 @@
     </div>
     </div>
   </div>
+
+  <?php
+    
+    $userinfo = $db->select("SELECT id, last_name FROM customer", []);
+    $specs = array_values($userinfo);
+    
+  ?>
+
+    <form action="overzicht_users.php" method="post">
+    <h3>Select Lastname</h3>
+        <select name="userinfo" id="userinfo">
+      
+      <?php foreach($specs as $data){ ?>
+            <option value="<?php echo $data['id']?>">
+              <?php echo $data['id'] ?>
+              <?php echo $data['last_name'] ?>
+            </option>
+      <?php } ?>
+        </select>
+          <input type="submit">
+    </form>
+    
+  <?php
+
+    $results = $db->select("SELECT * FROM customer", []);
+    $columns = array_keys($results[0]);
+
+  ?>
+    <?php if(isset($gebruiker)){ ?>
+          
+      <table>
+            <thead>
+                <tr>
+                    <?php foreach($columns as $column){ ?>
+                        <th>
+                            <strong> <?php echo $column ?> </strong>
+                        </th>
+                    <?php } ?>
+                    <th colspan="2">action</th>
+                </tr>
+            </thead>
+            <?php foreach($gebruiker as $rows => $row){ ?>
+
+                <?php $row_id = $row['id']; ?>
+                <tr>
+                    <?php   foreach($row as $row_data){?>
+                        <td>
+                            <?php echo $row_data ?>
+                        </td>
+                    <?php } ?>
+                    <td>
+                      <a href="edit_user.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
+                      <a onclick="return confirm('Are you sure you want to delete this entry?')"
+                        href="overzicht_users.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
+                    </td>
+                </tr>
+            <?php } ?>
+      </table>
+    <?php } ?>
     
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:

@@ -19,12 +19,8 @@
     }
 
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
-      // echo "test";
-      // print_r($_POST);
           $employee_id = (int)$_POST['employeeinfo'];
-          // echo gettype($employee_id); 
-          $medewerker = $db->select("SELECT * FROM employee WHERE employee_id =:id", ['id'=>$employee_id]);
-          print_r($medewerker);
+          $medewerker = $db->select("SELECT * FROM employee WHERE id =:id", ['id'=>$employee_id]);
     }
      
 ?>
@@ -152,7 +148,7 @@
     
     $employeeinfo = $db->select("SELECT id, last_name FROM employee", []);
     $specs = array_values($employeeinfo);
-
+    
   ?>
 
     <form action="overzicht_medewerker.php" method="post">

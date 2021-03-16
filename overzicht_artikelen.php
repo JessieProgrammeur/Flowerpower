@@ -16,7 +16,12 @@
         $db->update_or_delete_product("DELETE FROM product  WHERE id=:id", ['id'=>$_GET['id']]);
               $loginError = $db->update_or_delete_product($sql, $placeholder);
               var_dump($loginError);
-            }
+    }
+
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        $artikel_id = (int)$_POST['artikelinfo'];
+        $product = $db->select("SELECT * FROM product WHERE id =:id", ['id'=>$artikel_id]);
+    }
      
 ?>
 
@@ -128,6 +133,63 @@
             </div>
         </div>
     </div>
+
+    <?php
+    // $db = new db("localhost", "root", "flowerpower", "");
+    $artikelinfo = $db->select("SELECT id, product FROM product", []);
+    $specs = array_values($artikelinfo);
+  ?>
+
+    <form action="overzicht_artikelen.php" method="post">
+    <h3>Select ProductName</h3>
+        <select name="artikelinfo" id="artikelinfo">
+      
+      <?php foreach($specs as $data){ ?>
+            <option value="<?php echo $data['id']?>">
+              <?php echo $data['id'] ?>
+              <?php echo $data['product'] ?>
+            </option>
+      <?php } ?>
+        </select>
+          <input type="submit">
+    </form>
+    
+    <?php
+    // $db = new db("localhost", "root", "flowerpower", "");
+    $results = $db->select("SELECT * FROM product", []);
+    $columns = array_keys($results[0]);
+  ?>
+    <?php if(isset($product)){ ?>
+          
+      <table>
+            <thead>
+                <tr>
+                    <?php foreach($columns as $column){ ?>
+                        <th>
+                            <strong> <?php echo $column ?> </strong>
+                        </th>
+                    <?php } ?>
+                    <th colspan="2">action</th>
+                </tr>
+            </thead>
+            <?php foreach($product as $rows => $row){ ?>
+
+                <?php $row_id = $row['id']; ?>
+                <tr>
+                    <?php   foreach($row as $row_data){?>
+                        <td>
+                            <?php echo $row_data ?>
+                        </td>
+                    <?php } ?>
+                    <td>
+                      <a href="edit_product.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
+                      <a onclick="return confirm('Are you sure you want to delete this entry?')"
+                        href="overzicht_artikelen.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
+                    </td>
+                </tr>
+            <?php } ?>
+      </table>
+    <?php } ?>
 
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
