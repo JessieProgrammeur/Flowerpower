@@ -627,7 +627,7 @@ class db{
 }
 
 
-    public function show_producten($name){
+    public function show_producten(){
 
         $sql = 'SELECT * FROM product';
         
@@ -635,7 +635,7 @@ class db{
 
         $stmt->execute();
         
-        $results = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         return $results;
     }

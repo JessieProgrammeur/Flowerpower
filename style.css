@@ -258,6 +258,19 @@ th, td {
   margin-top: 80px;
 }
 
+.specs{
+  padding-left: 500px;
+}
+
+.product-item{
+  color: red;
+  padding-left: 180px;
+}
+
+.product-image{
+  width: 50px;
+}
+
 .footer-copyright{
   color: #2A2A2A;
   overflow: hidden;
