@@ -11,8 +11,7 @@
         include 'validation.php';
     
         $db = new db("localhost", "root", "flowerpower", "");
-        $db->select1("SELECT * FROM product");
-        $getProducts = $db->select1($sql);
+
 
 ?>
 
@@ -90,23 +89,29 @@
         </div>
     </div>
 
-    <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="boeket2.jpg" width="400px" heigth="200px"></a>
-
-        <div class="card-body">
-            <h4 class="card-title text-primary"><?php echo $row['product_product']; ?> </ha>
-            <h5.<?php echo number_format($row['product_price'],2); ?>/-</h5>
-        </div>
-
-        <div class="card-footer">
-            <form class="submit">
-                <input type="hidden" class="pid" value="<?php echo $row['product_id']; ?>">
-                <input type="hidden" class="pid" value="<?php echo $row['product_product']; ?>">
-                <input type="hidden" class="pid" value="<?php echo $row['product_ppice']; ?>">
-                <button id="addItem" class="btn btn-succes btn-md">Add to cart</button>
-
-
+    <?php
+    $product_array = $db->show_producten("SELECT * FROM product");
+    if (!empty($product_array)) { 
+        print_r($product_array);
+        foreach($product_array as $key=>$value){
+    ?>
+    <div class="product-item">
+        <form method="post"
+            action="artikelen_bestellen.php?action=add&code=<?php echo $product_array[$key]["code"]; ?>">
+            <div class="product-tile-footer">
+                <div class="product-title"><?php echo $product_array[$key]["product"]; ?></div>
+                <div class="product-price"><?php echo "$".$product_array[$key]["price"]; ?></div>
+                <div class="cart-action"><input type="text" class="product-quantity" name="quantity" value="1"
+                        size="2" /><input type="submit" value="Add to Cart" class="btnAddAction" /></div>
+            </div>
+        </form>
+    </div>
+    <?php 
+        }  
+    } 
+    ?>
+    
+   
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
             <a href="http://localhost/Flowerpower/"> FlowerPower</a>

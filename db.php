@@ -102,7 +102,7 @@ class db{
              }
 
              // user gets redirected to login if method is not called by admin. 
-            header('location: index.php');
+            header('location: signup.php');
             // exit makes sure that further code isn't executed.
             exit;
 
@@ -487,6 +487,44 @@ class db{
         }
      }
 
+     public function sign_up_order($store_id, $amount, $customer_id, $employee_id){
+
+        try{
+            
+             $this->db->beginTransaction();
+            
+             $product_id = $this->create_or_update_order(NULL, $store_id, $amount, $customer_id, $employee_id);
+             
+             $this->db->commit();
+ 
+        }catch(Exception $e){
+         
+            $this->db->rollback();
+            echo "Signup failed: " . $e->getMessage();
+        }
+     }
+
+     private function create_or_update_order($id, $store_id, $amount, $customer_id, $employee_id){
+
+        $sql = "INSERT INTO orders VALUES (NULL, :store_id, :amount, :customer_id, :employee_id, :created, :updated)";
+
+        $statement = $this->db->prepare($sql);
+
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+
+        $statement->execute([
+            'store_id'=>$store_id,
+            'amount'=>$amount,
+            'customer_id'=>$customer_id,
+            'employee_id'=>$employee_id,
+            'created'=> $created_at, 
+            'updated'=> $updated_at
+        ]);
+        
+        $order_id = $this->db->lastInsertId();
+        return $order_id;       
+    }
+
 
      
 
@@ -589,15 +627,15 @@ class db{
 }
 
 
-    public function show_product($name){
+    public function show_producten($name){
 
-        $sql = 'SELECT * FROM product ORDER BY id ASC';
+        $sql = 'SELECT * FROM product';
         
         $stmt = $this->db->prepare($sql);
 
-        $stmt->execute($sql);
+        $stmt->execute();
         
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $stmt->fetchAll(PDO::FETCH_OBJ);
         
         return $results;
     }

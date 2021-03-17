@@ -96,7 +96,7 @@
     </div>
 
     <div>
-        <a class="btproduct" href='create_employee.php' type="button">Add a employee</a>
+        <a class="btproduct" href='signup.php' type="button">Add a user</a>
     </div>
 
     <?php

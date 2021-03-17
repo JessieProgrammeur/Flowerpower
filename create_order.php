@@ -15,22 +15,24 @@
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
 
         $fields = [
-            'product', 'price'
+            'store_id', 'amount', 'customer_id', 'employee_id'
         ];
+        var_dump($fields);
 
         $obj = new Helper();
-    
+        
         $fields_validated = $obj->field_validation($fields);
     
         if($fields_validated){
-            
-            $product = trim(strtolower($_POST['product']));
-            $price = trim(strtolower($_POST['price']));
+            $store_id = trim(strtolower($_POST['store_id']));
+            $amount = trim(strtolower($_POST['amount']));
+            $customer_id = trim(strtolower($_POST['customer_id']));
+            $employee_id = trim(strtolower($_POST['employee_id']));
     
             
                 $db = new db('localhost', 'root', 'flowerpower', '');
     
-                $msg = $db->sign_up_product($product, $price);
+                $msg = $db->sign_up_order($store_id, $amount, $customer_id, $employee_id);
             
         }else{
             $missingFieldError = "Input for one of more fields missing. Please provide all required values and try again.";
@@ -115,8 +117,20 @@
     <div class="card-body">
       <form method="post">
         <div class="form-group">
-          <label for="text">Amount</label>
-          <input type="text" name="price" class="form-control"value="<?php echo isset($_POST["price"]) ? htmlentities($_POST["price"]) : ''; ?>" required /><br>
+          <label for="name">store id</label>
+          <input type="text" name="store_id"class="form-control" value="<?php echo isset($_POST["store_id"]) ? htmlentities($_POST["store_id"]) : ''; ?>" required />
+        </div>
+        <div class="form-group">
+          <label for="name">amount</label>
+          <input type="text" name="amount"class="form-control" value="<?php echo isset($_POST["amount"]) ? htmlentities($_POST["amount"]) : ''; ?>" required />
+        </div>
+        <div class="form-group">
+          <label for="name">customer id</label>
+          <input type="text" name="customer_id"class="form-control" value="<?php echo isset($_POST["customer_id"]) ? htmlentities($_POST["customer_id"]) : ''; ?>" required />
+        </div>
+        <div class="form-group">
+          <label for="text">employee id</label>
+          <input type="text" name="employee_id" class="form-control"value="<?php echo isset($_POST["employee_id"]) ? htmlentities($_POST["employee_id"]) : ''; ?>" required /><br>
           <span>
             <?php 
                     echo ((isset($msg) && $msg != '') ? htmlentities($msg) ." <br>" : '');
