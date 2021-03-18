@@ -89,37 +89,46 @@
     </div>
     
     <?php
-    $result_set = $db->show_details_product("SELECT product, price FROM product ORDER BY id ASC", []);
-
-    $columns = array_keys($result_set[0]);
-    
-    $row_data = array_values($result_set);
-
-    echo "<table>";
-            // table row
-            echo "<tr>";
-                // loop all available columns, and store them in the top of the table (bold)
-                foreach($columns as $column){
-                    // table header
-                    
-                    // echo "<td><strong>{{ $column->product }}</strong></td>";
-                    echo "<th><strong> $column </strong></th>";
-                    
-                }
-            echo "</tr>";
-
-            // table rows. this part contains the data which will be shown in the table
-            echo "<tr>";
-                foreach($row_data as $value){
-
-                    foreach($value as $data){
-                        echo "<td>$data</td>";
-                    }
-                }
-            echo "</tr>";
-        echo "</table>";
-    ?>
-
+    // $db = new db("localhost", "root", "flowerpower", "");
+    $result_set = $db->select("SELECT * FROM customer WHERE id=:id", ['id'=>$_GET['id']]);
+  ?>
+    <div class="container">
+  <div class="card mt-5">
+    <div class="card-header">
+      <h2>Account information</h2>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered">
+        <tr>
+          <th>ID</th>
+          <th>Initials</th>
+          <th>Prefix</th>
+          <th>Lastname</th>
+          <th>Username</th>
+          <th>Password</th>
+          <th>Actions</th>
+        </tr>
+        <?php foreach($result_set as $result): ?>
+          <tr>
+            <td><?= $result->id; ?></td>
+            <td><?= $result->usertype_id; ?></td>
+            <td><?= $result->initials; ?></td>
+            <td><?= $result->prefix; ?></td>
+            <td><?= $result->last_name; ?></td>
+            <td><?= $result->username; ?></td>
+            <td><?= $result->password; ?></td>
+            <td><?= $result->created_at; ?></td>
+            <td><?= $result->updated_at; ?></td>
+            <td>
+              <a href="edit_employee.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </table>
+    </div>
+    </div>
+  </div>
+  
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
             <a href="http://localhost/Flowerpower/"> FlowerPower</a>

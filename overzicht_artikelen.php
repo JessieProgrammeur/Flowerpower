@@ -101,65 +101,78 @@
     </div>
 
     <?php
-    
-    $result_set = $db->show_profile_details_product("SELECT * FROM product");
+    // $db = new db("localhost", "root", "flowerpower", "");
+    $result_set = $db->show_profile_details_employee("SELECT * FROM employee");
   ?>
     <div class="container">
-        <div class="card mt-5">
-            <div class="card-header">
-                <h2>All Products</h2>
-            </div>
-            <div class="card-body">
-                <table class="table table-bordered">
-                    <tr>
-                        <th>ID</th>
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Actions</th>
-                    </tr>
-                    <?php foreach($result_set as $result): ?>
-                    <tr>
-                        <td><?= $result->id; ?></td>
-                        <td><?= $result->product; ?></td>
-                        <td><?= $result->price; ?></td>
-                        <td>
-                            <a href="edit_product.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
-                            <a onclick="return confirm('Are you sure you want to delete this entry?')"
-                                href="overzicht_artikelen.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
-                </table>
-            </div>
-        </div>
+  <div class="card mt-5">
+    <div class="card-header">
+      <h2>All Employees</h2>
     </div>
+    <div class="card-body">
+      <table class="table table-bordered">
+        <tr>
+          <th>ID</th>
+          <th>Usertype id</th>
+          <th>Initials</th>
+          <th>Prefix</th>
+          <th>Lastname</th>
+          <th>Username</th>
+          <th>Password</th>
+          <th>created at</th>
+          <th>updated at</th>
+          <th>Actions</th>
+        </tr>
+        <?php foreach($result_set as $result): ?>
+          <tr>
+            <td><?= $result->id; ?></td>
+            <td><?= $result->usertype_id; ?></td>
+            <td><?= $result->initials; ?></td>
+            <td><?= $result->prefix; ?></td>
+            <td><?= $result->last_name; ?></td>
+            <td><?= $result->username; ?></td>
+            <td><?= $result->password; ?></td>
+            <td><?= $result->created_at; ?></td>
+            <td><?= $result->updated_at; ?></td>
+            <td>
+              <a href="edit_employee.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
+              <a onclick="return confirm('Are you sure you want to delete this entry?')" href="overzicht_medewerker.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </table>
+    </div>
+    </div>
+  </div>
 
-    <?php
-    // $db = new db("localhost", "root", "flowerpower", "");
-    $artikelinfo = $db->select("SELECT id, product FROM product", []);
-    $specs = array_values($artikelinfo);
+  <?php
+    
+    $employeeinfo = $db->select("SELECT id, last_name FROM employee", []);
+    $specs = array_values($employeeinfo);
+    
   ?>
 
-    <form action="overzicht_artikelen.php" method="post">
-    <h3>Select ProductName</h3>
-        <select name="artikelinfo" id="artikelinfo">
+    <form action="overzicht_medewerker.php" method="post">
+    <h3>Select Lastname</h3>
+        <select name="employeeinfo" id="employeeinfo">
       
       <?php foreach($specs as $data){ ?>
             <option value="<?php echo $data['id']?>">
               <?php echo $data['id'] ?>
-              <?php echo $data['product'] ?>
+              <?php echo $data['last_name'] ?>
             </option>
       <?php } ?>
         </select>
           <input type="submit">
     </form>
     
-    <?php
-    // $db = new db("localhost", "root", "flowerpower", "");
-    $results = $db->select("SELECT * FROM product", []);
+  <?php
+
+    $results = $db->select("SELECT * FROM employee", []);
     $columns = array_keys($results[0]);
+
   ?>
-    <?php if(isset($product)){ ?>
+    <?php if(isset($medewerker)){ ?>
           
       <table>
             <thead>
@@ -172,7 +185,7 @@
                     <th colspan="2">action</th>
                 </tr>
             </thead>
-            <?php foreach($product as $rows => $row){ ?>
+            <?php foreach($medewerker as $rows => $row){ ?>
 
                 <?php $row_id = $row['id']; ?>
                 <tr>
@@ -182,9 +195,9 @@
                         </td>
                     <?php } ?>
                     <td>
-                      <a href="edit_product.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
+                      <a href="edit_employee.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
                       <a onclick="return confirm('Are you sure you want to delete this entry?')"
-                        href="overzicht_artikelen.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
+                        href="overzicht_medewerker.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
                     </td>
                 </tr>
             <?php } ?>

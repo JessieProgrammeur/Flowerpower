@@ -12,10 +12,11 @@
     
         $db = new db("localhost", "root", "flowerpower", "");
 
-        switch($_GET['prod']){
+        if(!empty($_GET["action"])) {
+            switch($_GET["action"]) {
         case "add":
             if(!empty($_POST["quantity"])) {
-                $productByCode = $dbe->select("SELECT * FROM product WHERE code='" . $_GET["code"] . "'");
+                $productByCode = $db->select("SELECT * FROM product WHERE code='" . $_GET["code"] . "'", ['code'=>$_GET['code']]);
                 $itemArray = array($productByCode[0]["code"]=>array('product'=>$productByCode[0]["product"], 'code'=>$productByCode[0]["code"], 'quantity'=>$_POST["quantity"], 'price'=>$productByCode[0]["price"], 'image'=>$productByCode[0]["image"]));
                 
                 if(!empty($_SESSION["cart_item"])) {
@@ -49,6 +50,7 @@
         case "empty":
             unset($_SESSION["cart_item"]);
              break;
+        }
         }
 
 ?>
@@ -127,29 +129,6 @@
         </div>
     </div>
 
-    <?php
-    $product_array = $db->show_producten("SELECT * FROM product");
-    if (!empty($product_array)) { 
-        foreach($product_array as $key=>$value){
-    ?>
-    <div class="product-item">
-        <form method="post"
-            action="artikelen_bestellen.php?action=add&code=<?php echo $product_array[$key]["code"]; ?>">
-            <div class="product-tile-footer"><br /><br />
-                <div class="product-image"><img class="imgsize" src="<?php echo $product_array[$key]["image"]; ?>">
-                </div>
-                <div class="product-title"><?php echo $product_array[$key]["product"]; ?></div>
-                <div class="product-price"><?php echo "€".$product_array[$key]["price"]; ?></div>
-                <div class="cart-action"><input type="text" class="product-quantity" name="quantity" value="1"
-                        size="2" /><input type="submit" name="prod" value="Add to Cart" class="btnAddAction" /></div>
-            </div>
-        </form>
-    </div>
-    <?php 
-        }  
-    } 
-    ?>
-
     <div id="shopping-cart">
         <div class="txt-heading">Shopping Cart</div>
         <a id="btnEmpty" href="artikelen_bestellen.php?action=empty">Empty Cart</a>
@@ -173,12 +152,12 @@
         $item_price = $item["quantity"]*$item["price"];
 		?>
                 <tr>
-                    <td><img src="<?php echo $item["image"]; ?>" class="cart-item-image" /><?php echo $item["name"]; ?>
+                    <td><img src="<?php echo $item["image"]; ?>" class="cart-item-image" /><br /><?php echo $item["product"]; ?>
                     </td>
                     <td><?php echo $item["code"]; ?></td>
                     <td style="text-align:right;"><?php echo $item["quantity"]; ?></td>
-                    <td style="text-align:right;"><?php echo "$ ".$item["price"]; ?></td>
-                    <td style="text-align:right;"><?php echo "$ ". number_format($item_price,2); ?></td>
+                    <td style="text-align:right;"><?php echo "€ ".$item["price"]; ?></td>
+                    <td style="text-align:right;"><?php echo "€ ". number_format($item_price,2); ?></td>
                     <td style="text-align:center;"><a href="artikelen_bestellen.php?action=remove&code=<?php echo $item["code"]; ?>"
                             class="btnRemoveAction"><img src="icon-delete.png" alt="Remove Item" /></a></td>
                 </tr>
@@ -189,9 +168,9 @@
 		?>
 
                 <tr>
-                    <td colspan="2" align="right">Total:</td>
-                    <td align="right"><?php echo $total_quantity; ?></td>
-                    <td align="right" colspan="2"><strong><?php echo "$ ".number_format($total_price, 2); ?></strong>
+                    <td colspan="2" text-align="right">Total:</td>
+                    <td text-align="right"><?php echo $total_quantity; ?></td>
+                    <td text-align="right" colspan="2"><strong><?php echo "€ ".number_format($total_price, 2); ?></strong>
                     </td>
                     <td></td>
                 </tr>
@@ -205,6 +184,31 @@
         }
         ?>
     </div>
+
+    <div id="product-grid">
+    <div class="txt-heading">Products</div>
+    <?php
+    $product_array = $db->show_producten("SELECT * FROM product");
+    if (!empty($product_array)) { 
+        foreach($product_array as $key=>$value){
+    ?>
+    <div class="product-item">
+        <form method="post"
+            action="artikelen_bestellen.php?action=add&code=<?php echo $product_array[$key]["code"]; ?>">
+            <div class="product-tile-footer">
+                <div class="product-image"><img class="imgsize" src="<?php echo $product_array[$key]["image"]; ?>">
+                </div>
+                <div class="product-title"><?php echo $product_array[$key]["product"]; ?></div>
+                <div class="product-price"><?php echo "€".$product_array[$key]["price"]; ?></div>
+                <div class="cart-action"><input type="text" class="product-quantity" name="quantity" value="1"
+                        size="2" /><input type="submit" value="Add to Cart" class="btnAddAction" /></div>
+            </div>
+        </form>
+    </div>
+    <?php 
+        }  
+    } 
+    ?>
 
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:

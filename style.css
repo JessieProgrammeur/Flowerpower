@@ -263,12 +263,23 @@ th, td {
 }
 
 .product-item{
-  color: red;
+  color: black;
+  padding-left: 180px;
+  margin-bottom: 15px;
+}
+
+#shopping-cart{
   padding-left: 180px;
 }
 
-.product-image{
-  width: 50px;
+.txt-heading{
+  color: white;
+  padding-top: 80px;
+}
+
+#product-grid .txt-heading {
+	margin-bottom: 0px;
+  padding-left: 180px;
 }
 
 .footer-copyright{
