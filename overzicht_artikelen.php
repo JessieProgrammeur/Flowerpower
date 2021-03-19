@@ -92,6 +92,8 @@
                 <a href="overzicht_users.php">Gebruikers</a><br />
                 <br />
                 <a href="overzicht_bestellingen.php">Bestellingen</a><br />
+                <br />
+                <a href="overzicht_facturen_emp.php">Facturen</a><br />
             </div>
         </div>
     </div>

@@ -13,18 +13,29 @@ include 'validation.php';
 $db = new db("localhost", "root", "flowerpower", "");
 
 if(isset($_GET['id'])) {
-  $db->update_or_delete_order("DELETE FROM orders  WHERE id=:id", ['id'=>$_GET['id']]);
-        $loginError = $db->update_or_delete_order($sql, $placeholder);
+  $db->update_or_delete_invoice("DELETE FROM invoice WHERE id=:id", ['id'=>$_GET['id']]);
+        $loginError = $db->update_or_delete_invoice($sql, $placeholder);
         var_dump($loginError);
-      }
+}
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-  // echo "test";
-  // print_r($_POST);
-      $store_id = (int)$_POST['storeinfo'];
-      // echo gettype($store_id); 
-      $bestellingen = $db->select("SELECT * FROM orders WHERE store_id =:id", ['id'=>$store_id]);
-      // print_r($bestellingen);
+if(isset($_POST['export'])){
+    $filename = "invoices_data_export.xls";
+    header("Content-Type: application/vnd.ms-excel");
+    header("Content-Disposition: attachment; filename=\"$filename\"");
+    $print_header = false;
+    
+    $result = $db->get_invoice_information();
+    
+    if(!empty($result)){
+        foreach($result as $row){
+            if(!$print_header){
+                echo implode("\t", array_keys($row)) ."\n";
+                $print_header=true;
+            }
+            echo implode("\t", array_values($row)) ."\n";
+        }
+    }
+    exit;
 }
  
 ?>
@@ -101,25 +112,34 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             </div>
         </div>
     </div>
-
+    
     <div>
-        <a class="btproduct" href='create_order.php' type="button">Click here to add a order</a>
+        <a class="btproduct" href='artikelen_bestellen.php' type="button">Click here to add a order</a>
     </div>
-
+    
     <?php
-
-    $result_set = $db->select("SELECT * 
-    FROM orders", []);
+    // $db = new db("localhost", "root", "flowerpower", "");
+    $result_set = $db->select("SELECT product.id, product.product, product.price, product.code, product.image, 
+    invoiceline.amount, invoiceline.price, 
+    customer.initials, customer.prefix, customer.last_name, customer.address, customer.postal_code, customer.residence, customer.email, 
+    store.name, store.address, store.postal_code, store.residence, store.phone_number 
+    FROM product, invoiceline, customer, store", []);
     $columns = array_keys($result_set[0]);
 
-    $order = $db->select("SELECT *
-    FROM orders ", []);
-    ?>
+    $factuur = $db->select("SELECT product.id, product.product, product.price, product.code, product.image, 
+    invoiceline.amount, invoiceline.price, 
+    customer.initials, customer.prefix, customer.last_name, customer.address, customer.postal_code, customer.residence, customer.email, 
+    store.name, store.address, store.postal_code, store.residence, store.phone_number 
+    FROM product 
+    LEFT JOIN invoiceline ON product.id = invoiceline.id 
+    LEFT JOIN store ON invoiceline.id = store.id 
+    LEFT JOIN customer ON store.id = customer.id", []);
 
+  ?>
      <div class="container">
         <div class="card mt-5">
             <div class="card-header">
-                <h2>All Orders</h2>
+                <h2>All Invoices</h2>
             </div>
             <div class="card-body">
                 <table class="table table-bordered">
@@ -133,7 +153,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                             <th colspan="2">action</th>
                         </tr>
                     </thead>
-                    <?php foreach($order as $rows => $row){ ?>
+                    <?php foreach($factuur as $rows => $row){ ?>
 
                     <?php $row_id = $row['id']; ?>
                     <tr>
@@ -150,69 +170,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                     </tr>
                     <?php } ?>
                 </table>
-    
-  <?php
-    // $db = new db("localhost", "root", "flowerpower", "");
-    $storeinfo = $db->select("SELECT id, residence FROM store", []);
-    $specs = array_values($storeinfo);
-  ?>
-
-    <form action="overzicht_bestellingen.php" method="post">
-    <h3>Select City</h3>
-        <select name="storeinfo" id="storeinfo">
-      
-      <?php foreach($specs as $data){ ?>
-            <option value="<?php echo $data['id']?>">
-              <?php echo $data['id'] ?>
-              <?php echo $data['residence'] ?>
-            </option>
-      <?php } ?>
-        </select>
-          <input type="submit">
-    </form>
-    
-    <?php
-    // $db = new db("localhost", "root", "flowerpower", "");
-    $results = $db->select("SELECT * FROM orders", []);
-    $columns = array_keys($results[0]);
-  ?>
-    <?php if(isset($bestellingen)){ ?>
-          
-      <table>
-            <thead>
-                <tr>
-                    <?php foreach($columns as $column){ ?>
-                        <th>
-                            <strong> <?php echo $column ?> </strong>
-                        </th>
-                    <?php } ?>
-                    <th colspan="2">action</th>
-                </tr>
-            </thead>
-            <?php foreach($bestellingen as $rows => $row){ ?>
-
-                <?php $row_id = $row['id']; ?>
-                <tr>
-                    <?php   foreach($row as $row_data){?>
-                        <td>
-                            <?php echo $row_data ?>
-                        </td>
-                    <?php } ?>
-                    <td>
-                      <a href="edit_order.php?id=<?= $results->id ?>" class="btn btn-info">Edit</a>
-                      <a onclick="return confirm('Are you sure you want to delete this entry?')"
-                        href="overzicht_bestellingen.php?id=<?= $results->id ?>" class='btn btn-danger'>Delete</a>
-                    </td>
-                </tr>
-            <?php } ?>
-      </table>
-    <?php } ?>
-    
+                <form method="post" action="overzicht_facturen_emp.php" class="row">
+                    <div class="col-6"></div>
+                    <div class="col-6"><input type="submit" value="Export" name="export" class="button" /></div>
+                </form>
+   
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
-            <a href="http://localhost/Flowerpower/overzicht_bestellingen.php"> FlowerPower</a>
+            <a href="http://localhost/Flowerpower/"> FlowerPower</a>
         </div>
     </footer>
 
 </body>
+
 </html>

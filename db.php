@@ -416,6 +416,26 @@ class db{
         return $results;
     }
 
+    public function show_profile_details_invoice_emp(){
+
+        $sql = "SELECT product.id, product_product, product.price, product.code, product.image, 
+        invoiceline.amount, invoiceline.price, 
+        customer.initials, customer.prefix, customer.last_name, customer.address, customer.postal_code, customer.residence, customer.email, 
+        store.name, store.address, store.postal_code, store.residence, store.phone_number 
+        FROM product 
+        LEFT JOIN invoiceline ON product.id = invoiceline.id 
+        LEFT JOIN store ON invoiceline.id = store.id 
+        LEFT JOIN customer ON store.id = customer.id";
+       
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute();
+        
+        $results = $stmt->fetchAll(PDO::FETCH_OBJ);
+        
+        return $results;
+    }
+
     public function show_details_product(){
 
         $sql = "
@@ -531,20 +551,16 @@ class db{
      public function select($statement, $named_placeholder){
 
         $stmt = $this->db->prepare($statement);
-
         $stmt->execute($named_placeholder);
         $result = $stmt->fetchall(PDO::FETCH_ASSOC);
-
         return $result;
      }
 
      public function select1($statement){
 
         $stmt = $this->db->prepare($statement);
-
         $stmt->execute($statement);
         $result = $stmt->fetchall(PDO::FETCH_ASSOC);
-
         return $result;
      }
 
@@ -577,6 +593,14 @@ class db{
         $stmt = $this->db->prepare($statement);
         $stmt->execute($named_placeholder);
         header('location:overzicht_bestellingen.php');
+        exit();
+     }
+
+     public function update_or_delete_invoice($statement, $named_placeholder){
+
+        $stmt = $this->db->prepare($statement);
+        $stmt->execute($named_placeholder);
+        // header('location:overzicht_facturen_emp.php');
         exit();
      }
 
@@ -654,7 +678,20 @@ class db{
         return $results;
     }
 
-    
+    public function get_invoice_information(){
+        
+        $sql = "SELECT product.id, product.product, product.price, product.code, product.image, 
+        invoiceline.amount, invoiceline.price, 
+        customer.initials, customer.prefix, customer.last_name, customer.address, customer.postal_code, customer.residence, customer.email, 
+        store.name, store.address, store.postal_code, store.residence, store.phone_number 
+        FROM product, invoiceline, customer, store";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $results;
+    }
+
 }
 
 ?>

@@ -22,6 +22,27 @@
       $user_id = (int)$_POST['userinfo'];
       $gebruiker = $db->select("SELECT * FROM customer WHERE id =:id", ['id'=>$user_id]);
     }
+
+    if(isset($_POST['export'])){
+      $filename = "users_data_export.xls";
+      header("Content-Type: application/vnd.ms-excel");
+      header("Content-Disposition: attachment; filename=\"$filename\"");
+      $print_header = false;
+      
+      $result = $db->show_profile_details_customers();
+      
+      if(!empty($result)){
+          foreach($result as $row){
+              if(!$print_header){
+                  echo implode("\t", array_keys($row)) ."\n";
+                  $print_header=true;
+              }
+              echo implode("\t", array_values($row)) ."\n";
+          }
+      }
+      exit;
+  }
+   
      
 ?>
 
@@ -91,6 +112,8 @@
                 <a href="overzicht_users.php">Gebruikers</a><br />
                 <br />
                 <a href="overzicht_bestellingen.php">Bestellingen</a><br />
+                <br />
+                <a href="overzicht_facturen_emp.php">Facturen</a><br />
             </div>
         </div>
     </div>
@@ -98,10 +121,16 @@
     <div>
         <a class="btproduct" href='signup.php' type="button">Add a user</a>
     </div>
+    <form method="post" action="overzicht_users.php" class="row">
+        <div class="col-6"></div>
+        <div class="col-6"><input type="submit" value="Export Excel" name="export" class="btproduct" /></div>
+    </form>
+    
+    
 
     <?php
     // $db = new db("localhost", "root", "flowerpower", "");
-    $result_set = $db->show_profile_details_customers("SELECT * FROM customer ORDER BY id ASC");
+    $result_set = $db->show_profile_details_customers("SELECT * FROM customer");
   ?>
     <div class="container">
   <div class="card mt-5">
@@ -134,7 +163,7 @@
             <td><?= $result->created_at; ?></td>
             <td><?= $result->updated_at; ?></td>
             <td>
-              <a href="edit_employee.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
+              <a href="edit_user_emp.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
               <a onclick="return confirm('Are you sure you want to delete this entry?')" href="overzicht_medewerker.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
             </td>
           </tr>
@@ -194,7 +223,7 @@
                         </td>
                     <?php } ?>
                     <td>
-                      <a href="edit_user.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
+                      <a href="edit_user_emp.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
                       <a onclick="return confirm('Are you sure you want to delete this entry?')"
                         href="overzicht_users.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
                     </td>

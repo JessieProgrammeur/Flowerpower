@@ -260,3 +260,25 @@ $result_set = $db->show_profile_details_product("SELECT * FROM product", []);
                 }
         ?>
     </div>
+
+
+
+Join two tables without without matching columnnames:
+
+SELECT product.product, product.price, product.code, product.image, invoiceline.amount, invoiceline.price 
+FROM product 
+LEFT JOIN invoiceline ON product.id=invoiceline.product_id 
+ORDER BY product.created_at;
+
+Join 4 tables with and without matching columnnames:
+
+SELECT product.id, product.product, product.price, product.code, product.image, 
+invoiceline.amount, invoiceline.price, 
+customer.initials, customer.prefix, customer.last_name, customer.address, 
+customer.postal_code, customer.residence, customer.email, 
+store.name, store.address, store.postal_code, store.residence, store.phone_number 
+FROM product 
+LEFT JOIN invoiceline ON product.id = invoiceline.id 
+LEFT JOIN store ON invoiceline.id = store.id 
+LEFT JOIN customer ON store.id = customer.id 
+ORDER BY invoiceline.created_at

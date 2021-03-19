@@ -1,23 +1,41 @@
 <?php
 
-session_start();
+    session_start();
 
-if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true){
-header('location: index.php');
-exit;
-}   
+    if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true){
+    header('location: index.php');
+    exit;
+    }
 
-include 'db.php';
-include 'validation.php';
+    include 'db.php';
+    include 'validation.php';
 
-$db = new db("localhost", "root", "flowerpower", "");
+    $db = new db("localhost", "root", "flowerpower", "");
 
-if(isset($_GET['id'])) {
-  $db->update_or_delete_order("DELETE FROM orders  WHERE id=:id", ['id'=>$_GET['id']]);
-        $loginError = $db->update_or_delete_order($sql, $placeholder);
-        var_dump($loginError);
-}
- 
+    if(isset($_GET['id'])) {
+    $order = $db->select("SELECT * FROM orders WHERE id =:id", ['id'=>$_GET['id']]);
+    }
+
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
+        $fields = ['amount', 'picked_up'];
+
+        $obj = new Helper();
+        echo "test";
+    
+        $fields_validated = $obj->field_validation($fields);
+    
+        if($fields_validated){
+          $amount = trim($_POST['amount']);
+          $picked_up = trim($_POST['picked_up']);
+    
+          $sql = "UPDATE orders SET amount=:amount, picked_up=:picked_up WHERE id=:id";
+          $placeholder = ['amount' => $amount,'picked_up' => $picked_up, 'id' => $_POST['orders_id']];
+          
+          $loginError = $db->update_or_delete_order($sql, $placeholder);
+          var_dump($loginError);
+        }
+      }
+        
 ?>
 
 <!DOCTYPE html>
@@ -74,7 +92,7 @@ if(isset($_GET['id'])) {
 
     <div class="container-fluid h-100">
         <div class="row h-100">
-            <div class="col-2" id="homemenu3">
+            <div class="col-2" id="styling">
                 <br>
                 <h4 class="menu">Menu</h4>
                 <br />
@@ -84,79 +102,45 @@ if(isset($_GET['id'])) {
                 <br />
                 <a href="overzicht_medewerker.php">Medewerkers</a><br />
                 <br />
-                <a href="overzicht_users.php">Gebruikers</a><br />
-                <br />
                 <a href="overzicht_bestellingen.php">Bestellingen</a><br />
-                <br />
-                <a href="overzicht_facturen_emp.php">Facturen</a><br />
             </div>
         </div>
     </div>
-    
-    <div>
-        <a class="btproduct" href='create_order.php' type="button">Click here to add a order</a>
-    </div>
-    
-    <?php
-    // $db = new db("localhost", "root", "flowerpower", "");
-    $result_set = $db->show_profile_details_invoice(
-    "SELECT product_product,
-            product_price,
-            invoiceline_amount,
-            store_name,
-            store_address,
-            store_postal_code,
-            store_residence,
-            invoice_date
-    FROM product 
-    INNER JOIN invoiceline ON product.product_id = invoiceline.product_id
-    INNER JOIN store ON invoiceline.product_id = store.product_id
-    INNER JOIN invoice ON product.produt_id = invoice.invoice_id
-    ORDER BY product_product, product_price");
-  ?>
+
     <div class="container">
-  <div class="card mt-5">
-    <div class="card-header">
-      <h2>My Invoices</h2>
+        <div class="cheader">
+            <div class="card-header">
+                <h2>Update Product</h2>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="form-group">
+                        <label for="name">Amount</label>
+                        <input type="hidden" name="orders_id" value="<?php echo ($_GET["id"])?>">
+                        <input type="text" name="amount" class="form-control"
+                            value="<?php echo isset($_POST["amount"]) ? htmlentities($_POST["amount"]) : ''; ?>"
+                            required />
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Picked-up</label>
+                        <input type="date" name="picked_up" class="form-control"
+                            value="<?php echo isset($_POST["picked_up"]) ? htmlentities($_POST["picked_up"]) : ''; ?>"
+                            required /><br>
+                        <span>
+                            <?php
+                    echo ((isset($msg) && $msg != '') ? htmlentities($msg) ." <br>" : '');
+                    echo ((isset($pwdError) && $pwdError != '') ? htmlentities($pwdError) ." <br>" : '')
+                ?>
+                        </span>
+
+                        <input type="submit" class="form-control" name="submit" value="Update Order" />
+                        <span><?php echo ((isset($missingFieldError) && $missingFieldError != '') ? htmlentities($missingFieldError) : '')?></span>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-      <table class="table table-bordered">
-        <tr>
-          <th>ID</th>
-          <th>Productname</th>
-          <th>Price</th>
-          <th>Amount</th>
-          
-          <th>Store Name</th>
-          <th>Store address</th>
-          <th>Store Postal Code</th>
-          <th>Store Residence</th>
-          <th>Date</th>
-          <th>Actions</th>
-        </tr>
-        <?php foreach($result_set as $result): ?>
-          <tr>
-            <td><?= $result->id; ?></td>
-            <td><?= $result->product_product; ?></td>
-            <td><?= $result->product_price; ?></td>
-            <td><?= $result->invoiceline_amount; ?></td>
-            
-            <td><?= $result->store_name; ?></td>
-            <td><?= $result->store_address; ?></td>
-            <td><?= $result->store_postal_code; ?></td>
-            <td><?= $result->store_residence; ?></td>
-            <td><?= $result->invoice_date; ?></td>
-            <td>
-              <a onclick="return confirm('Are you sure you want to delete this entry?')"
-                  href="overzicht_factuur.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
-            </td>
-          </tr>
-        <?php endforeach; ?>
-      </table>
-    </div>
-    </div>
-  </div>
-   
+
+
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
             <a href="http://localhost/Flowerpower/"> FlowerPower</a>
