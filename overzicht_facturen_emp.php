@@ -116,6 +116,10 @@ if(isset($_POST['export'])){
     <div>
         <a class="btproduct" href='artikelen_bestellen.php' type="button">Click here to add a order</a>
     </div>
+    <form method="post" action="overzicht_facturen_emp.php" class="row">
+        <div class="col-6"></div>
+        <div class="col-6"><input type="submit" value="Export" name="export" class="btproduct" /></div>
+    </form>
     
     <?php
     // $db = new db("localhost", "root", "flowerpower", "");
@@ -170,14 +174,10 @@ if(isset($_POST['export'])){
                     </tr>
                     <?php } ?>
                 </table>
-                <form method="post" action="overzicht_facturen_emp.php" class="row">
-                    <div class="col-6"></div>
-                    <div class="col-6"><input type="submit" value="Export" name="export" class="button" /></div>
-                </form>
    
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
-            <a href="http://localhost/Flowerpower/"> FlowerPower</a>
+            <a href="http://localhost/Flowerpower/overzicht_facturen_emp.php"> FlowerPower</a>
         </div>
     </footer>
 

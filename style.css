@@ -282,6 +282,30 @@ th, td {
   padding-left: 180px;
 }
 
+#employeeinfo{
+  background-color: white;
+  color: black;
+}
+
+#userinfo{
+  background-color: white;
+  color: black;
+}
+
+#storeinfo{
+  background-color: white;
+  color: black;
+}
+
+#productinfo{
+  background-color: white;
+  color: black;
+}
+
+.send{
+  color: black;
+}
+
 .footer-copyright{
   color: #2A2A2A;
   overflow: hidden;

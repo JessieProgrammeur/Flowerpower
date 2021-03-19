@@ -667,7 +667,7 @@ class db{
     public function show_details_customers(){
 
         $sql = "
-        SELECT * FROM customer ORDER BY id ASC";
+        SELECT * FROM customer";
        
         $stmt = $this->db->prepare($sql);
 
@@ -689,6 +689,54 @@ class db{
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $results;
+    }
+
+    public function get_order_information(){
+        $sql = "SELECT * FROM orders";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $results;
+    }
+
+    public function get_user_information(){
+        $sql = "SELECT * FROM customer";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $results;
+    }
+
+    public function get_employee_information(){
+        $sql = "SELECT * FROM employee";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $results;
+    }
+
+    public function get_product_information(){
+        $sql = "SELECT * FROM product";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
         return $results;
     }
 

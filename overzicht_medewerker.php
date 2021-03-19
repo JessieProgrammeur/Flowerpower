@@ -22,6 +22,26 @@
           $employee_id = (int)$_POST['employeeinfo'];
           $medewerker = $db->select("SELECT * FROM employee WHERE id =:id", ['id'=>$employee_id]);
     }
+
+    if(isset($_POST['export'])){
+      $filename = "employees_data_export.xls";
+      header("Content-Type: application/vnd.ms-excel");
+      header("Content-Disposition: attachment; filename=\"$filename\"");
+      $print_header = false;
+      
+      $result = $db->get_employee_information();
+      
+      if(!empty($result)){
+          foreach($result as $row){
+              if(!$print_header){
+                  echo implode("\t", array_keys($row)) ."\n";
+                  $print_header=true;
+              }
+              echo implode("\t", array_values($row)) ."\n";
+          }
+      }
+      exit;
+  }
      
 ?>
 
@@ -101,50 +121,56 @@
         <a class="btproduct" href='create_employee.php' type="button">Add a employee</a>
     </div>
 
+    <form method="post" action="overzicht_medewerker.php" class="row">
+        <div class="col-6"></div>
+        <div class="col-6"><input type="submit" value="Export" name="export" class="btproduct" /></div>
+    </form>
+
     <?php
-    // $db = new db("localhost", "root", "flowerpower", "");
-    $result_set = $db->show_profile_details_employee("SELECT * FROM employee");
-  ?>
-    <div class="container">
-  <div class="card mt-5">
-    <div class="card-header">
-      <h2>All Employees</h2>
-    </div>
-    <div class="card-body">
-      <table class="table table-bordered">
-        <tr>
-          <th>ID</th>
-          <th>Usertype id</th>
-          <th>Initials</th>
-          <th>Prefix</th>
-          <th>Lastname</th>
-          <th>Username</th>
-          <th>Password</th>
-          <th>created at</th>
-          <th>updated at</th>
-          <th>Actions</th>
-        </tr>
-        <?php foreach($result_set as $result): ?>
-          <tr>
-            <td><?= $result->id; ?></td>
-            <td><?= $result->usertype_id; ?></td>
-            <td><?= $result->initials; ?></td>
-            <td><?= $result->prefix; ?></td>
-            <td><?= $result->last_name; ?></td>
-            <td><?= $result->username; ?></td>
-            <td><?= $result->password; ?></td>
-            <td><?= $result->created_at; ?></td>
-            <td><?= $result->updated_at; ?></td>
-            <td>
-              <a href="edit_employee.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
-              <a onclick="return confirm('Are you sure you want to delete this entry?')" href="overzicht_medewerker.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
-            </td>
-          </tr>
-        <?php endforeach; ?>
-      </table>
-    </div>
-    </div>
-  </div>
+
+    $result_set = $db->select("SELECT * 
+    FROM employee", []);
+    $columns = array_keys($result_set[0]);
+
+    $employee = $db->select("SELECT *
+    FROM employee ", []);
+    ?>
+
+     <div class="container">
+        <div class="card mt-5">
+            <div class="card-header">
+                <h2>All employee</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <?php foreach($columns as $column){ ?>
+                            <th>
+                                <strong> <?php echo $column ?> </strong>
+                            </th>
+                            <?php } ?>
+                            <th colspan="2">action</th>
+                        </tr>
+                    </thead>
+                    <?php foreach($employee as $rows => $row){ ?>
+
+                    <?php $row_id = $row['id']; ?>
+                    <tr>
+                        <?php   foreach($row as $row_data){?>
+                        <td>
+                            <?php echo $row_data ?>
+                        </td>
+                        
+                        <?php } ?><td>
+                            <a href="edit_user_emp.php?id=<?= $result_set->id ?>" class="btn btn-info">Edit</a>
+                            <a onclick="return confirm('Are you sure you want to delete this entry?')"
+                                href="overzicht_users.php?id=<?= $result_set->id ?>"
+                                class='btn btn-danger'>Delete</a>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                </table>
 
   <?php
     
@@ -164,7 +190,7 @@
             </option>
       <?php } ?>
         </select>
-          <input type="submit">
+          <input class="send" type="submit">
     </form>
     
   <?php

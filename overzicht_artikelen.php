@@ -19,8 +19,28 @@
     }
 
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
-        $artikel_id = (int)$_POST['artikelinfo'];
-        $product = $db->select("SELECT * FROM product WHERE id =:id", ['id'=>$artikel_id]);
+        $product_id = (int)$_POST['productinfo'];
+        $product = $db->select("SELECT * FROM product WHERE id =:id", ['id'=>$product_id]);
+    }
+
+    if(isset($_POST['export'])){
+      $filename = "product_data_export.xls";
+      header("Content-Type: application/vnd.ms-excel");
+      header("Content-Disposition: attachment; filename=\"$filename\"");
+      $print_header = false;
+      
+      $result = $db->get_product_information();
+      
+      if(!empty($result)){
+          foreach($result as $row){
+              if(!$print_header){
+                  echo implode("\t", array_keys($row)) ."\n";
+                  $print_header=true;
+              }
+              echo implode("\t", array_values($row)) ."\n";
+          }
+      }
+      exit;
     }
      
 ?>
@@ -99,82 +119,87 @@
     </div>
 
     <div>
-        <a class="btproduct" href='create_product.php' type="button">Click here to add a Product</a>
+        <a class="btproduct" href='create_product.php' type="button">add a Product</a>
     </div>
 
+    <form method="post" action="overzicht_artikelen.php" class="row">
+        <div class="col-6"></div>
+        <div class="col-6"><input type="submit" value="Export" name="export" class="btproduct" /></div>
+    </form>
+
     <?php
-    // $db = new db("localhost", "root", "flowerpower", "");
-    $result_set = $db->show_profile_details_employee("SELECT * FROM employee");
-  ?>
-    <div class="container">
-  <div class="card mt-5">
-    <div class="card-header">
-      <h2>All Employees</h2>
-    </div>
-    <div class="card-body">
-      <table class="table table-bordered">
-        <tr>
-          <th>ID</th>
-          <th>Usertype id</th>
-          <th>Initials</th>
-          <th>Prefix</th>
-          <th>Lastname</th>
-          <th>Username</th>
-          <th>Password</th>
-          <th>created at</th>
-          <th>updated at</th>
-          <th>Actions</th>
-        </tr>
-        <?php foreach($result_set as $result): ?>
-          <tr>
-            <td><?= $result->id; ?></td>
-            <td><?= $result->usertype_id; ?></td>
-            <td><?= $result->initials; ?></td>
-            <td><?= $result->prefix; ?></td>
-            <td><?= $result->last_name; ?></td>
-            <td><?= $result->username; ?></td>
-            <td><?= $result->password; ?></td>
-            <td><?= $result->created_at; ?></td>
-            <td><?= $result->updated_at; ?></td>
-            <td>
-              <a href="edit_employee.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
-              <a onclick="return confirm('Are you sure you want to delete this entry?')" href="overzicht_medewerker.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
-            </td>
-          </tr>
-        <?php endforeach; ?>
-      </table>
-    </div>
-    </div>
-  </div>
+
+    $result_set = $db->select("SELECT * 
+    FROM product", []);
+    $columns = array_keys($result_set[0]);
+
+    $product = $db->select("SELECT *
+    FROM product ", []);
+    ?>
+
+     <div class="container">
+        <div class="card mt-5">
+            <div class="card-header">
+                <h2>All Products</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <?php foreach($columns as $column){ ?>
+                            <th>
+                                <strong> <?php echo $column ?> </strong>
+                            </th>
+                            <?php } ?>
+                            <th colspan="2">action</th>
+                        </tr>
+                    </thead>
+                    <?php foreach($product as $rows => $row){ ?>
+
+                    <?php $row_id = $row['id']; ?>
+                    <tr>
+                        <?php   foreach($row as $row_data){?>
+                        <td>
+                            <?php echo $row_data ?>
+                        </td>
+                        
+                        <?php } ?><td>
+                            <a href="edit_product.php?id=<?= $result_set->id ?>" class="btn btn-info">Edit</a>
+                            <a onclick="return confirm('Are you sure you want to delete this entry?')"
+                                href="overzicht_artikelen.php?id=<?= $result_set->id ?>"
+                                class='btn btn-danger'>Delete</a>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                </table>
 
   <?php
     
-    $employeeinfo = $db->select("SELECT id, last_name FROM employee", []);
-    $specs = array_values($employeeinfo);
-    
+    $productinfo = $db->select("SELECT id, product FROM product", []);
+    $specs = array_values($productinfo);
   ?>
 
-    <form action="overzicht_medewerker.php" method="post">
-    <h3>Select Lastname</h3>
-        <select name="employeeinfo" id="employeeinfo">
+    <form action="overzicht_artikelen.php" method="post">
+    <h3>Select Product</h3>
+        <select name="productinfo" id="productinfo">
       
       <?php foreach($specs as $data){ ?>
             <option value="<?php echo $data['id']?>">
               <?php echo $data['id'] ?>
-              <?php echo $data['last_name'] ?>
+              <?php echo $data['product'] ?>
             </option>
       <?php } ?>
         </select>
-          <input type="submit">
+          <input class="send" type="submit">
     </form>
     
   <?php
 
-    $results = $db->select("SELECT * FROM employee", []);
-    $columns = array_keys($results[0]);
-
+    $result_set = $db->select("SELECT * FROM product", []);
+    $columns = array_keys($result_set[0]);
   ?>
-    <?php if(isset($medewerker)){ ?>
+
+    <?php if(isset($product)){ ?>
           
       <table>
             <thead>
@@ -187,7 +212,7 @@
                     <th colspan="2">action</th>
                 </tr>
             </thead>
-            <?php foreach($medewerker as $rows => $row){ ?>
+            <?php foreach($product as $rows => $row){ ?>
 
                 <?php $row_id = $row['id']; ?>
                 <tr>
@@ -197,9 +222,9 @@
                         </td>
                     <?php } ?>
                     <td>
-                      <a href="edit_employee.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
+                      <a href="edit_employee.php?id=<?= $result_set->id ?>" class="btn btn-info">Edit</a>
                       <a onclick="return confirm('Are you sure you want to delete this entry?')"
-                        href="overzicht_medewerker.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
+                        href="overzicht_medewerker.php?id=<?= $result_set->id ?>" class='btn btn-danger'>Delete</a>
                     </td>
                 </tr>
             <?php } ?>

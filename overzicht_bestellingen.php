@@ -19,12 +19,28 @@ if(isset($_GET['id'])) {
       }
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-  // echo "test";
-  // print_r($_POST);
       $store_id = (int)$_POST['storeinfo'];
-      // echo gettype($store_id); 
       $bestellingen = $db->select("SELECT * FROM orders WHERE store_id =:id", ['id'=>$store_id]);
-      // print_r($bestellingen);
+}
+
+if(isset($_POST['export'])){
+  $filename = "orders_data_export.xls";
+  header("Content-Type: application/vnd.ms-excel");
+  header("Content-Disposition: attachment; filename=\"$filename\"");
+  $print_header = false;
+  
+  $result = $db->get_order_information();
+  
+  if(!empty($result)){
+      foreach($result as $row){
+          if(!$print_header){
+              echo implode("\t", array_keys($row)) ."\n";
+              $print_header=true;
+          }
+          echo implode("\t", array_values($row)) ."\n";
+      }
+  }
+  exit;
 }
  
 ?>
@@ -105,6 +121,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <div>
         <a class="btproduct" href='create_order.php' type="button">Click here to add a order</a>
     </div>
+    <form method="post" action="overzicht_bestellingen.php" class="row">
+        <div class="col-6"></div>
+        <div class="col-6"><input type="submit" value="Export" name="export" class="btproduct" /></div>
+    </form>
 
     <?php
 
@@ -142,9 +162,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                             <?php echo $row_data ?>
                         </td>
                         <?php } ?><td>
-                            <a href="edit_invoice_emp.php?id=<?= $result_set->id ?>" class="btn btn-info">Edit</a>
+                            <a href="edit_order.php?id=<?= $result_set->id ?>" class="btn btn-info">Edit</a>
                             <a onclick="return confirm('Are you sure you want to delete this entry?')"
-                                href="overzicht_facturen_emp.php?id=<?= $result_set->id ?>"
+                                href="overzicht_bestellingen.php?id=<?= $result_set->id ?>"
                                 class='btn btn-danger'>Delete</a>
                         </td>
                     </tr>
@@ -152,7 +172,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 </table>
     
   <?php
-    // $db = new db("localhost", "root", "flowerpower", "");
+
     $storeinfo = $db->select("SELECT id, residence FROM store", []);
     $specs = array_values($storeinfo);
   ?>
@@ -168,11 +188,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             </option>
       <?php } ?>
         </select>
-          <input type="submit">
+          <input class="send" type="submit">
     </form>
     
     <?php
-    // $db = new db("localhost", "root", "flowerpower", "");
+    
     $results = $db->select("SELECT * FROM orders", []);
     $columns = array_keys($results[0]);
   ?>
