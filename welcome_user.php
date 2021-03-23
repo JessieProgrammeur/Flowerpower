@@ -75,10 +75,6 @@
                 <br />
                 <a href="artikelen_bestellen.php">producten</a><br />
                 <br />
-                <a href="overons.php">over ons</a><br />
-                <br />
-                <a href="contact.php">contact</a><br />
-                <br>
                 <a href="overzicht_account.php">Account</a><br />
                 <br />
                 <a href="overzicht_factuur.php">Facturen</a><br />

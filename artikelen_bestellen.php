@@ -117,10 +117,6 @@
                 <br />
                 <a href="artikelen_bestellen.php">producten</a><br />
                 <br />
-                <a href="overons.php">over ons</a><br />
-                <br />
-                <a href="contact.php">contact</a><br />
-                <br>
                 <a href="overzicht_account.php">Account</a><br />
                 <br />
                 <a href="overzicht_factuur.php">Facturen</a><br />
@@ -192,7 +188,7 @@
     if (!empty($product_array)) { 
         foreach($product_array as $key=>$value){
     ?>
-    <div class="product-item">
+    <div class="col-sm-4"><br />
         <form method="post"
             action="artikelen_bestellen.php?action=add&code=<?php echo $product_array[$key]["code"]; ?>">
             <div class="product-tile-footer">

@@ -129,12 +129,10 @@
 
     <?php
 
-    $result_set = $db->select("SELECT * 
-    FROM product", []);
+    $result_set = $db->select("SELECT * FROM product", []);
     $columns = array_keys($result_set[0]);
 
-    $product = $db->select("SELECT *
-    FROM product ", []);
+    $product1 = $db->select("SELECT * FROM product ", []);
     ?>
 
      <div class="container">
@@ -154,7 +152,7 @@
                             <th colspan="2">action</th>
                         </tr>
                     </thead>
-                    <?php foreach($product as $rows => $row){ ?>
+                    <?php foreach($product1 as $rows => $row){ ?>
 
                     <?php $row_id = $row['id']; ?>
                     <tr>
@@ -195,7 +193,7 @@
     
   <?php
 
-    $result_set = $db->select("SELECT * FROM product", []);
+    $results = $db->select("SELECT * FROM product", []);
     $columns = array_keys($result_set[0]);
   ?>
 
@@ -222,9 +220,9 @@
                         </td>
                     <?php } ?>
                     <td>
-                      <a href="edit_employee.php?id=<?= $result_set->id ?>" class="btn btn-info">Edit</a>
+                      <a href="edit_employee.php?id=<?= $results->id ?>" class="btn btn-info">Edit</a>
                       <a onclick="return confirm('Are you sure you want to delete this entry?')"
-                        href="overzicht_medewerker.php?id=<?= $result_set->id ?>" class='btn btn-danger'>Delete</a>
+                        href="overzicht_medewerker.php?id=<?= $results->id ?>" class='btn btn-danger'>Delete</a>
                     </td>
                 </tr>
             <?php } ?>
