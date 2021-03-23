@@ -5,13 +5,12 @@
 
     $db = new db("localhost", "root", "flowerpower", "");
     
-  if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
-    $fields = ['username', 'password'];
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
+        $fields = ['username', 'password'];
 
-    $obj = new Helper();
+        $obj = new Helper();
 
-    $fields_validated = $obj->field_validation($fields);
-
+        $fields_validated = $obj->field_validation($fields);
     
     if($fields_validated){
       $username = trim($_POST['username']);
@@ -151,7 +150,7 @@
     </div>
 
     <footer class="page-footer font-small blue">
-        <div class="footer-copyright text-center py-3">© 2020 Copyright:
+        <div class="footer-copyright text-center py-3">© 2021 Copyright:
             <a href="http://localhost/Flowerpower/"> FlowerPower</a>
         </div>
     </footer>

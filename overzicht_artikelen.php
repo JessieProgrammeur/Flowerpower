@@ -178,7 +178,7 @@
   ?>
 
     <form action="overzicht_artikelen.php" method="post">
-    <h3>Select Product</h3>
+    <h3 class="tabletitle">Select Product</h3>
         <select name="productinfo" id="productinfo">
       
       <?php foreach($specs as $data){ ?>

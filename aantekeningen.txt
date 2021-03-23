@@ -282,3 +282,11 @@ LEFT JOIN invoiceline ON product.id = invoiceline.id
 LEFT JOIN store ON invoiceline.id = store.id 
 LEFT JOIN customer ON store.id = customer.id 
 ORDER BY invoiceline.created_at
+
+
+padding:50px;
+  background-image: url("achtergrond.svg");
+  height: 100%; 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;

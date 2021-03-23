@@ -1,6 +1,6 @@
 body{
   padding:50px;
-  background-color: #58D68D;
+  background-color: #3D9970;
 }
 
 #bg {
@@ -43,8 +43,7 @@ body{
 } 
 
 .btn-primary {
-  background-color: #0E6655;
-  border-color: #0E6655;
+  background-color: #239c3b;
 }
 
 .btn-primary:hover {
@@ -54,10 +53,8 @@ body{
 
 .btproduct {
   margin-left: 980px;
-  border-color: white;
-  background-color: #0E6655;
-  color: white;
-
+  border-color: grey;
+  color: black;
 }
  
 #login-dp{
@@ -203,16 +200,16 @@ a {
 }
 
 .card-text{
-  color: black;
+  color: white;
 }
 
 .card-title{
-  color: black;
+  color: white;
 }
 
 .card-header {
 margin-left: 0px;
-color: white;
+color: black;
 }
 
 .table {
@@ -224,7 +221,11 @@ th, td {
   border: 1px solid #dddddd;
   text-align: center;
   padding: 8px;
-  color: white;
+  color: black;
+}
+
+.tabletitle{
+  color: black;
 }
 
 .btn-info {
@@ -273,12 +274,12 @@ th, td {
 }
 
 .txt-heading{
-  color: black;
+  color: white;
   padding-top: 30px;
 }
 
 #product-grid {
-	padding-left: 200px;
+	padding-left: 190px;
   margin-top: 10px;
 }
 
@@ -311,5 +312,5 @@ th, td {
   overflow: hidden;
   position: fixed;
   bottom: 15px;
-  width: 70%;
+  width: 94%;
 }
