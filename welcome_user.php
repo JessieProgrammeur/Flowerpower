@@ -83,37 +83,7 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="card-group">
-
-            <div class="row">
-                <div class="column">
-                    <img class="card-img-top" src="boetiek2.jpg">
-                    <div class="card-body">
-                        <h3 class="card-title">Onze nieuwste flowershop</h3>
-                        <p class="card-text align-center">Kom een kijkje nemen!</p>
-                    </div>
-                </div>
-
-                <div class="column">
-                    <img class="card-img-top" src="boetiek3.jpg">
-                    <div class="card-body">
-                        <h3 class="card-title">De flowershop</h3>
-                        <p class="card-text">Zelf samenstellen? Kom kijken bij onze winkel</p>
-                    </div>
-                </div>
-
-                <div class="column">
-                    <img class="card-img-top" src="botiek5.jpg">
-                    <div class="card-body">
-                        <h3 class="card-title">De Flowershop</h3>
-                        <p class="card-text">Grote partijen, geen probleem</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <div><h2 class="welkomb"><?php echo "Welcome "." in het dashboard voor klanten " . htmlentities( $_SESSION['username'])  ?></h2></div>
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
             <a href="http://localhost/Flowerpower/"> FlowerPower</a>

@@ -24,7 +24,7 @@ body{
   overflow:hidden;
   background-color:rgba(255,255,255,.8);
   width: 350px;
-  margin-left: 360px;       
+  margin-left: 518px;       
 }
 
 #login-dp .help-block{
@@ -200,11 +200,11 @@ a {
 }
 
 .card-text{
-  color: white;
+  color: black;
 }
 
 .card-title{
-  color: white;
+  color: black;
 }
 
 .card-header {
@@ -237,7 +237,7 @@ th, td {
 }
 
 .welkomb{
-  margin-left: 250px;
+  margin-left: 350px;
   color: #dddddd;
   size: 250px;
 }
@@ -274,8 +274,13 @@ th, td {
 }
 
 .txt-heading{
-  color: white;
+  color: black;
   padding-top: 30px;
+  margin-bottom: 20px;
+}
+
+#btnEmpty{
+  color: black;
 }
 
 #product-grid {
@@ -312,5 +317,5 @@ th, td {
   overflow: hidden;
   position: fixed;
   bottom: 15px;
-  width: 94%;
+  width: 1450px;
 }

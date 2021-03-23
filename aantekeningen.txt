@@ -290,3 +290,20 @@ padding:50px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+
+
+
+  plancheck:
+
+  BEGIN;
+INSERT INTO invoice (id, date, customer_id, currenttimestamp(), currenttimestamp())
+  VALUES(LAST_INSERT_ID(), date(), );
+INSERT INTO invoiceline (id, amount, price, product_id,) 
+  VALUES(LAST_INSERT_ID(),: :amount, :price, :product_id);
+COMMIT;
+
+  invoice: id date customer_id.
+  invoiceline: id amount price product_id created_at updated_at
+  order: id product_id store_id amount customer_id employee_id picked_up created_at updated_at
+
+

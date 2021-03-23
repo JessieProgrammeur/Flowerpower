@@ -49,7 +49,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="index.php">
+                <a href="index.php"></a>
                     <img src="vectorpaint.svg" alt="FlowerPower Logo" width="80" height="80">
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -67,6 +67,7 @@
         </div>
     </div>
   
+    <div>
     <ul id="login-dp2">
         <div class="row">
                 <div class="col-md-12">
@@ -90,6 +91,7 @@
                 </form>
             </div>
     </ul>
+</div>
 
 
     <footer class="page-footer font-small blue">
