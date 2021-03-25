@@ -57,6 +57,13 @@
             // $product_id = (int)$_POST['productinfo'];
             // $product = $db->select("SELECT * FROM product WHERE id =:id", ['id'=>$product_id]);
             echo "test";
+            $code = $_REQUEST['code'];
+            $price = $_REQUEST['price'];
+
+            // display the results
+            echo 'Your code is ' . $code .' ' . $price;
+
+            
         }
 
 ?>
@@ -170,7 +177,7 @@
 				$total_quantity += $item["quantity"];
 				$total_price += ($item["price"]*$item["quantity"]);
 		}
-		?>
+		?> 
             </form>
 
                 <tr>

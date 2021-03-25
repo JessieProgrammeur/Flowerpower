@@ -302,8 +302,10 @@ INSERT INTO invoiceline (id, amount, price, product_id,)
   VALUES(LAST_INSERT_ID(),: :amount, :price, :product_id);
 COMMIT;
 
-  invoice: id date customer_id.
-  invoiceline: id amount price product_id created_at updated_at
-  order: id product_id store_id amount customer_id employee_id picked_up created_at updated_at
+  invoice: id date customer_id(
 
+$code = $_REQUEST['code'];
+$price = $_REQUEST['price'];
 
+// display the results
+echo 'Your code is ' . $code .' ' . $price;

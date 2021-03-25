@@ -740,6 +740,25 @@ class db{
         return $results;
     }
 
+
+    public function invoicetotal(){
+        
+        try{
+                
+            $this->db->beginTransaction();
+        
+            $invoice_id = $this->insert_invoice(NULL, $date, $customer_id);
+            $invoiceline_id = $this->insert_invoiceline(NULL, $amount, $price, $product_id);
+            $order_id = $this->insert_order(NULL, $product_id, $store_id, $amount, $customer_id, $employee_id, $picked_up);
+            
+            $this->db->commit();
+
+    }catch(Exception $e){
+        
+        $this->db->rollback();
+        echo "Signup failed: " . $e->getMessage();
+    }
+
 }
 
 ?>
