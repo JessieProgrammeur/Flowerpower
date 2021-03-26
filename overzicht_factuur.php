@@ -123,7 +123,7 @@ if(isset($_GET['id'])) {
                 <h2>My invoices</h2>
             </div>
             <div class="card-body">
-                <table class="table table-bordered">
+                <table>
                     <thead>
                         <tr>
                             <?php foreach($columns as $column){ ?>
