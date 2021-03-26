@@ -74,21 +74,18 @@ if(isset($_GET['id'])) {
 
     <div class="container-fluid h-100">
         <div class="row h-100">
-            <div class="col-2" id="homemenu3">
+            <div class="col-2" id="styleuseruser">
                 <br>
                 <h4 class="menu">Menu</h4>
                 <br />
-                <a href="welcome_emp.php">home</a><br />
+                <a href="welcome_user.php">home</a><br />
                 <br />
-                <a href="overzicht_artikelen.php">Artikelen</a><br />
+                <a href="artikelen_bestellen.php">producten</a><br />
                 <br />
-                <a href="overzicht_medewerker.php">Medewerkers</a><br />
+                <a href="overzicht_account.php">Account</a><br />
                 <br />
-                <a href="overzicht_users.php">Gebruikers</a><br />
+                <a href="overzicht_factuur.php">Facturen</a><br />
                 <br />
-                <a href="overzicht_bestellingen.php">Bestellingen</a><br />
-                <br />
-                <a href="overzicht_facturen_emp.php">Facturen</a><br />
             </div>
         </div>
     </div>
@@ -96,70 +93,67 @@ if(isset($_GET['id'])) {
     <div>
         <a class="btproduct" href='create_order.php' type="button">Click here to add a order</a>
     </div>
-    
+
     <?php
-    // $db = new db("localhost", "root", "flowerpower", "");
-    $result_set = $db->show_profile_details_invoice(
-    "SELECT product_product,
-            product_price,
-            invoiceline_amount,
-            store_name,
-            store_address,
-            store_postal_code,
-            store_residence,
-            invoice_date
-    FROM product 
-    INNER JOIN invoiceline ON product.product_id = invoiceline.product_id
-    INNER JOIN store ON invoiceline.product_id = store.product_id
-    INNER JOIN invoice ON product.produt_id = invoice.invoice_id
-    ORDER BY product_product, product_price");
-  ?>
-    <div class="container">
-  <div class="card mt-5">
-    <div class="card-header">
-      <h2>My Invoices</h2>
-    </div>
-    <div class="card-body">
-      <table class="table table-bordered">
-        <tr>
-          <th>ID</th>
-          <th>Productname</th>
-          <th>Price</th>
-          <th>Amount</th>
-          
-          <th>Store Name</th>
-          <th>Store address</th>
-          <th>Store Postal Code</th>
-          <th>Store Residence</th>
-          <th>Date</th>
-          <th>Actions</th>
-        </tr>
-        <?php foreach($result_set as $result): ?>
-          <tr>
-            <td><?= $result->id; ?></td>
-            <td><?= $result->product_product; ?></td>
-            <td><?= $result->product_price; ?></td>
-            <td><?= $result->invoiceline_amount; ?></td>
-            
-            <td><?= $result->store_name; ?></td>
-            <td><?= $result->store_address; ?></td>
-            <td><?= $result->store_postal_code; ?></td>
-            <td><?= $result->store_residence; ?></td>
-            <td><?= $result->invoice_date; ?></td>
-            <td>
-              <a onclick="return confirm('Are you sure you want to delete this entry?')"
-                  href="overzicht_factuur.php?id=<?= $result->id ?>" class='btn btn-danger'>Delete</a>
-            </td>
-          </tr>
-        <?php endforeach; ?>
-      </table>
-    </div>
-    </div>
-  </div>
-   
+
+      $result_set = $db->select("SELECT orders.id, product.product, product.price, product.code, product.image, 
+      invoiceline.amount, invoiceline.price, 
+      customer.initials, customer.prefix, customer.last_name, customer.address, customer.postal_code, customer.residence, customer.email, customer.username, 
+      store.name, store.address, store.postal_code, store.residence, store.phone_number 
+      FROM orders, product, invoiceline, customer, store ", []);
+      $columns = array_keys($result_set[0]);
+
+      $userinfo = $db->select("SELECT orders.id, product.product, product.price, product.code, product.image, 
+        invoiceline.amount, invoiceline.price, 
+        customer.initials, customer.prefix, customer.last_name, customer.address, 
+        customer.postal_code, customer.residence, customer.email, customer.username, 
+        store.name, store.address, store.postal_code, store.residence, store.phone_number 
+        FROM orders 
+        LEFT JOIN product ON orders.id = product.id
+        LEFT JOIN invoiceline ON product.id = invoiceline.id 
+        LEFT JOIN store ON invoiceline.id = store.id 
+        LEFT JOIN customer ON store.id = customer.id WHERE username = ?", [$username = $_SESSION['username']]);
+
+      // [$username = $_SESSION['username']]);
+    ?>
+
+     <div class="container">
+        <div class="card mt-5">
+            <div class="card-header">
+                <h2>My invoices</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <?php foreach($columns as $column){ ?>
+                            <th>
+                                <strong> <?php echo $column ?> </strong>
+                            </th>
+                            <?php } ?>
+                            <th colspan="2">action</th>
+                        </tr>
+                    </thead>
+                    <?php foreach($userinfo as $rows => $row){ ?>
+
+                    <?php $row_id = $row['id']; ?>
+                    <tr>
+                        <?php   foreach($row as $row_data){?>
+                        <td>
+                            <?php echo $row_data ?>
+                        </td>
+                        
+                        <?php } ?><td>
+                            <a href="edit_customer_user.php?id=<?= $result_set->id ?>" class="btn btn-info">Edit</a>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                </table>
+    
+    
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
-            <a href="http://localhost/Flowerpower/"> FlowerPower</a>
+            <a href="http://localhost/Flowerpower/welcome_user.php"> FlowerPower</a>
         </div>
     </footer>
 

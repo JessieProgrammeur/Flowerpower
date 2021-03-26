@@ -758,6 +758,7 @@ class db{
         $this->db->rollback();
         echo "Signup failed: " . $e->getMessage();
     }
+}
 
 }
 

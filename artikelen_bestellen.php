@@ -57,12 +57,6 @@
             // $product_id = (int)$_POST['productinfo'];
             // $product = $db->select("SELECT * FROM product WHERE id =:id", ['id'=>$product_id]);
             echo "test";
-            $code = $_REQUEST['code'];
-            $price = $_REQUEST['price'];
-
-            // display the results
-            echo 'Your code is ' . $code .' ' . $price;
-
             
         }
 

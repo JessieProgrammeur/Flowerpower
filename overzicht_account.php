@@ -76,10 +76,6 @@
                 <br />
                 <a href="artikelen_bestellen.php">producten</a><br />
                 <br />
-                <a href="overons.php">over ons</a><br />
-                <br />
-                <a href="contact.php">contact</a><br />
-                <br>
                 <a href="overzicht_account.php">Account</a><br />
                 <br />
                 <a href="overzicht_factuur.php">Facturen</a><br />
@@ -87,51 +83,51 @@
             </div>
         </div>
     </div>
-    
+
     <?php
-    // $db = new db("localhost", "root", "flowerpower", "");
-    $result_set = $db->select("SELECT * FROM customer WHERE id=:id", ['id'=>$_GET['id']]);
-  ?>
-    <div class="container">
-  <div class="card mt-5">
-    <div class="card-header">
-      <h2>Account information</h2>
-    </div>
-    <div class="card-body">
-      <table class="table table-bordered">
-        <tr>
-          <th>ID</th>
-          <th>Initials</th>
-          <th>Prefix</th>
-          <th>Lastname</th>
-          <th>Username</th>
-          <th>Password</th>
-          <th>Actions</th>
-        </tr>
-        <?php foreach($result_set as $result): ?>
-          <tr>
-            <td><?= $result->id; ?></td>
-            <td><?= $result->usertype_id; ?></td>
-            <td><?= $result->initials; ?></td>
-            <td><?= $result->prefix; ?></td>
-            <td><?= $result->last_name; ?></td>
-            <td><?= $result->username; ?></td>
-            <td><?= $result->password; ?></td>
-            <td><?= $result->created_at; ?></td>
-            <td><?= $result->updated_at; ?></td>
-            <td>
-              <a href="edit_employee.php?id=<?= $result->id ?>" class="btn btn-info">Edit</a>
-            </td>
-          </tr>
-        <?php endforeach; ?>
-      </table>
-    </div>
-    </div>
-  </div>
-  
+
+    $result_set = $db->select("SELECT * FROM customer", []);
+    $columns = array_keys($result_set[0]);
+        
+    $userinfo = $db->select("SELECT * FROM customer WHERE username = ?", [$username = $_SESSION['username']]);
+    ?>
+
+     <div class="container">
+        <div class="card mt-5">
+            <div class="card-header">
+                <h2>My account information</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <?php foreach($columns as $column){ ?>
+                            <th>
+                                <strong> <?php echo $column ?> </strong>
+                            </th>
+                            <?php } ?>
+                            <th colspan="2">action</th>
+                        </tr>
+                    </thead>
+                    <?php foreach($userinfo as $rows => $row){ ?>
+
+                    <?php $row_id = $row['id']; ?>
+                    <tr>
+                        <?php   foreach($row as $row_data){?>
+                        <td>
+                            <?php echo $row_data ?>
+                        </td>
+                        
+                        <?php } ?><td>
+                            <a href="edit_customer_user.php?id=<?= $result_set->id ?>" class="btn btn-info">Edit</a>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                </table>
+    
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
-            <a href="http://localhost/Flowerpower/"> FlowerPower</a>
+            <a href="http://localhost/Flowerpower/welcome_user.php"> FlowerPower</a>
         </div>
     </footer>
 

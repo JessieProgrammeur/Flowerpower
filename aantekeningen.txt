@@ -281,7 +281,53 @@ FROM product
 LEFT JOIN invoiceline ON product.id = invoiceline.id 
 LEFT JOIN store ON invoiceline.id = store.id 
 LEFT JOIN customer ON store.id = customer.id 
-ORDER BY invoiceline.created_at
+ORDER BY invoiceline.created_at;
+
+5 tables
+
+SELECT orders.id, product.product, product.price, product.code, product.image, 
+invoiceline.amount, invoiceline.price, 
+customer.initials, customer.prefix, customer.last_name, customer.address, 
+customer.postal_code, customer.residence, customer.email, 
+store.name, store.address, store.postal_code, store.residence, store.phone_number 
+FROM orders 
+LEFT JOIN product ON orders.id = product.id
+LEFT JOIN invoiceline ON product.id = invoiceline.id 
+LEFT JOIN store ON invoiceline.id = store.id 
+LEFT JOIN customer ON store.id = customer.id 
+ORDER BY invoiceline.created_at;
+
+ $result_set = $db->select("SELECT orders.id, product.product, product.price, product.code, product.image, 
+      invoiceline.amount, invoiceline.price, 
+      customer.initials, customer.prefix, customer.last_name, customer.address, customer.postal_code, customer.residence, customer.email, customer.username, 
+      store.name, store.address, store.postal_code, store.residence, store.phone_number 
+      FROM orders, product, invoiceline, customer, store ", []);
+      $columns = array_keys($result_set[0]);
+
+      $userinfo = $db->select("SELECT orders.id, product.product, product.price, product.code, product.image, 
+        invoiceline.amount, invoiceline.price, 
+        customer.initials, customer.prefix, customer.last_name, customer.address, 
+        customer.postal_code, customer.residence, customer.email, 
+        store.name, store.address, store.postal_code, store.residence, store.phone_number 
+        FROM orders 
+        LEFT JOIN product ON orders.id = product.id
+        LEFT JOIN invoiceline ON product.id = invoiceline.id 
+        LEFT JOIN store ON invoiceline.id = store.id 
+        LEFT JOIN customer ON store.id = customer.id WHERE username = ?", [$username = $_SESSION['username']]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 padding:50px;

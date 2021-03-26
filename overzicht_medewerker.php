@@ -71,7 +71,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="welcome_user.php">
+                <a href="welcome_emp.php">
                     <img src="vectorpaint.svg" alt="FlowerPower Logo" width="80" height="80">
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -233,7 +233,7 @@
     
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
-            <a href="http://localhost/Flowerpower/"> FlowerPower</a>
+            <a href="http://localhost/Flowerpower/welcome_emp.php"> FlowerPower</a>
         </div>
     </footer>
 
