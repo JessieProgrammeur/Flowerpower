@@ -123,18 +123,20 @@ if(isset($_POST['export'])){
     
     <?php
     // $db = new db("localhost", "root", "flowerpower", "");
-    $result_set = $db->select("SELECT product.id, product.product, product.price, product.code, product.image, 
+    $result_set = $db->select("SELECT orders.id, product.product, product.price, product.code, product.image, 
     invoiceline.amount, invoiceline.price, 
-    customer.initials, customer.prefix, customer.last_name, customer.address, customer.postal_code, customer.residence, customer.email, 
+    customer.initials, customer.prefix, customer.last_name, customer.address, customer.postal_code, customer.residence, customer.email, customer.username,
     store.name, store.address, store.postal_code, store.residence, store.phone_number 
-    FROM product, invoiceline, customer, store", []);
+    FROM orders, product, invoiceline, customer, store", []);
     $columns = array_keys($result_set[0]);
 
-    $factuur = $db->select("SELECT product.id, product.product, product.price, product.code, product.image, 
+    $factuur = $db->select("SELECT orders.id, product.product, product.price, product.code, product.image, 
     invoiceline.amount, invoiceline.price, 
-    customer.initials, customer.prefix, customer.last_name, customer.address, customer.postal_code, customer.residence, customer.email, 
+    customer.initials, customer.prefix, customer.last_name, customer.address, 
+    customer.postal_code, customer.residence, customer.email, customer.username, 
     store.name, store.address, store.postal_code, store.residence, store.phone_number 
-    FROM product 
+    FROM orders 
+    LEFT JOIN product ON orders.id = product.id
     LEFT JOIN invoiceline ON product.id = invoiceline.id 
     LEFT JOIN store ON invoiceline.id = store.id 
     LEFT JOIN customer ON store.id = customer.id", []);
@@ -146,7 +148,7 @@ if(isset($_POST['export'])){
                 <h2>All Invoices</h2>
             </div>
             <div class="card-body">
-                <table class="table table-bordered">
+                <table>
                     <thead>
                         <tr>
                             <?php foreach($columns as $column){ ?>
@@ -166,7 +168,7 @@ if(isset($_POST['export'])){
                             <?php echo $row_data ?>
                         </td>
                         <?php } ?><td>
-                            <a href="edit_invoice_emp.php?id=<?= $result_set->id ?>" class="btn btn-info">Edit</a>
+                            <a href="edit_invoice_emp.php?<?= $result_set->id ?>" class="btn btn-info">Edit</a>
                             <a onclick="return confirm('Are you sure you want to delete this entry?')"
                                 href="overzicht_facturen_emp.php?id=<?= $result_set->id ?>"
                                 class='btn btn-danger'>Delete</a>

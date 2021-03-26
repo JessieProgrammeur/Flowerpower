@@ -141,7 +141,7 @@
                 <h2>All Products</h2>
             </div>
             <div class="card-body">
-                <table class="table table-bordered">
+                <table>
                     <thead>
                         <tr>
                             <?php foreach($columns as $column){ ?>

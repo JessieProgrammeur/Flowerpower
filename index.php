@@ -123,26 +123,26 @@
 
             <div class="row">
                 <div class="column">
-                    <img class="card-img-top" src="boetiek2.jpg">
+                    <img class="card-img-top" src="winkel1.jpg">
                     <div class="card-body">
-                        <h3 class="card-title">Onze nieuwste flowershop</h3>
+                        <h3 class="card-title">Gloednieuwe flowershop</h3>
                         <p class="card-text align-center">Kom een kijkje nemen!</p>
                     </div>
                 </div>
 
                 <div class="column">
-                    <img class="card-img-top" src="boetiek3.jpg">
+                    <img class="card-img-top" src="winkel2.jfif">
                     <div class="card-body">
-                        <h3 class="card-title">De flowershop</h3>
-                        <p class="card-text">Zelf samenstellen? Kom kijken bij onze winkel</p>
+                        <h3 class="card-title">De eerste flowerpower shop</h3>
+                        <p class="card-text">Flowerpower is in 1980 begongen</p>
                     </div>
                 </div>
 
                 <div class="column">
-                    <img class="card-img-top" src="botiek5.jpg">
+                    <img class="card-img-top" src="winkel3.jfif">
                     <div class="card-body">
-                        <h3 class="card-title">De Flowershop</h3>
-                        <p class="card-text">Grote partijen, geen probleem</p>
+                        <h3 class="card-title">Nieuwe manager </h3>
+                        <p class="card-text">van onze nieuwste flowerpower store</p>
                     </div>
                 </div>
             </div>
