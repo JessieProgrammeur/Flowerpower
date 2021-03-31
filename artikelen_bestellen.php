@@ -54,9 +54,10 @@
         }
 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            // $product_id = (int)$_POST['productinfo'];
-            // $product = $db->select("SELECT * FROM product WHERE id =:id", ['id'=>$product_id]);
+            
             echo "test";
+            // $total_quantity = amount orders db
+            
             
         }
 
