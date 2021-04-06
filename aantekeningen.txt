@@ -316,20 +316,6 @@ ORDER BY invoiceline.created_at;
         LEFT JOIN customer ON store.id = customer.id WHERE username = ?", [$username = $_SESSION['username']]);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 padding:50px;
   background-image: url("achtergrond.svg");
   height: 100%; 

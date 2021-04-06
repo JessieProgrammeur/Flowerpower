@@ -53,12 +53,9 @@
         }
         }
 
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            
-            echo "test";
-            // $total_quantity = amount orders db
-            
-            
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['placeorder']) && !empty($_POST['placeorder'])){
+            print_r($_POST['placeorder']);
+            header("location: placeorder.php");
         }
 
 ?>
@@ -174,15 +171,16 @@
 		}
 		?> 
             </form>
-
+            <form action="artikelen_bestellen.php" method="post">
                 <tr>
                     <td colspan="2" text-align="right">Total:</td>
                     <td text-align="right"><?php echo $total_quantity; ?></td>
                     <td text-align="right" colspan="2"><strong><?php echo "€ ".number_format($total_price, 2); ?></strong>
                     </td>
                     <td></td>
-                    <td text-align="right"><input class="send" type="submit"></td>
+                    <td text-align="right"><input class="send" type="submit" name="placeorder"></td>
                 </tr>
+                </form>
             </tbody>
         </table>
         <?php
