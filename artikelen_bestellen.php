@@ -54,9 +54,42 @@
         }
 
         if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['placeorder']) && !empty($_POST['placeorder'])){
-            print_r($_POST['placeorder']);
-            header("location: placeorder.php");
+
+            $fields = ['product', 'quantity', 'price'];
+            print("<pre>".print_r($fields,true)."</pre>");
+
+            $obj = new Helper();
+
+            $fields_validated = $obj->field_validation($fields);
+        
+            if($fields_validated){
+            $product = trim($_POST['product']);
+            $quantity = trim($_POST['quantity']);
+            $price = trim($_POST['price']);
+
+            $loginError = $db->insert_order($product, $quantity, $price);
+            }
+            // header("location: placeorder.php");
         }
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])){
+            $fields = ['product_id', 'store_id', 'amount', 'customer_id', 'employee_id', 'picked_up'];
+            $obj = new Helper();
+        
+            $fields_validated = $obj->field_validation($fields);
+        
+            if($fields_validated){
+              $product_id = trim($_POST['product_id']);
+              $store_id = trim($_POST['store_id']);
+              $amount = trim($_POST['amount']);
+              $customer_id = trim($_POST['customer_id']);
+              $employee_id = trim($_POST['employee_id']);
+              $picked_up = trim($_POST['picked_up']);
+        
+              $db->create_order_emp($id,$product_id, $store_id, $amount, $customer_id, $employee_id, $picked_up);
+              header("location: ordered.php");
+            }
+          }
 
 ?>
 
@@ -170,8 +203,6 @@
 				$total_price += ($item["price"]*$item["quantity"]);
 		}
 		?> 
-            </form>
-            <form action="artikelen_bestellen.php" method="post">
                 <tr>
                     <td colspan="2" text-align="right">Total:</td>
                     <td text-align="right"><?php echo $total_quantity; ?></td>
@@ -216,6 +247,50 @@
         }  
     } 
     ?>
+
+<div class="container">
+  <div class="cheader">
+    <div class="cheader">
+      <h2>Create Order</h2>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        <div class="form-group">
+          <label for="name">product id</label>
+          <input type="text" name="product_id"class="form-control" value="<?php echo isset($_POST["product_id"]) ? htmlentities($_POST["product_id"]) : ''; ?>" required />
+        </div>
+        <div class="form-group">
+          <label for="name">store id</label>
+          <input type="text" name="store_id"class="form-control" value="<?php echo isset($_POST["store_id"]) ? htmlentities($_POST["store_id"]) : ''; ?>" required />
+        </div>
+        <div class="form-group">
+          <label for="name">amount</label>
+          <input type="text" name="amount"class="form-control" value="<?php echo isset($_POST["amount"]) ? htmlentities($_POST["amount"]) : ''; ?>" required />
+        </div>
+        <div class="form-group">
+          <label for="name">customer id</label>
+          <input type="text" name="customer_id"class="form-control" value="<?php echo isset($_POST["customer_id"]) ? htmlentities($_POST["customer_id"]) : ''; ?>" required />
+        </div>
+        <div class="form-group">
+          <label for="name">employee id</label>
+          <input type="text" name="employee_id"class="form-control" value="<?php echo isset($_POST["employee_id"]) ? htmlentities($_POST["employee_id"]) : ''; ?>" required />
+        </div>
+        <div class="form-group">
+          <label for="text">picked up</label>
+          <input type="text" name="picked_up" class="form-control"value="<?php echo isset($_POST["picked_up"]) ? htmlentities($_POST["picked_up"]) : ''; ?>" required /><br>
+          <span>
+            <?php 
+                    echo ((isset($msg) && $msg != '') ? htmlentities($msg) ." <br>" : '');
+                    echo ((isset($pwdError) && $pwdError != '') ? htmlentities($pwdError) ." <br>" : '')
+                ?>
+        </span>
+
+        <input type="submit" class="form-control" name="submit" value="Add Order" />
+        <span><?php echo ((isset($missingFieldError) && $missingFieldError != '') ? htmlentities($missingFieldError) : '')?></span>
+    </form>
+    </div>
+  </div>
+</div>
 
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:

@@ -545,8 +545,28 @@ class db{
         return $order_id;       
     }
 
+    private function insert_order($id, $product_id, $store_id, $amount, $customer_id, $employee_id, $picked_up){
 
-     
+        $sql = "INSERT INTO orders VALUES (NULL, :product_id, :store_id, :amount, :customer_id, :employee_id,:picked_up, :created, :updated)";
+
+        $statement = $this->db->prepare($sql);
+
+        $created_at = $updated_at = date('Y-m-d H:i:s');
+
+        $statement->execute([
+            'product_id'=>$product_id,
+            'store_id'=>$store_id,
+            'amount'=>$amount,
+            'customer_id'=>$customer_id,
+            'employee_id'=>$employee_id,
+            'picked_up'=>$picked_up,
+            'created'=> $created_at, 
+            'updated'=> $updated_at
+        ]);
+        
+        $order_id = $this->db->lastInsertId();
+        return $order_id;       
+    }
 
      public function select($statement, $named_placeholder){
 
@@ -649,6 +669,34 @@ class db{
         echo " failed: " . $e->getMessage();
     }
 }
+public function create_order_emp($id, $product_id, $store_id, $amount, $customer_id, $employee_id, $picked_up){
+
+    try{
+    
+    $sql = "INSERT INTO orders VALUES (NULL, :product_id, :store_id, :amount, :customer_id, :employee_id, :picked_up, :created_at, :updated_at)";
+
+    $statement = $this->db->prepare($sql);
+
+    $picked_up = $created_at = $updated_at = date('Y-m-d H:i:s');
+    
+    $statement->execute([
+        'product_id'=>$product_id,
+        'store_id'=>$store_id,
+        'amount'=>$amount,
+        'customer_id'=>$customer_id,
+        'employee_id'=>$employee_id,
+        'picked_up'=> $picked_up, 
+        'created_at'=> $created_at, 
+        'updated_at'=> $updated_at
+    ]);
+    
+    $orders_id = $this->db->lastInsertId();
+    return $orders_id;  
+
+    }catch(PDOException $e){
+    $this->db->rollback();
+    echo " failed: " . $e->getMessage();
+}}
 
 
     public function show_producten(){
